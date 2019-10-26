@@ -80,9 +80,9 @@
 
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="Hide On Lab">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="Hide On Lab">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 
@@ -120,7 +120,7 @@
 
 
 
-  <title>Hexo</title>
+  <title>Hide On Lab</title>
   
 
 
@@ -151,7 +151,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Hexo</span>
+        <span class="site-title">Hide On Lab</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -228,7 +228,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/25/new-post/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/euclidean-cosine-distance/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -237,7 +237,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Hide On Lab">
     </span>
 
     
@@ -247,7 +247,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/10/25/new-post/" itemprop="url">new_post</a></h1>
+                <a class="post-title-link" href="/2019/10/26/euclidean-cosine-distance/" itemprop="url">euclidean_cosine_distance</a></h1>
         
 
         <div class="post-meta">
@@ -259,8 +259,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-25T16:27:44+08:00">
-                2019-10-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T15:53:10+08:00">
+                2019-10-26
               </time>
             
 
@@ -299,7 +299,10 @@
       
         
           
-            <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br></pre></td></tr></table></figure>
+            <p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
+<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
+<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
+<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
 
           
         
@@ -348,7 +351,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/25/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/git_proxy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -357,7 +360,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Hide On Lab">
     </span>
 
     
@@ -367,7 +370,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/10/25/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2019/10/26/git_proxy/" itemprop="url">git 代理</a></h1>
         
 
         <div class="post-meta">
@@ -379,8 +382,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-25T16:09:32+08:00">
-                2019-10-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T15:39:13+08:00">
+                2019-10-26
               </time>
             
 
@@ -419,19 +422,13 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
           
         
@@ -739,6 +736,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

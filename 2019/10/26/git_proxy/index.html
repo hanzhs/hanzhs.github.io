@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Tag1,Tag2," />
+  <meta name="keywords" content="git,proxy," />
 
 
 
@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="1import torch">
-<meta name="keywords" content="Tag1,Tag2">
+<meta name="description" content="从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下： 12git config --global http.proxy &amp;apos;socks5:&#x2F;&#x2F;127.0.0.1:1080&amp;apos;git config --global https.proxy &amp;apos;socks5:&#x2F;&#x2F;127.0.0.1:1080&amp;apos;  如果不想使用代理，运行下面两条命">
+<meta name="keywords" content="git,proxy">
 <meta property="og:type" content="article">
-<meta property="og:title" content="new_post">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;new-post&#x2F;index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1import torch">
+<meta property="og:title" content="git 代理">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;26&#x2F;git_proxy&#x2F;index.html">
+<meta property="og:site_name" content="Hide On Lab">
+<meta property="og:description" content="从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下： 12git config --global http.proxy &amp;apos;socks5:&#x2F;&#x2F;127.0.0.1:1080&amp;apos;git config --global https.proxy &amp;apos;socks5:&#x2F;&#x2F;127.0.0.1:1080&amp;apos;  如果不想使用代理，运行下面两条命">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-25T08:59:04.084Z">
+<meta property="og:updated_time" content="2019-10-26T07:51:43.391Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/25/new-post/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/10/26/git_proxy/"/>
 
 
 
 
 
-  <title>new_post | Hexo</title>
+  <title>git 代理 | Hide On Lab</title>
   
 
 
@@ -154,7 +154,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Hexo</span>
+        <span class="site-title">Hide On Lab</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -231,7 +231,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/25/new-post/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/git_proxy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -240,7 +240,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Hide On Lab">
     </span>
 
     
@@ -248,7 +248,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">new_post</h1>
+          <h1 class="post-title" itemprop="name headline">git 代理</h1>
         
 
         <div class="post-meta">
@@ -260,8 +260,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-25T16:27:44+08:00">
-                2019-10-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T15:39:13+08:00">
+                2019-10-26
               </time>
             
 
@@ -298,7 +298,13 @@
       
 
       
-        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br></pre></td></tr></table></figure>
+        <p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
 
       
     </div>
@@ -316,9 +322,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Tag1/" rel="tag"># Tag1</a>
+            <a href="/tags/git/" rel="tag"># git</a>
           
-            <a href="/tags/Tag2/" rel="tag"># Tag2</a>
+            <a href="/tags/proxy/" rel="tag"># proxy</a>
           
         </div>
       
@@ -331,15 +337,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/25/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/26/euclidean-cosine-distance/" rel="prev" title="euclidean_cosine_distance">
+                euclidean_cosine_distance <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -637,6 +643,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
