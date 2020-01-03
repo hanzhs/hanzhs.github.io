@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有公网ip的服务器。下文命令行中用到的地址定义如下：公网服务器ip地址：server_ip内网机器ip地址：local_ip 1、在本地机器上安装autossh: 1sudo apt install autossh 2、云服务器安装openssh-server: 1sudo apt install openssh-">
+<meta name="description" content="在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有公网ip的服务器。下文命令行中用到的地址定义如下：公网服务器ip地址：server_ip内网机器ip地址：local_ip">
 <meta name="keywords" content="ssh,shadowsocks">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用ssh反向代理+shadowsocks实现内网穿透">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;03&#x2F;ssh-shadowsocks&#x2F;index.html">
 <meta property="og:site_name" content="Hide On Lab">
-<meta property="og:description" content="在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有公网ip的服务器。下文命令行中用到的地址定义如下：公网服务器ip地址：server_ip内网机器ip地址：local_ip 1、在本地机器上安装autossh: 1sudo apt install autossh 2、云服务器安装openssh-server: 1sudo apt install openssh-">
+<meta property="og:description" content="在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有公网ip的服务器。下文命令行中用到的地址定义如下：公网服务器ip地址：server_ip内网机器ip地址：local_ip">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-03T08:21:11.842Z">
+<meta property="og:updated_time" content="2020-01-03T10:34:16.039Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -180,7 +180,7 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/%20" rel="section">
+          <a href="/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
@@ -189,8 +189,18 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
-          <a href="/archives/%20" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -234,7 +244,7 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/ssh-shadowsocks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="hanzhs">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
@@ -280,6 +290,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
           
 
@@ -299,6 +314,7 @@
 
       
         <p>在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有<strong>公网ip</strong>的服务器。下文命令行中用到的地址定义如下：<br><strong>公网服务器ip地址：</strong>server_ip<br><strong>内网机器ip地址：</strong>local_ip</p>
+<a id="more"></a>
 <p>1、在本地机器上安装autossh:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install autossh</span><br></pre></td></tr></table></figure>
 <p>2、云服务器安装openssh-server:</p>
@@ -422,7 +438,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-author-name" itemprop="name">hanzhs</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -431,9 +447,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives/%20%7C%7C%20archive">
+                <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -445,10 +461,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">11</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
@@ -483,21 +499,17 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020-01-03</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">hanzhs</span>
 
   
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
-
-
-  <span class="post-meta-divider">|</span>
 
 
 
@@ -507,6 +519,26 @@
 
 
         
+<div class="busuanzi-count">
+   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
 
 
 
