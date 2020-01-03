@@ -228,6 +228,129 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/ubuntu-server-font/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hide On Lab">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/03/ubuntu-server-font/" itemprop="url">ubuntu server 16.04 安装中文字体</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-03T16:24:31+08:00">
+                2020-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>问题描述：</strong>安装Ubuntu Server系统时选择英文，导致系统中没有中文字体，nautilus文件夹显示的中文以及gedit中显示的中文都出现如图的情况：</p>
+<p><img src="/.com//hzs/Documents/blog/source/imgs/charactor.png" alt></p>
+<p><strong>解决方法：</strong>安装文泉驿字体</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/ssh-shadowsocks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -853,7 +976,7 @@
 <p>Python 代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reConstructBinaryTree</span><span class="params">(self, pre, tin)</span>:</span></span><br><span class="line">    <span class="comment"># write code here</span></span><br><span class="line">    <span class="keyword">if</span> len(pre) == <span class="number">0</span> <span class="keyword">or</span> len(tin) == <span class="number">0</span>: <span class="keyword">return</span> <span class="literal">None</span> <span class="comment"># 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    idx = tin.index(pre[<span class="number">0</span>]) <span class="comment"># 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    root = TreeNode(pre.pop(<span class="number">0</span>)) <span class="comment"># 创建根节点</span></span><br><span class="line">    root.left = self.reConstructBinaryTree(pre, tin[:idx]) <span class="comment"># 递归创建左子树</span></span><br><span class="line">    root.right = self.reConstructBinaryTree(pre, tin[idx+<span class="number">1</span>:]) <span class="comment"># 递归创建右子树</span></span><br><span class="line">    <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
 
-<p>使用c++实现中，由于给出的vector<int>不能pop出第0个值，因此，先反转顺序。<br>c++ 代码</p>
+<p>使用c++实现中，由于给出的vector<int>不能pop出第0个值，因此，先反转顺序。<br>c++ 代码</int></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTreeHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pre.empty() || vin.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    TreeNode* tmp = <span class="keyword">new</span> TreeNode(pre.back()); <span class="comment">// 创建根节点</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">// 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;vin.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (vin[i] == pre.back()) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    pre.pop_back(); </span><br><span class="line">    tmp-&gt;left = reConstructBinaryTreeHelper(pre, &#123;vin.begin(), vin.begin()+i&#125;); <span class="comment">//递归创建左子树</span></span><br><span class="line">    <span class="keyword">if</span> (vin.size() == <span class="number">1</span>) tmp-&gt;right = <span class="literal">NULL</span>; <span class="comment">// 递归创建右子树， 注意，若此时中序遍历中只剩一个值，&#123;vin.begin()+i+1, vin.end()&#125; 会出错，因此要先判断。</span></span><br><span class="line">    <span class="keyword">else</span> tmp-&gt;right = reConstructBinaryTreeHelper(pre, &#123;vin.begin()+i+<span class="number">1</span>, vin.end()&#125;); </span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; revpre; <span class="comment">// 反转顺序</span></span><br><span class="line">    <span class="keyword">while</span> (!pre.empty()) &#123;</span><br><span class="line">        revpre.push_back(pre.back());</span><br><span class="line">        pre.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> reConstructBinaryTreeHelper(revpre, vin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -1431,7 +1554,7 @@
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1444,7 +1567,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
