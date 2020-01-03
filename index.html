@@ -228,6 +228,148 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/ssh-shadowsocks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hide On Lab">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/03/ssh-shadowsocks/" itemprop="url">使用ssh反向代理+shadowsocks实现内网穿透</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-03T16:02:35+08:00">
+                2020-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有<strong>公网ip</strong>的服务器。下文命令行中用到的地址定义如下：<br><strong>公网服务器ip地址：</strong>server_ip<br><strong>内网机器ip地址：</strong>local_ip</p>
+<p>1、在本地机器上安装autossh:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install autossh</span><br></pre></td></tr></table></figure>
+<p>2、云服务器安装openssh-server:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openssh-server</span><br></pre></td></tr></table></figure>
+<p>3、更改本地服务器的配置文件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<p>设置<strong>PermitRootLogin</strong>为<strong>without-password</strong>，并在末尾添加：<strong>GatewayPorts yes</strong><br>4、更改云服务器的配置文件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<p>在末尾添加：<strong>GatewayPorts yes</strong><br>5、重启本地以及云服务器的ssh服务:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service ssh restart <span class="comment">#本地</span></span><br><span class="line">service ssh restart <span class="comment">#云服务器</span></span><br></pre></td></tr></table></figure>
+<p>6、制作免密码登录，输入命令后一直确认即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+<p>7、将本地生产的公匙放到远程服务器上:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id server_user@server_ip</span><br></pre></td></tr></table></figure>
+<p>确认后要输入云服务器的登录密码<br>8、开启反向代理:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">autossh -M 30000 -o <span class="string">"StrictHostKeyChecking=false"</span> -o <span class="string">"ServerAliveInterval 10"</span> -o <span class="string">"ServerAliveCountMax 3"</span> -NR 8980:local_ip:22 server_user@server_ip</span><br></pre></td></tr></table></figure>
+<p>命令行中<strong>8980</strong>是将服务器端的8980端口映射到本地的<strong>22</strong>端口，即为默认的ssh端口。若只需要ssh访问，至此就完成了。若是需要用shadowsocks代理，需要将上一步中的<strong>22</strong>端口号修改，本文修改为<strong>4396</strong>。</p>
+<p>9、在本地机器安装shadowsocks</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<p>10、启动shadowsocks</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -s local_ip -p 4396 -k password --fast-open</span><br></pre></td></tr></table></figure>
+<p>上面命令中的<strong>local_ip</strong>为本地机器的ip地址，不能直接写localhost，<strong>4396</strong>对应上面映射的地址，<strong>password</strong>为设置的密码。<br>11、shadowsocks客户端连接地址<br>ip为云服务器的ip，端口为<strong>8980</strong>，加密方式默认为<strong>aes-256-cfb</strong>，可以ssh与shadowsocks二者共存，将对应的命令设置开机自启即可。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/offer-8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1289,7 +1431,7 @@
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1302,7 +1444,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
