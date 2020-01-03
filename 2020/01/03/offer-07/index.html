@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ubuntu," />
+  <meta name="keywords" content="剑指Offer,递归,动态规划," />
 
 
 
@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="问题描述： 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果解决方法：输入如下命令后重启 1sudo apt-get install open-vm-tools-desktop">
-<meta name="keywords" content="ubuntu">
+<meta name="description" content="题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&amp;lt;=39 解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结">
+<meta name="keywords" content="剑指Offer,递归,动态规划">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vmware tools doesn&#39;t work in ubuntu server">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;03&#x2F;ubuntu-vmware&#x2F;index.html">
+<meta property="og:title" content="剑指Offer第7题：斐波那契数列">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;03&#x2F;offer-07&#x2F;index.html">
 <meta property="og:site_name" content="Hide On Lab">
-<meta property="og:description" content="问题描述： 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果解决方法：输入如下命令后重启 1sudo apt-get install open-vm-tools-desktop">
+<meta property="og:description" content="题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&amp;lt;=39 解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-03T11:42:24.848Z">
+<meta property="og:updated_time" content="2020-01-03T11:41:38.384Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/01/03/ubuntu-vmware/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/03/offer-07/"/>
 
 
 
 
 
-  <title>vmware tools doesn't work in ubuntu server | Hide On Lab</title>
+  <title>剑指Offer第7题：斐波那契数列 | Hide On Lab</title>
   
 
 
@@ -241,7 +241,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/ubuntu-vmware/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/offer-07/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanzhs">
@@ -258,7 +258,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">vmware tools doesn't work in ubuntu server</h1>
+          <h1 class="post-title" itemprop="name headline">剑指Offer第7题：斐波那契数列</h1>
         
 
         <div class="post-meta">
@@ -270,7 +270,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-03T17:08:05+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-03T15:08:42+08:00">
                 2020-01-03
               </time>
             
@@ -293,8 +293,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
-                    <span itemprop="name">ubuntu</span>
+                  <a href="/categories/%E5%89%91%E6%8C%87Offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指Offer</span>
                   </a>
                 </span>
 
@@ -335,9 +335,14 @@
       
 
       
-        <p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
+        <p><strong>题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&lt;=39</strong></p>
+<p>解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结果，因为斐波那契数列的计算只跟前面两个值有关。</p>
 <a id="more"></a>
+<p>数组法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp(n+<span class="number">1</span>, <span class="number">0</span>); <span class="comment">//定义数组，数组中的值初始化为0</span></span><br><span class="line">    dp[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">//第一个元素为1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; i++) &#123;</span><br><span class="line">        dp[i] = dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>]; <span class="comment">//递推公式</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b; <span class="comment">// 保存最终结果</span></span><br><span class="line">        b = a - b; <span class="comment">// 保存上一次的结果</span></span><br><span class="line">        n -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -355,7 +360,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+            <a href="/tags/%E5%89%91%E6%8C%87Offer/" rel="tag"># 剑指Offer</a>
+          
+            <a href="/tags/%E9%80%92%E5%BD%92/" rel="tag"># 递归</a>
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
           
         </div>
       
@@ -368,8 +377,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/01/03/ubuntu-reboot-slow/" rel="next" title="ubuntu 16.04下使用reboot命令重启等待时间长的解决方法">
-                <i class="fa fa-chevron-left"></i> ubuntu 16.04下使用reboot命令重启等待时间长的解决方法
+              <a href="/2020/01/02/offer-06/" rel="next" title="剑指Offer第6题：旋转数组的最小数字">
+                <i class="fa fa-chevron-left"></i> 剑指Offer第6题：旋转数组的最小数字
               </a>
             
           </div>
@@ -378,8 +387,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/01/03/ubuntu-gnome-terminal/" rel="prev" title="gnome-terminal 启动错误">
-                gnome-terminal 启动错误 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/01/03/offer-8/" rel="prev" title="剑指Offer第8题：跳台阶">
+                剑指Offer第8题：跳台阶 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
