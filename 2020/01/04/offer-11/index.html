@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="剑指Offer,递归,动态规划," />
+  <meta name="keywords" content="剑指Offer,进制转化," />
 
 
 
@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&amp;lt;=39 解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结">
-<meta name="keywords" content="剑指Offer,递归,动态规划">
+<meta name="description" content="题目：输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。 解题思路：对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。">
+<meta name="keywords" content="剑指Offer,进制转化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="剑指Offer第7题：斐波那契数列">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;03&#x2F;offer-7&#x2F;index.html">
+<meta property="og:title" content="剑指Offer第11题：二进制中1的个数">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;offer-11&#x2F;index.html">
 <meta property="og:site_name" content="Hide On Lab">
-<meta property="og:description" content="题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&amp;lt;=39 解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结">
+<meta property="og:description" content="题目：输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。 解题思路：对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-03T11:41:38.384Z">
+<meta property="og:updated_time" content="2020-01-04T06:47:04.233Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/01/03/offer-7/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/04/offer-11/"/>
 
 
 
 
 
-  <title>剑指Offer第7题：斐波那契数列 | Hide On Lab</title>
+  <title>剑指Offer第11题：二进制中1的个数 | Hide On Lab</title>
   
 
 
@@ -241,7 +241,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/offer-7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/offer-11/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanzhs">
@@ -258,7 +258,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">剑指Offer第7题：斐波那契数列</h1>
+          <h1 class="post-title" itemprop="name headline">剑指Offer第11题：二进制中1的个数</h1>
         
 
         <div class="post-meta">
@@ -270,8 +270,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-03T15:08:42+08:00">
-                2020-01-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-04T11:24:49+08:00">
+                2020-01-04
               </time>
             
 
@@ -335,13 +335,11 @@
       
 
       
-        <p><strong>题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&lt;=39</strong></p>
-<p>解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结果，因为斐波那契数列的计算只跟前面两个值有关。</p>
+        <p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
 <a id="more"></a>
-<p>数组法：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp(n+<span class="number">1</span>, <span class="number">0</span>); <span class="comment">//定义数组，数组中的值初始化为0</span></span><br><span class="line">    dp[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">//第一个元素为1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; i++) &#123;</span><br><span class="line">        dp[i] = dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>]; <span class="comment">//递推公式</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b; <span class="comment">// 保存最终结果</span></span><br><span class="line">        b = a - b; <span class="comment">// 保存上一次的结果</span></span><br><span class="line">        n -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
       
@@ -362,9 +360,7 @@
           
             <a href="/tags/%E5%89%91%E6%8C%87Offer/" rel="tag"># 剑指Offer</a>
           
-            <a href="/tags/%E9%80%92%E5%BD%92/" rel="tag"># 递归</a>
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
+            <a href="/tags/%E8%BF%9B%E5%88%B6%E8%BD%AC%E5%8C%96/" rel="tag"># 进制转化</a>
           
         </div>
       
@@ -377,8 +373,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/01/02/offer-6/" rel="next" title="剑指Offer第6题：旋转数组的最小数字">
-                <i class="fa fa-chevron-left"></i> 剑指Offer第6题：旋转数组的最小数字
+              <a href="/2020/01/04/offer-10/" rel="next" title="剑指Offer第10题：矩形覆盖">
+                <i class="fa fa-chevron-left"></i> 剑指Offer第10题：矩形覆盖
               </a>
             
           </div>
@@ -387,8 +383,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/01/03/offer-8/" rel="prev" title="剑指Offer第8题：跳台阶">
-                剑指Offer第8题：跳台阶 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/01/04/offer-12/" rel="prev" title="剑指Offer第12题：数值的整数次方">
+                剑指Offer第12题：数值的整数次方 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -457,7 +453,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -479,7 +475,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -516,7 +512,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020-01-03</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020-01-04</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

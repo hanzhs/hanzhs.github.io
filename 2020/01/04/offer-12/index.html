@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="剑指Offer,数组，二分查找," />
+  <meta name="keywords" content="剑指Offer,进制转化," />
 
 
 
@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。 此题与leecode 153类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在l">
-<meta name="keywords" content="剑指Offer,数组，二分查找">
+<meta name="description" content="题目：给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0。 解题思路：最直接的想法就是将base乘以exponent次，然而这种方法显然存在重复计算。考虑二进制数的表示形式，例如十进制下的13对应的二进制为1101，表示$13=1\times 2^0+0\times 2^1 + 1\times 2^">
+<meta name="keywords" content="剑指Offer,进制转化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="剑指Offer第6题：旋转数组的最小数字">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;02&#x2F;offer-6&#x2F;index.html">
+<meta property="og:title" content="剑指Offer第12题：数值的整数次方">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;offer-12&#x2F;index.html">
 <meta property="og:site_name" content="Hide On Lab">
-<meta property="og:description" content="题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。 此题与leecode 153类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在l">
+<meta property="og:description" content="题目：给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0。 解题思路：最直接的想法就是将base乘以exponent次，然而这种方法显然存在重复计算。考虑二进制数的表示形式，例如十进制下的13对应的二进制为1101，表示$13=1\times 2^0+0\times 2^1 + 1\times 2^">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-03T11:41:33.892Z">
+<meta property="og:updated_time" content="2020-01-04T07:32:45.325Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/01/02/offer-6/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/04/offer-12/"/>
 
 
 
 
 
-  <title>剑指Offer第6题：旋转数组的最小数字 | Hide On Lab</title>
+  <title>剑指Offer第12题：数值的整数次方 | Hide On Lab</title>
   
 
 
@@ -241,7 +241,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/02/offer-6/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/offer-12/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanzhs">
@@ -258,7 +258,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">剑指Offer第6题：旋转数组的最小数字</h1>
+          <h1 class="post-title" itemprop="name headline">剑指Offer第12题：数值的整数次方</h1>
         
 
         <div class="post-meta">
@@ -270,8 +270,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-02T16:15:40+08:00">
-                2020-01-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-04T14:47:32+08:00">
+                2020-01-04
               </time>
             
 
@@ -335,15 +335,35 @@
       
 
       
-        <p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
-<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
+        <p><strong>题目：</strong>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0。</p>
+<p><strong>解题思路：</strong>最直接的想法就是将base乘以exponent次，然而这种方法显然存在重复计算。考虑二进制数的表示形式，例如十进制下的13对应的二进制为1101，表示$13=1\times 2^0+0\times 2^1 + 1\times 2^2 + 1\times 2^3$，现在需要计算k的13次方，即$k^{13}=k^{1 + 4 + 8}=k^1\times k^4\times k^8$，为13对应二进制位上为1的$k^n$相乘，n为二进制1所在位置的十进制值。下表可表示此过程：</p>
 <a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<style>
+table {
+    width: 25%;
+    margin: auto;
+}
+</style>
 
-<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>1</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$k^8$</td>
+<td>$k^4$</td>
+<td>$k^2$</td>
+<td>$k^1$</td>
+</tr>
+</tbody></table>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Power</span><span class="params">(<span class="keyword">double</span> base, <span class="keyword">int</span> exponent)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (exponent&lt;<span class="number">0</span>) &#123; <span class="comment">//先对负指数做转换</span></span><br><span class="line">        exponent *= <span class="number">-1</span>;</span><br><span class="line">        base = <span class="number">1</span>/base;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (exponent &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (exponent % <span class="number">2</span> == <span class="number">1</span>) &#123; <span class="comment">//对应二进制位上为1时，乘上先前的结果</span></span><br><span class="line">            res *= base;</span><br><span class="line">        &#125;</span><br><span class="line">        base *= base; <span class="comment">//计算每个二进制位上的基数值</span></span><br><span class="line">        exponent &gt;&gt;= <span class="number">1</span>; <span class="comment">//计算完一次二进制位后，右移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -362,7 +382,7 @@
           
             <a href="/tags/%E5%89%91%E6%8C%87Offer/" rel="tag"># 剑指Offer</a>
           
-            <a href="/tags/%E6%95%B0%E7%BB%84%EF%BC%8C%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" rel="tag"># 数组，二分查找</a>
+            <a href="/tags/%E8%BF%9B%E5%88%B6%E8%BD%AC%E5%8C%96/" rel="tag"># 进制转化</a>
           
         </div>
       
@@ -375,8 +395,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/01/02/offer-04/" rel="next" title="剑指Offer第4题：重建二叉树">
-                <i class="fa fa-chevron-left"></i> 剑指Offer第4题：重建二叉树
+              <a href="/2020/01/04/offer-11/" rel="next" title="剑指Offer第11题：二进制中1的个数">
+                <i class="fa fa-chevron-left"></i> 剑指Offer第11题：二进制中1的个数
               </a>
             
           </div>
@@ -385,8 +405,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/01/03/offer-7/" rel="prev" title="剑指Offer第7题：斐波那契数列">
-                剑指Offer第7题：斐波那契数列 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/01/04/offer-13/" rel="prev" title="剑指Offer第13题：调整数组顺序使奇数位于偶数前面">
+                剑指Offer第13题：调整数组顺序使奇数位于偶数前面 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -455,7 +475,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -477,7 +497,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -514,7 +534,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020-01-03</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020-01-04</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
