@@ -41,22 +41,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ffmpeg分离视频中的音频</title>
-    <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
-    <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
-<p>2、提取视频</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-]]></content>
-      <categories>
-        <category>ffmpeg</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git 代理</title>
     <url>/2019/10/26/git_proxy/</url>
     <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
@@ -70,6 +54,22 @@
       <tags>
         <tag>git</tag>
         <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用ffmpeg分离视频中的音频</title>
+    <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
+    <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
+<p>2、提取视频</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>ffmpeg</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
       </tags>
   </entry>
   <entry>
@@ -127,6 +127,35 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第213题：打家劫舍II</title>
+    <url>/2020/01/15/leecode-213/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
+<ul>
+<li>去除起始位置，能抢到的最大金额</li>
+<li>去除结束位置，能抢到的最大金额</li>
+<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
+</ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第337题：打家劫舍III</title>
     <url>/2020/01/15/leecode-337/</url>
     <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
@@ -165,35 +194,6 @@
         <tag>leecode</tag>
         <tag>动态规划</tag>
         <tag>二叉树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第213题：打家劫舍II</title>
-    <url>/2020/01/15/leecode-213/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
-<ul>
-<li>去除起始位置，能抢到的最大金额</li>
-<li>去除结束位置，能抢到的最大金额</li>
-<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
-</ul>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -263,27 +263,6 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第6题：旋转数组的最小数字</title>
-    <url>/2020/01/02/offer-06/</url>
-    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
-<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第4题：重建二叉树</title>
     <url>/2020/01/02/offer-04/</url>
     <content><![CDATA[<p><strong>题目：输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</strong></p>
@@ -304,6 +283,27 @@
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第6题：旋转数组的最小数字</title>
+    <url>/2020/01/02/offer-06/</url>
+    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
+<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -475,12 +475,13 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第15题：反转链表</title>
-    <url>/2020/01/04/offer-15/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
+    <title>剑指Offer第14题：链表中倒数第k个结点</title>
+    <url>/2020/01/04/offer-14/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
+<p><strong>解题思路：</strong>最直接的思路是，先遍历一遍链表，得出链表的长度，然后计算出倒数第k个结点的正数位置，之后二次遍历链表并输出结果。更好的解法是：设置快慢两个指针，快指针先走k步，然后慢指针开始走，当快指针遍历完链表的时候，慢指针所在的位置即为倒数第k个结点</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">FindKthToTail</span><span class="params">(ListNode* pListHead, <span class="keyword">unsigned</span> <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pListHead == <span class="literal">NULL</span> || k&lt;=<span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//排除空链表和k&lt;=0的情况</span></span><br><span class="line">    ListNode* fast = pListHead;</span><br><span class="line">    ListNode* slow = pListHead;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        fast = fast -&gt; next;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cnt &lt; k) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 当快指针走完链表时，此时cnt即为链表的长度，cnt小于k说明超出链表的范围</span></span><br><span class="line">            <span class="keyword">return</span> slow; <span class="comment">//不超出则返回慢指针所指的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt;= k) slow = slow -&gt; next; <span class="comment">//当快指针走了k步，慢指针开始走</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -491,13 +492,12 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第14题：链表中倒数第k个结点</title>
-    <url>/2020/01/04/offer-14/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
-<p><strong>解题思路：</strong>最直接的思路是，先遍历一遍链表，得出链表的长度，然后计算出倒数第k个结点的正数位置，之后二次遍历链表并输出结果。更好的解法是：设置快慢两个指针，快指针先走k步，然后慢指针开始走，当快指针遍历完链表的时候，慢指针所在的位置即为倒数第k个结点</p>
+    <title>剑指Offer第15题：反转链表</title>
+    <url>/2020/01/04/offer-15/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">FindKthToTail</span><span class="params">(ListNode* pListHead, <span class="keyword">unsigned</span> <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pListHead == <span class="literal">NULL</span> || k&lt;=<span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//排除空链表和k&lt;=0的情况</span></span><br><span class="line">    ListNode* fast = pListHead;</span><br><span class="line">    ListNode* slow = pListHead;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        fast = fast -&gt; next;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cnt &lt; k) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 当快指针走完链表时，此时cnt即为链表的长度，cnt小于k说明超出链表的范围</span></span><br><span class="line">            <span class="keyword">return</span> slow; <span class="comment">//不超出则返回慢指针所指的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt;= k) slow = slow -&gt; next; <span class="comment">//当快指针走了k步，慢指针开始走</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -864,26 +864,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
-    <url>/2020/01/03/ubuntu-reboot-slow/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
-<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
-<a id="more"></a>
-<p><strong>解决方法：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
-
-
-<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ubuntu挂载硬盘不输入密码及开机自动挂载</title>
     <url>/2020/01/03/ubuntu-mount-disk/</url>
     <content><![CDATA[<h1 id="挂载无需输入密码"><a href="#挂载无需输入密码" class="headerlink" title="挂载无需输入密码"></a>挂载无需输入密码</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /usr/share/polkit-1/actions/org.freedesktop.udisks2.policy</span><br></pre></td></tr></table></figure>
@@ -901,6 +881,26 @@ table {
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>修改完成后要先测试能否使用，否则开机会出现问题</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
 <p>没有提示错误则成功。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
+    <url>/2020/01/03/ubuntu-reboot-slow/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
+<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
+<a id="more"></a>
+<p><strong>解决方法：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
+
+
+<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
