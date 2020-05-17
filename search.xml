@@ -57,6 +57,22 @@
       </tags>
   </entry>
   <entry>
+    <title>git 代理</title>
+    <url>/2019/10/26/git_proxy/</url>
+    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>git</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第1227题：飞机座位分配概率</title>
     <url>/2020/01/14/leecode-1227/</url>
     <content><![CDATA[<p><strong>题目：</strong>有 n 位乘客即将登机，飞机正好有 n 个座位。第一位乘客的票丢了，他随便选了一个座位坐下。</p>
@@ -85,22 +101,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git 代理</title>
-    <url>/2019/10/26/git_proxy/</url>
-    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>如果不想使用代理，运行下面两条命令取消代理：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>git</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第198题：打家劫舍</title>
     <url>/2020/01/15/leecode-198/</url>
     <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
@@ -117,35 +117,6 @@
 </ul>
 <p><strong>代码：</strong></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//nums为空</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;nums.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==<span class="number">1</span>) nums[<span class="number">1</span>] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]); <span class="comment">//从第1个开始判断，因为第0个肯定选择偷</span></span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-1</span>], nums[i<span class="number">-2</span>]+nums[i]); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第213题：打家劫舍II</title>
-    <url>/2020/01/15/leecode-213/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
-<ul>
-<li>去除起始位置，能抢到的最大金额</li>
-<li>去除结束位置，能抢到的最大金额</li>
-<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
-</ul>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>leecode</category>
@@ -194,6 +165,35 @@
         <tag>leecode</tag>
         <tag>动态规划</tag>
         <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode第213题：打家劫舍II</title>
+    <url>/2020/01/15/leecode-213/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
+<ul>
+<li>去除起始位置，能抢到的最大金额</li>
+<li>去除结束位置，能抢到的最大金额</li>
+<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
+</ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -284,27 +284,6 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第7题：斐波那契数列</title>
-    <url>/2020/01/03/offer-07/</url>
-    <content><![CDATA[<p><strong>题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&lt;=39</strong></p>
-<p>解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结果，因为斐波那契数列的计算只跟前面两个值有关。</p>
-<a id="more"></a>
-<p>数组法：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp(n+<span class="number">1</span>, <span class="number">0</span>); <span class="comment">//定义数组，数组中的值初始化为0</span></span><br><span class="line">    dp[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">//第一个元素为1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; i++) &#123;</span><br><span class="line">        dp[i] = dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>]; <span class="comment">//递推公式</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b; <span class="comment">// 保存最终结果</span></span><br><span class="line">        b = a - b; <span class="comment">// 保存上一次的结果</span></span><br><span class="line">        n -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-        <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第4题：重建二叉树</title>
     <url>/2020/01/02/offer-04/</url>
     <content><![CDATA[<p><strong>题目：输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</strong></p>
@@ -325,6 +304,27 @@
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第7题：斐波那契数列</title>
+    <url>/2020/01/03/offer-07/</url>
+    <content><![CDATA[<p><strong>题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&lt;=39</strong></p>
+<p>解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结果，因为斐波那契数列的计算只跟前面两个值有关。</p>
+<a id="more"></a>
+<p>数组法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp(n+<span class="number">1</span>, <span class="number">0</span>); <span class="comment">//定义数组，数组中的值初始化为0</span></span><br><span class="line">    dp[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">//第一个元素为1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; i++) &#123;</span><br><span class="line">        dp[i] = dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>]; <span class="comment">//递推公式</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b; <span class="comment">// 保存最终结果</span></span><br><span class="line">        b = a - b; <span class="comment">// 保存上一次的结果</span></span><br><span class="line">        n -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
+        <tag>递归</tag>
       </tags>
   </entry>
   <entry>
@@ -475,13 +475,12 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第14题：链表中倒数第k个结点</title>
-    <url>/2020/01/04/offer-14/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
-<p><strong>解题思路：</strong>最直接的思路是，先遍历一遍链表，得出链表的长度，然后计算出倒数第k个结点的正数位置，之后二次遍历链表并输出结果。更好的解法是：设置快慢两个指针，快指针先走k步，然后慢指针开始走，当快指针遍历完链表的时候，慢指针所在的位置即为倒数第k个结点</p>
+    <title>剑指Offer第15题：反转链表</title>
+    <url>/2020/01/04/offer-15/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">FindKthToTail</span><span class="params">(ListNode* pListHead, <span class="keyword">unsigned</span> <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pListHead == <span class="literal">NULL</span> || k&lt;=<span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//排除空链表和k&lt;=0的情况</span></span><br><span class="line">    ListNode* fast = pListHead;</span><br><span class="line">    ListNode* slow = pListHead;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        fast = fast -&gt; next;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cnt &lt; k) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 当快指针走完链表时，此时cnt即为链表的长度，cnt小于k说明超出链表的范围</span></span><br><span class="line">            <span class="keyword">return</span> slow; <span class="comment">//不超出则返回慢指针所指的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt;= k) slow = slow -&gt; next; <span class="comment">//当快指针走了k步，慢指针开始走</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -492,12 +491,13 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第15题：反转链表</title>
-    <url>/2020/01/04/offer-15/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
+    <title>剑指Offer第14题：链表中倒数第k个结点</title>
+    <url>/2020/01/04/offer-14/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
+<p><strong>解题思路：</strong>最直接的思路是，先遍历一遍链表，得出链表的长度，然后计算出倒数第k个结点的正数位置，之后二次遍历链表并输出结果。更好的解法是：设置快慢两个指针，快指针先走k步，然后慢指针开始走，当快指针遍历完链表的时候，慢指针所在的位置即为倒数第k个结点</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">FindKthToTail</span><span class="params">(ListNode* pListHead, <span class="keyword">unsigned</span> <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pListHead == <span class="literal">NULL</span> || k&lt;=<span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//排除空链表和k&lt;=0的情况</span></span><br><span class="line">    ListNode* fast = pListHead;</span><br><span class="line">    ListNode* slow = pListHead;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        fast = fast -&gt; next;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cnt &lt; k) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 当快指针走完链表时，此时cnt即为链表的长度，cnt小于k说明超出链表的范围</span></span><br><span class="line">            <span class="keyword">return</span> slow; <span class="comment">//不超出则返回慢指针所指的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt;= k) slow = slow -&gt; next; <span class="comment">//当快指针走了k步，慢指针开始走</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -558,23 +558,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第20题：包含min函数的栈</title>
-    <url>/2020/01/06/offer-20/</url>
-    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第19题：顺时针打印矩阵</title>
     <url>/2020/01/06/offer-19/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：<br>[[1, 2, 3, 4],<br> [5, 6, 7, 8],<br> [9,10,11,12],<br> [13,14,15,16]]<br>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
@@ -589,6 +572,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第20题：包含min函数的栈</title>
+    <url>/2020/01/06/offer-20/</url>
+    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -609,6 +609,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第22题：从上往下打印二叉树</title>
+    <url>/2020/01/06/offer-22/</url>
+    <content><![CDATA[<p><strong>题目：</strong>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
+<p><strong>解题思路：</strong>定义一个队列，初始时存储树的根结点，之后从队列头取出结点的值，之后将该结点的左右结点（需要判断结点是否存在）放入队列中，循环直至队列为空。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; PrintFromTopToBottom(TreeNode* root) &#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeNode*&gt; que;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">NULL</span>) <span class="keyword">return</span> res; <span class="comment">//判断根结点是否为空，为空直接返回</span></span><br><span class="line">    que.push(root); <span class="comment">//初始化队列</span></span><br><span class="line">    <span class="keyword">while</span> (!que.empty()) &#123;</span><br><span class="line">        root = que.front(); <span class="comment">//是front，不是top</span></span><br><span class="line">        que.pop();</span><br><span class="line">        res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left) que.push(root-&gt;left);</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right) que.push(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>剑指Offer</tag>
+        <tag>队列</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第23题：二叉搜索树的后序遍历序列</title>
     <url>/2020/01/06/offer-23/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</p>
@@ -625,24 +643,6 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第22题：从上往下打印二叉树</title>
-    <url>/2020/01/06/offer-22/</url>
-    <content><![CDATA[<p><strong>题目：</strong>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
-<p><strong>解题思路：</strong>定义一个队列，初始时存储树的根结点，之后从队列头取出结点的值，之后将该结点的左右结点（需要判断结点是否存在）放入队列中，循环直至队列为空。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; PrintFromTopToBottom(TreeNode* root) &#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeNode*&gt; que;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">NULL</span>) <span class="keyword">return</span> res; <span class="comment">//判断根结点是否为空，为空直接返回</span></span><br><span class="line">    que.push(root); <span class="comment">//初始化队列</span></span><br><span class="line">    <span class="keyword">while</span> (!que.empty()) &#123;</span><br><span class="line">        root = que.front(); <span class="comment">//是front，不是top</span></span><br><span class="line">        que.pop();</span><br><span class="line">        res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left) que.push(root-&gt;left);</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right) que.push(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
-        <tag>队列</tag>
       </tags>
   </entry>
   <entry>
@@ -677,6 +677,24 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
+    <url>/2020/01/07/offer-26/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
+<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -734,24 +752,6 @@ table {
         <tag>动态规划</tag>
         <tag>剑指Offer</tag>
         <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
-    <url>/2020/01/07/offer-26/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
-<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -864,6 +864,26 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
+    <url>/2020/01/03/ubuntu-reboot-slow/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
+<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
+<a id="more"></a>
+<p><strong>解决方法：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
+
+
+<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ubuntu挂载硬盘不输入密码及开机自动挂载</title>
     <url>/2020/01/03/ubuntu-mount-disk/</url>
     <content><![CDATA[<h1 id="挂载无需输入密码"><a href="#挂载无需输入密码" class="headerlink" title="挂载无需输入密码"></a>挂载无需输入密码</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /usr/share/polkit-1/actions/org.freedesktop.udisks2.policy</span><br></pre></td></tr></table></figure>
@@ -881,26 +901,6 @@ table {
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>修改完成后要先测试能否使用，否则开机会出现问题</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
 <p>没有提示错误则成功。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
-    <url>/2020/01/03/ubuntu-reboot-slow/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
-<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
-<a id="more"></a>
-<p><strong>解决方法：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
-
-
-<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
