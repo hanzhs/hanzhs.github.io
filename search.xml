@@ -714,23 +714,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第20题：包含min函数的栈</title>
-    <url>/2020/01/06/offer-20/</url>
-    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第19题：顺时针打印矩阵</title>
     <url>/2020/01/06/offer-19/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：<br>[[1, 2, 3, 4],<br> [5, 6, 7, 8],<br> [9,10,11,12],<br> [13,14,15,16]]<br>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
@@ -745,6 +728,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第20题：包含min函数的栈</title>
+    <url>/2020/01/06/offer-20/</url>
+    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -802,23 +802,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第25题：复杂链表的复制</title>
-    <url>/2020/01/06/offer-25/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）</p>
-<p><strong>解题思路：</strong><br>1、在原始链表的每个元素后面都插入一个对应元素值的新结点；<br>2、根据原始结点的随机指针，复制新节点的随机指针；<br>3、断开原始链表与复制好的新链表。<br>注意：对链表取值，取next操作时，一定要先确定该位置为空</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">RandomListNode* <span class="title">Clone</span><span class="params">(RandomListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pHead) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 注意先判断原始链表是否为空</span></span><br><span class="line">    RandomListNode* p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        RandomListNode* tmp = p-&gt;next; </span><br><span class="line">        p-&gt;next = <span class="keyword">new</span> RandomListNode(p-&gt;label);</span><br><span class="line">        p-&gt;next-&gt;next = tmp;</span><br><span class="line">        p = p-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;random) p-&gt;next-&gt;random = p-&gt;random-&gt;next; <span class="comment">// 注意判断p-&gt;random是否为空，再来取next</span></span><br><span class="line">        <span class="keyword">else</span> p-&gt;next-&gt;random = <span class="literal">NULL</span>;</span><br><span class="line">        p = p-&gt;next-&gt;next; <span class="comment">// 因为先前复制过一遍链表，所以链表的结点数为偶数，因此可以不用判断p-&gt;next是否为空</span></span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    RandomListNode* res = p-&gt;next;</span><br><span class="line">    RandomListNode* p2 = res;</span><br><span class="line">    <span class="keyword">while</span> (p2) &#123;</span><br><span class="line">        p-&gt;next = p2-&gt;next; <span class="comment">// while (p2)， 所以p2一定非空</span></span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (p) p2-&gt;next = p-&gt;next; <span class="comment">// 先判断p是否为空，再取next</span></span><br><span class="line">        <span class="keyword">else</span> p2-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第24题：二叉树中和为某一值的路径</title>
     <url>/2020/01/06/offer-24/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)</p>
@@ -833,6 +816,23 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第25题：复杂链表的复制</title>
+    <url>/2020/01/06/offer-25/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）</p>
+<p><strong>解题思路：</strong><br>1、在原始链表的每个元素后面都插入一个对应元素值的新结点；<br>2、根据原始结点的随机指针，复制新节点的随机指针；<br>3、断开原始链表与复制好的新链表。<br>注意：对链表取值，取next操作时，一定要先确定该位置为空</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">RandomListNode* <span class="title">Clone</span><span class="params">(RandomListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pHead) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 注意先判断原始链表是否为空</span></span><br><span class="line">    RandomListNode* p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        RandomListNode* tmp = p-&gt;next; </span><br><span class="line">        p-&gt;next = <span class="keyword">new</span> RandomListNode(p-&gt;label);</span><br><span class="line">        p-&gt;next-&gt;next = tmp;</span><br><span class="line">        p = p-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;random) p-&gt;next-&gt;random = p-&gt;random-&gt;next; <span class="comment">// 注意判断p-&gt;random是否为空，再来取next</span></span><br><span class="line">        <span class="keyword">else</span> p-&gt;next-&gt;random = <span class="literal">NULL</span>;</span><br><span class="line">        p = p-&gt;next-&gt;next; <span class="comment">// 因为先前复制过一遍链表，所以链表的结点数为偶数，因此可以不用判断p-&gt;next是否为空</span></span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    RandomListNode* res = p-&gt;next;</span><br><span class="line">    RandomListNode* p2 = res;</span><br><span class="line">    <span class="keyword">while</span> (p2) &#123;</span><br><span class="line">        p-&gt;next = p2-&gt;next; <span class="comment">// while (p2)， 所以p2一定非空</span></span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (p) p2-&gt;next = p-&gt;next; <span class="comment">// 先判断p是否为空，再取next</span></span><br><span class="line">        <span class="keyword">else</span> p2-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -851,20 +851,6 @@ table {
         <tag>剑指Offer</tag>
         <tag>链表</tag>
         <tag>树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PyTorch DataParallel 指定显卡运行出错</title>
-    <url>/2020/01/03/pytorch-dataparrel/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
-]]></content>
-      <tags>
-        <tag>PyTorch</tag>
       </tags>
   </entry>
   <entry>
@@ -925,6 +911,20 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>PyTorch DataParallel 指定显卡运行出错</title>
+    <url>/2020/01/03/pytorch-dataparrel/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
+]]></content>
+      <tags>
+        <tag>PyTorch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PyTorch冻结部分层</title>
     <url>/2020/01/03/pytorch-freeze-layer/</url>
     <content><![CDATA[<p><strong>需求：</strong>PyTorch中，固定某些层，只更新部分层的参数<br><strong>方法：</strong></p>
@@ -937,28 +937,6 @@ table {
       <tags>
         <tag>PyTorch</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>多系统引导工具：refind</title>
-    <url>/2021/08/01/refind/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>系统引导</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重新分配服务器的ip地址</title>
-    <url>/2019/12/27/server-network/</url>
-    <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
-
-<a id="more"></a>]]></content>
   </entry>
   <entry>
     <title>VPS使用rclone挂载Google Drive</title>
@@ -987,6 +965,28 @@ table {
         <tag>vps</tag>
         <tag>rclone</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>多系统引导工具：refind</title>
+    <url>/2021/08/01/refind/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>系统引导</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重新分配服务器的ip地址</title>
+    <url>/2019/12/27/server-network/</url>
+    <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>]]></content>
   </entry>
   <entry>
     <title>shadowsocks中转</title>
@@ -1137,11 +1137,19 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>vmware tools doesn&#39;t work in ubuntu server</title>
-    <url>/2020/01/03/ubuntu-vmware/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
+    <title>ubuntu server 16.04 添加开机启动脚本</title>
+    <url>/2020/01/03/ubuntu-startup-scripts/</url>
+    <content><![CDATA[<p><strong>失败方案：</strong><br>1、rc.local等一系列方法，包括在/etc/init.d/rc.local里面添加PATH的环境变量等<br><strong>原因：</strong> ubuntu 15.04之后，开机脚本采用systemd管理</p>
+<p><strong>方法步骤：</strong><br>1、在/lib/systemd/system/下添加启动文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /lib/systemd/system/</span><br><span class="line">sudo vim sslocal.service</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
+<p>输入内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks Client Start <span class="comment">#文件描述</span></span><br><span class="line">After=network.target <span class="comment">#启动顺序</span></span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=hzs</span><br><span class="line">ExecStart=/home/hzs/.<span class="built_in">local</span>/bin/sslocal -s 69.12.82.153 -p 4396 -k password -m rc4-md5 -l 8980 <span class="comment">#启动命令</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target <span class="comment">#启动模式</span></span><br></pre></td></tr></table></figure>
+<p>2、将sslocal.service链接至/etc/systemd/system/multi-user.target.wants/</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ln -s /lib/systemd/system/sslocal.service /etc/systemd/system/multi-user.target.wants/</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>软链接的路径要填写绝对地址<br>3、检查</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls -l /etc/systemd/system/multi-user.target.wants/sslocal.service</span><br></pre></td></tr></table></figure>
+<p>链接为蓝色则正常，红色为错误的软链接。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
@@ -1168,19 +1176,11 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu server 16.04 添加开机启动脚本</title>
-    <url>/2020/01/03/ubuntu-startup-scripts/</url>
-    <content><![CDATA[<p><strong>失败方案：</strong><br>1、rc.local等一系列方法，包括在/etc/init.d/rc.local里面添加PATH的环境变量等<br><strong>原因：</strong> ubuntu 15.04之后，开机脚本采用systemd管理</p>
-<p><strong>方法步骤：</strong><br>1、在/lib/systemd/system/下添加启动文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /lib/systemd/system/</span><br><span class="line">sudo vim sslocal.service</span><br></pre></td></tr></table></figure>
+    <title>vmware tools doesn&#39;t work in ubuntu server</title>
+    <url>/2020/01/03/ubuntu-vmware/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>输入内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks Client Start <span class="comment">#文件描述</span></span><br><span class="line">After=network.target <span class="comment">#启动顺序</span></span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=hzs</span><br><span class="line">ExecStart=/home/hzs/.<span class="built_in">local</span>/bin/sslocal -s 69.12.82.153 -p 4396 -k password -m rc4-md5 -l 8980 <span class="comment">#启动命令</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target <span class="comment">#启动模式</span></span><br></pre></td></tr></table></figure>
-<p>2、将sslocal.service链接至/etc/systemd/system/multi-user.target.wants/</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ln -s /lib/systemd/system/sslocal.service /etc/systemd/system/multi-user.target.wants/</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>软链接的路径要填写绝对地址<br>3、检查</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls -l /etc/systemd/system/multi-user.target.wants/sslocal.service</span><br></pre></td></tr></table></figure>
-<p>链接为蓝色则正常，红色为错误的软链接。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
