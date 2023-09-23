@@ -18,20 +18,14 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ffmpeg将图像转换成视频</title>
-    <url>/2020/01/03/ffmpeg-imgs2vid/</url>
-    <content><![CDATA[<p><strong>需求</strong>：按照制定的码率将一系列图像转换成视频<br>1、图像名字连续：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i image%d.jpg -vcodec mpeg4 -b 800k video.avi</span><br></pre></td></tr></table></figure>
-<p>2、图像名字不连续</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i %*.png out.avi</span><br></pre></td></tr></table></figure>
+    <title>欧式距离与余弦距离的区别与联系</title>
+    <url>/2019/10/26/euclidean-cosine-distance/</url>
+    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
+<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
+<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
 <a id="more"></a>
+<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
 ]]></content>
-      <categories>
-        <category>ffmpeg</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-      </tags>
   </entry>
   <entry>
     <title>使用shell脚本实现图像序列到视频的批量转换</title>
@@ -48,14 +42,20 @@
       </tags>
   </entry>
   <entry>
-    <title>欧式距离与余弦距离的区别与联系</title>
-    <url>/2019/10/26/euclidean-cosine-distance/</url>
-    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
-<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
-<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
+    <title>使用ffmpeg将图像转换成视频</title>
+    <url>/2020/01/03/ffmpeg-imgs2vid/</url>
+    <content><![CDATA[<p><strong>需求</strong>：按照制定的码率将一系列图像转换成视频<br>1、图像名字连续：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i image%d.jpg -vcodec mpeg4 -b 800k video.avi</span><br></pre></td></tr></table></figure>
+<p>2、图像名字不连续</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i %*.png out.avi</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
 ]]></content>
+      <categories>
+        <category>ffmpeg</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+      </tags>
   </entry>
   <entry>
     <title>使用ffmpeg分离视频中的音频</title>
@@ -94,6 +94,41 @@
       </tags>
   </entry>
   <entry>
+    <title>git使用socks5代理</title>
+    <url>/2023/08/31/git-ssh-proxy/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 代理</title>
+    <url>/2019/10/26/git_proxy/</url>
+    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>git</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客部署使用</title>
     <url>/2023/08/31/hexo-blog/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
@@ -114,41 +149,6 @@
       <tags>
         <tag>hexo</tag>
         <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git 代理</title>
-    <url>/2019/10/26/git_proxy/</url>
-    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>如果不想使用代理，运行下面两条命令取消代理：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>git</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git使用socks5代理</title>
-    <url>/2023/08/31/git-ssh-proxy/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>网络代理</tag>
       </tags>
   </entry>
   <entry>
@@ -555,6 +555,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第11题：二进制中1的个数</title>
+    <url>/2020/01/04/offer-11/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第12题：数值的整数次方</title>
     <url>/2020/01/04/offer-12/</url>
     <content><![CDATA[<p><strong>题目：</strong>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0。</p>
@@ -613,30 +631,13 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第11题：二进制中1的个数</title>
-    <url>/2020/01/04/offer-11/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
-<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
+    <title>剑指Offer第14题：链表中倒数第k个结点</title>
+    <url>/2020/01/04/offer-14/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
+<p><strong>解题思路：</strong>最直接的思路是，先遍历一遍链表，得出链表的长度，然后计算出倒数第k个结点的正数位置，之后二次遍历链表并输出结果。更好的解法是：设置快慢两个指针，快指针先走k步，然后慢指针开始走，当快指针遍历完链表的时候，慢指针所在的位置即为倒数第k个结点</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>进制转化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第15题：反转链表</title>
-    <url>/2020/01/04/offer-15/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">FindKthToTail</span><span class="params">(ListNode* pListHead, <span class="keyword">unsigned</span> <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pListHead == <span class="literal">NULL</span> || k&lt;=<span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//排除空链表和k&lt;=0的情况</span></span><br><span class="line">    ListNode* fast = pListHead;</span><br><span class="line">    ListNode* slow = pListHead;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        fast = fast -&gt; next;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cnt &lt; k) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 当快指针走完链表时，此时cnt即为链表的长度，cnt小于k说明超出链表的范围</span></span><br><span class="line">            <span class="keyword">return</span> slow; <span class="comment">//不超出则返回慢指针所指的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt;= k) slow = slow -&gt; next; <span class="comment">//当快指针走了k步，慢指针开始走</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -647,13 +648,12 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第14题：链表中倒数第k个结点</title>
-    <url>/2020/01/04/offer-14/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
-<p><strong>解题思路：</strong>最直接的思路是，先遍历一遍链表，得出链表的长度，然后计算出倒数第k个结点的正数位置，之后二次遍历链表并输出结果。更好的解法是：设置快慢两个指针，快指针先走k步，然后慢指针开始走，当快指针遍历完链表的时候，慢指针所在的位置即为倒数第k个结点</p>
+    <title>剑指Offer第15题：反转链表</title>
+    <url>/2020/01/04/offer-15/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">FindKthToTail</span><span class="params">(ListNode* pListHead, <span class="keyword">unsigned</span> <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pListHead == <span class="literal">NULL</span> || k&lt;=<span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//排除空链表和k&lt;=0的情况</span></span><br><span class="line">    ListNode* fast = pListHead;</span><br><span class="line">    ListNode* slow = pListHead;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        fast = fast -&gt; next;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cnt &lt; k) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 当快指针走完链表时，此时cnt即为链表的长度，cnt小于k说明超出链表的范围</span></span><br><span class="line">            <span class="keyword">return</span> slow; <span class="comment">//不超出则返回慢指针所指的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt;= k) slow = slow -&gt; next; <span class="comment">//当快指针走了k步，慢指针开始走</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
