@@ -74,25 +74,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git使用socks5代理</title>
-    <url>/2023/08/31/git-ssh-proxy/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git移除历史提交中的敏感信息文件</title>
     <url>/2023/08/31/git-remove-sensetive-files/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
@@ -110,6 +91,25 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git使用socks5代理</title>
+    <url>/2023/08/31/git-ssh-proxy/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>网络代理</tag>
       </tags>
   </entry>
   <entry>
@@ -613,6 +613,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
+    <url>/2020/01/04/offer-13/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第14题：链表中倒数第k个结点</title>
     <url>/2020/01/04/offer-14/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
@@ -630,21 +648,19 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
-    <url>/2020/01/04/offer-13/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+    <title>剑指Offer第15题：反转链表</title>
+    <url>/2020/01/04/offer-15/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>排序</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -680,22 +696,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第15题：反转链表</title>
-    <url>/2020/01/04/offer-15/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第18题：二叉树的镜像</title>
     <url>/2020/01/06/offer-18/</url>
     <content><![CDATA[<p><strong>题目：</strong>操作给定的二叉树，将其变换为源二叉树的镜像。<br>二叉树的镜像定义：</p>
@@ -711,23 +711,6 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第20题：包含min函数的栈</title>
-    <url>/2020/01/06/offer-20/</url>
-    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -748,6 +731,40 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第20题：包含min函数的栈</title>
+    <url>/2020/01/06/offer-20/</url>
+    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第21题：栈的压入、弹出序列</title>
+    <url>/2020/01/06/offer-21/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第22题：从上往下打印二叉树</title>
     <url>/2020/01/06/offer-22/</url>
     <content><![CDATA[<p><strong>题目：</strong>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
@@ -763,23 +780,6 @@ table {
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
         <tag>队列</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第25题：复杂链表的复制</title>
-    <url>/2020/01/06/offer-25/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）</p>
-<p><strong>解题思路：</strong><br>1、在原始链表的每个元素后面都插入一个对应元素值的新结点；<br>2、根据原始结点的随机指针，复制新节点的随机指针；<br>3、断开原始链表与复制好的新链表。<br>注意：对链表取值，取next操作时，一定要先确定该位置为空</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">RandomListNode* <span class="title">Clone</span><span class="params">(RandomListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pHead) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 注意先判断原始链表是否为空</span></span><br><span class="line">    RandomListNode* p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        RandomListNode* tmp = p-&gt;next; </span><br><span class="line">        p-&gt;next = <span class="keyword">new</span> RandomListNode(p-&gt;label);</span><br><span class="line">        p-&gt;next-&gt;next = tmp;</span><br><span class="line">        p = p-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;random) p-&gt;next-&gt;random = p-&gt;random-&gt;next; <span class="comment">// 注意判断p-&gt;random是否为空，再来取next</span></span><br><span class="line">        <span class="keyword">else</span> p-&gt;next-&gt;random = <span class="literal">NULL</span>;</span><br><span class="line">        p = p-&gt;next-&gt;next; <span class="comment">// 因为先前复制过一遍链表，所以链表的结点数为偶数，因此可以不用判断p-&gt;next是否为空</span></span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    RandomListNode* res = p-&gt;next;</span><br><span class="line">    RandomListNode* p2 = res;</span><br><span class="line">    <span class="keyword">while</span> (p2) &#123;</span><br><span class="line">        p-&gt;next = p2-&gt;next; <span class="comment">// while (p2)， 所以p2一定非空</span></span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (p) p2-&gt;next = p-&gt;next; <span class="comment">// 先判断p是否为空，再取next</span></span><br><span class="line">        <span class="keyword">else</span> p2-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -816,6 +816,41 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第25题：复杂链表的复制</title>
+    <url>/2020/01/06/offer-25/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）</p>
+<p><strong>解题思路：</strong><br>1、在原始链表的每个元素后面都插入一个对应元素值的新结点；<br>2、根据原始结点的随机指针，复制新节点的随机指针；<br>3、断开原始链表与复制好的新链表。<br>注意：对链表取值，取next操作时，一定要先确定该位置为空</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">RandomListNode* <span class="title">Clone</span><span class="params">(RandomListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pHead) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 注意先判断原始链表是否为空</span></span><br><span class="line">    RandomListNode* p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        RandomListNode* tmp = p-&gt;next; </span><br><span class="line">        p-&gt;next = <span class="keyword">new</span> RandomListNode(p-&gt;label);</span><br><span class="line">        p-&gt;next-&gt;next = tmp;</span><br><span class="line">        p = p-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;random) p-&gt;next-&gt;random = p-&gt;random-&gt;next; <span class="comment">// 注意判断p-&gt;random是否为空，再来取next</span></span><br><span class="line">        <span class="keyword">else</span> p-&gt;next-&gt;random = <span class="literal">NULL</span>;</span><br><span class="line">        p = p-&gt;next-&gt;next; <span class="comment">// 因为先前复制过一遍链表，所以链表的结点数为偶数，因此可以不用判断p-&gt;next是否为空</span></span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    RandomListNode* res = p-&gt;next;</span><br><span class="line">    RandomListNode* p2 = res;</span><br><span class="line">    <span class="keyword">while</span> (p2) &#123;</span><br><span class="line">        p-&gt;next = p2-&gt;next; <span class="comment">// while (p2)， 所以p2一定非空</span></span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (p) p2-&gt;next = p-&gt;next; <span class="comment">// 先判断p是否为空，再取next</span></span><br><span class="line">        <span class="keyword">else</span> p2-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
+    <url>/2020/01/07/offer-26/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
+<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -932,49 +967,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第21题：栈的压入、弹出序列</title>
-    <url>/2020/01/06/offer-21/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
-    <url>/2020/01/07/offer-26/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
-<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-        <tag>树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重新分配服务器的ip地址</title>
-    <url>/2019/12/27/server-network/</url>
-    <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
-
-<a id="more"></a>]]></content>
-  </entry>
-  <entry>
     <title>多系统引导工具：refind</title>
     <url>/2021/08/01/refind/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
@@ -987,6 +979,14 @@ table {
       <tags>
         <tag>系统引导</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>重新分配服务器的ip地址</title>
+    <url>/2019/12/27/server-network/</url>
+    <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>]]></content>
   </entry>
   <entry>
     <title>shadowsocks中转</title>
@@ -1108,6 +1108,22 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>ubuntu server 16.04 安装中文字体</title>
+    <url>/2020/01/03/ubuntu-server-font/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>安装Ubuntu Server系统时选择英文，导致系统中没有中文字体，nautilus文件夹显示的中文以及gedit中显示的中文都出现如图的情况：</p>
+<p><img src="/2020/01/03/ubuntu-server-font/charactor.png" alt></p>
+<a id="more"></a>
+<p><strong>解决方法：</strong>安装文泉驿字体</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ubuntu server 安装sogou输入法</title>
     <url>/2020/01/03/ubuntu-server-sougou/</url>
     <content><![CDATA[<p><strong>问题描述：</strong>ubuntu的状态栏没有fctix的状态图标<br><strong>解决方法：</strong></p>
@@ -1165,22 +1181,6 @@ table {
     <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu server 16.04 安装中文字体</title>
-    <url>/2020/01/03/ubuntu-server-font/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>安装Ubuntu Server系统时选择英文，导致系统中没有中文字体，nautilus文件夹显示的中文以及gedit中显示的中文都出现如图的情况：</p>
-<p><img src="/2020/01/03/ubuntu-server-font/charactor.png" alt></p>
-<a id="more"></a>
-<p><strong>解决方法：</strong>安装文泉驿字体</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>ubuntu</category>
