@@ -152,6 +152,27 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第120题：</title>
+    <url>/2020/07/14/leecode-120/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
+<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>https泛域名证书申请</title>
     <url>/2023/08/30/https-cert/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
@@ -171,27 +192,6 @@
         <tag>nginx</tag>
         <tag>https</tag>
         <tag>IPv6</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第120题：</title>
-    <url>/2020/07/14/leecode-120/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
-<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
