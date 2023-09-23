@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Hide On Lab">
 <meta property="og:description" content="背景VPS自带磁盘空间较小，存储空间紧张，可考虑通过挂载网盘的方式来扩容 解决方案&amp;emsp;&amp;emsp;通过参考链接[1]，使用rclone完成。为了防止链接之后无法访问，这里记录一些主要步骤：  安装rclone 1curl https:&#x2F;&#x2F;rclone.org&#x2F;install.sh | sudo bash 安装完毕后，执行rclone config进行配置，选择n创建配置，之后选择googl">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2023-09-23T06:59:01.489Z">
+<meta property="og:updated_time" content="2023-09-23T07:02:01.551Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -376,12 +376,12 @@
 </li>
 <li><p>创建google api，保存您的应用时出错，可以更改应用的名字</p>
 </li>
-<li><p>挂载时，根据[参考链接[2]]，–vfs-cache-mode可以选择本地磁盘缓存模式，经过测试，off模式无法使用qbt下，其他模式会先缓存在.cache/rclone目录下</p>
+<li><p>挂载时，根据<a href="#ref-2">参考链接[2]</a>，–vfs-cache-mode可以选择本地磁盘缓存模式，经过测试，off模式无法使用qbt下，其他模式会先缓存在.cache/rclone目录下</p>
 </li>
 </ol>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><span id="ref-1"></span> [1] <a href="https://pickstar.today/2022/05/vps%E4%BD%BF%E7%94%A8rclone%E6%8C%82%E8%BD%BDgoogle-drive%E8%AF%A6%E7%BB%86%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">vps使用rclone挂载Google Drive详细记录</a></li>
-<li><span id="ref-1"></span> [2] <a href="https://rclone.org/commands/rclone_mount/" target="_blank" rel="noopener">rclone mount</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rclone.org/commands/rclone_mount/" target="_blank" rel="noopener">rclone mount</a></li>
 </ul>
 
       
