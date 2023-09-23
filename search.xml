@@ -94,25 +94,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git使用socks5代理</title>
-    <url>/2023/08/31/git-ssh-proxy/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git 代理</title>
     <url>/2019/10/26/git_proxy/</url>
     <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
@@ -126,6 +107,28 @@
       <tags>
         <tag>git</tag>
         <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>https</tag>
+        <tag>IPv6</tag>
       </tags>
   </entry>
   <entry>
@@ -152,25 +155,22 @@
       </tags>
   </entry>
   <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+    <title>git使用socks5代理</title>
+    <url>/2023/08/31/git-ssh-proxy/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
+
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>nginx</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>nginx</tag>
-        <tag>https</tag>
-        <tag>IPv6</tag>
+        <tag>git</tag>
+        <tag>网络代理</tag>
       </tags>
   </entry>
   <entry>
@@ -538,23 +538,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第11题：二进制中1的个数</title>
     <url>/2020/01/04/offer-11/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
@@ -570,6 +553,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
