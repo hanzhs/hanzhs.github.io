@@ -113,6 +113,22 @@
       </tags>
   </entry>
   <entry>
+    <title>git 代理</title>
+    <url>/2019/10/26/git_proxy/</url>
+    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>git</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客部署使用</title>
     <url>/2023/08/31/hexo-blog/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
@@ -133,22 +149,6 @@
       <tags>
         <tag>hexo</tag>
         <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git 代理</title>
-    <url>/2019/10/26/git_proxy/</url>
-    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>如果不想使用代理，运行下面两条命令取消代理：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>git</tag>
-        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -484,23 +484,6 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第9题：变态跳台阶</title>
     <url>/2020/01/03/offer-09/</url>
     <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</strong></p>
@@ -552,6 +535,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>贪心</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -714,20 +714,20 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第19题：顺时针打印矩阵</title>
-    <url>/2020/01/06/offer-19/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：<br>[[1, 2, 3, 4],<br> [5, 6, 7, 8],<br> [9,10,11,12],<br> [13,14,15,16]]<br>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
-<p><strong>解题思路：</strong>顺时针打印，服从右下左上的规律，可使用leecode上岛屿的个数思路解决，对访问过的元素设置一个标志值，按照规律访问剩下的数组，注意，顺时针的右下左上中的“右”需要满足一定的条件才可以往右走，此条件为：当前行是第0行，或者上一行已经被遍历过</p>
+    <title>剑指Offer第21题：栈的压入、弹出序列</title>
+    <url>/2020/01/06/offer-21/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printMatrixHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;matrix, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;res, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">    res.push_back(matrix[i][j]); <span class="comment">//将当前值添加值结果中</span></span><br><span class="line">    matrix[i][j] = INT_MAX; <span class="comment">//遍历过的值置为INT_MAX</span></span><br><span class="line">    <span class="keyword">if</span> (j+<span class="number">1</span> &lt; c &amp;&amp; matrix[i][j+<span class="number">1</span>] != INT_MAX &amp;&amp; (i==<span class="number">0</span> || matrix[i<span class="number">-1</span>][j]==INT_MAX)) <span class="comment">//往右的条件，当前行是第0行，或者上一行被遍历过</span></span><br><span class="line">        printMatrixHelper(matrix, res, i, j+<span class="number">1</span>, r, c); </span><br><span class="line">    <span class="keyword">if</span> (i+<span class="number">1</span> &lt; r &amp;&amp; matrix[i+<span class="number">1</span>][j] != INT_MAX ) <span class="comment">//判断边界条件，判断是否被遍历过</span></span><br><span class="line">        printMatrixHelper(matrix, res, i+<span class="number">1</span>, j, r, c);</span><br><span class="line">    <span class="keyword">if</span> (j<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; matrix[i][j<span class="number">-1</span>] != INT_MAX )</span><br><span class="line">        printMatrixHelper(matrix, res, i, j<span class="number">-1</span>, r, c);</span><br><span class="line">    <span class="keyword">if</span> (i<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; matrix[i<span class="number">-1</span>][j] != INT_MAX )</span><br><span class="line">        printMatrixHelper(matrix, res, i<span class="number">-1</span>, j, r, c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; printMatrix(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; matrix) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">int</span> r = matrix.size();</span><br><span class="line">    <span class="keyword">if</span> (r == <span class="number">0</span>) <span class="keyword">return</span> res;</span><br><span class="line">    <span class="keyword">int</span> c = matrix[<span class="number">0</span>].size();</span><br><span class="line">    printMatrixHelper(matrix, res, <span class="number">0</span>, <span class="number">0</span>, r, c);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-        <tag>数组</tag>
+        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -748,20 +748,20 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第21题：栈的压入、弹出序列</title>
-    <url>/2020/01/06/offer-21/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
+    <title>剑指Offer第19题：顺时针打印矩阵</title>
+    <url>/2020/01/06/offer-19/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：<br>[[1, 2, 3, 4],<br> [5, 6, 7, 8],<br> [9,10,11,12],<br> [13,14,15,16]]<br>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
+<p><strong>解题思路：</strong>顺时针打印，服从右下左上的规律，可使用leecode上岛屿的个数思路解决，对访问过的元素设置一个标志值，按照规律访问剩下的数组，注意，顺时针的右下左上中的“右”需要满足一定的条件才可以往右走，此条件为：当前行是第0行，或者上一行已经被遍历过</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printMatrixHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;matrix, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;res, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">    res.push_back(matrix[i][j]); <span class="comment">//将当前值添加值结果中</span></span><br><span class="line">    matrix[i][j] = INT_MAX; <span class="comment">//遍历过的值置为INT_MAX</span></span><br><span class="line">    <span class="keyword">if</span> (j+<span class="number">1</span> &lt; c &amp;&amp; matrix[i][j+<span class="number">1</span>] != INT_MAX &amp;&amp; (i==<span class="number">0</span> || matrix[i<span class="number">-1</span>][j]==INT_MAX)) <span class="comment">//往右的条件，当前行是第0行，或者上一行被遍历过</span></span><br><span class="line">        printMatrixHelper(matrix, res, i, j+<span class="number">1</span>, r, c); </span><br><span class="line">    <span class="keyword">if</span> (i+<span class="number">1</span> &lt; r &amp;&amp; matrix[i+<span class="number">1</span>][j] != INT_MAX ) <span class="comment">//判断边界条件，判断是否被遍历过</span></span><br><span class="line">        printMatrixHelper(matrix, res, i+<span class="number">1</span>, j, r, c);</span><br><span class="line">    <span class="keyword">if</span> (j<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; matrix[i][j<span class="number">-1</span>] != INT_MAX )</span><br><span class="line">        printMatrixHelper(matrix, res, i, j<span class="number">-1</span>, r, c);</span><br><span class="line">    <span class="keyword">if</span> (i<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; matrix[i<span class="number">-1</span>][j] != INT_MAX )</span><br><span class="line">        printMatrixHelper(matrix, res, i<span class="number">-1</span>, j, r, c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; printMatrix(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; matrix) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">int</span> r = matrix.size();</span><br><span class="line">    <span class="keyword">if</span> (r == <span class="number">0</span>) <span class="keyword">return</span> res;</span><br><span class="line">    <span class="keyword">int</span> c = matrix[<span class="number">0</span>].size();</span><br><span class="line">    printMatrixHelper(matrix, res, <span class="number">0</span>, <span class="number">0</span>, r, c);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-        <tag>栈</tag>
+        <tag>数组</tag>
       </tags>
   </entry>
   <entry>
@@ -854,6 +854,20 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>PyTorch DataParallel 指定显卡运行出错</title>
+    <url>/2020/01/03/pytorch-dataparrel/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
+]]></content>
+      <tags>
+        <tag>PyTorch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第8题：跳台阶</title>
     <url>/2020/01/03/offer-8/</url>
     <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。</strong></p>
@@ -911,20 +925,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>PyTorch DataParallel 指定显卡运行出错</title>
-    <url>/2020/01/03/pytorch-dataparrel/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
-]]></content>
-      <tags>
-        <tag>PyTorch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PyTorch冻结部分层</title>
     <url>/2020/01/03/pytorch-freeze-layer/</url>
     <content><![CDATA[<p><strong>需求：</strong>PyTorch中，固定某些层，只更新部分层的参数<br><strong>方法：</strong></p>
@@ -937,6 +937,28 @@ table {
       <tags>
         <tag>PyTorch</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>多系统引导工具：refind</title>
+    <url>/2021/08/01/refind/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>系统引导</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重新分配服务器的ip地址</title>
+    <url>/2019/12/27/server-network/</url>
+    <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>]]></content>
   </entry>
   <entry>
     <title>VPS使用rclone挂载Google Drive</title>
@@ -965,28 +987,6 @@ table {
         <tag>vps</tag>
         <tag>rclone</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>多系统引导工具：refind</title>
-    <url>/2021/08/01/refind/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>系统引导</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重新分配服务器的ip地址</title>
-    <url>/2019/12/27/server-network/</url>
-    <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
-
-<a id="more"></a>]]></content>
   </entry>
   <entry>
     <title>shadowsocks中转</title>
