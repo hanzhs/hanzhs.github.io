@@ -257,6 +257,61 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第198题：打家劫舍</title>
+    <url>/2020/01/15/leecode-198/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,7,9,3,1]</span><br><span class="line">输出: 12</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。偷窃到的最高金额 = 2 + 9 + 1 = 12 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>这题可以看做是背包问题。在当前位置存在两种选择，偷或者不偷。</p>
+<ul>
+<li>偷：dp[i] = dp[i-2] + nums[i]</li>
+<li>不偷：dp[i] = dp[i-1]<br>要偷取最大的金额，因此状态转移方程为：dp[i] = max(dp[i-2] + nums[i], dp[i-1])。在代码实现中，可以直接使用nums来作为dp数组。</li>
+</ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//nums为空</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;nums.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==<span class="number">1</span>) nums[<span class="number">1</span>] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]); <span class="comment">//从第1个开始判断，因为第0个肯定选择偷</span></span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-1</span>], nums[i<span class="number">-2</span>]+nums[i]); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode第213题：打家劫舍II</title>
+    <url>/2020/01/15/leecode-213/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
+<ul>
+<li>去除起始位置，能抢到的最大金额</li>
+<li>去除结束位置，能抢到的最大金额</li>
+<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
+</ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第337题：打家劫舍III</title>
     <url>/2020/01/15/leecode-337/</url>
     <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
@@ -295,6 +350,56 @@
         <tag>leecode</tag>
         <tag>动态规划</tag>
         <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode专题：买卖股票的最佳时机</title>
+    <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
+<ol>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a>：只能交易一次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a>：不限定交易次数</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a>：限定最多只能交易两次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a>：限定最多只能交易k次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a>：交易冻结期</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a>：交易费用<a id="more"></a></li>
+</ol>
+<p><strong>解题思路：</strong>给定数组prices代表每天的股票价格。我们每天能执行的动作有：买入、卖出或者什么都不做三种选择。然而，题目规定<strong>必须在再次购买前出售掉之前的股票</strong>，因此，我们执行买入动作的时候，手里必须没有股票；执行卖出动作的时候，手里有且仅有一支股票。我们令k为最多交易的次数，i为第i天股票的价格。第i天所能获得的最大收益T分为两种情况：</p>
+<ul>
+<li>第i天结束时，手里没有股票。结束时手里没有股票，可能有两种原因：</li>
+</ul>
+<ol>
+<li>第i-1天结束时，手里没有股票，且第i天什么都不做；</li>
+<li>第i-1天结束时，手里有且仅有一支股票，且第i天卖出这支股票。<br>取这两种情况的最大值，即为第i天结束时，手里没有股票所能获得的最大收益。<br>$$<br>T[i][k][0]=max(T[i-1][k][0], T[i-1][k][1]+prices[i])<br>$$</li>
+</ol>
+<ul>
+<li>第i天结束时，手里有且仅有一支股票。结束时手里有且仅有一支股票，同样可能有两种原因：</li>
+</ul>
+<ol>
+<li>第i-1天结束时，手里有且仅有一支股票，且第i天什么都不做；</li>
+<li>第i-1天结束时，手里没有股票，且第i天买入一支股票。<br>取这两种情况的最大值，即为第i天结束时，手里有且仅有一支股票所能获得的最大收益。<br>$$<br>T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0]-prices[i])<br>$$</li>
+</ol>
+<p><strong>注意：</strong>买入股票时，可用交易次数发生改变<br>初始条件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">T[-1][k][0] = 0; //第-1天，手里没有股票，收益为0。（或者初始T[0][k][0]=0）</span><br><span class="line">T[-1][k][1] = INT_MIN; //第-1天，手里有一支股票，收益为INT_MIN。（或者初始T[0][K][1]=-prices[1]）</span><br><span class="line">T[i][0][0] = 0; // 允许的交易次数为0，手里有没有股票，收益为0。</span><br><span class="line">T[i][0][1] = INT_MIN; // 允许的交易次数为1，手里有一支股票，收益为INT_MIN。</span><br></pre></td></tr></table></figure>
+<p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems/111002" target="_blank" rel="noopener">思路来源</a></p>
+<p><strong>代码：</strong></p>
+<ol>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti10 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti11 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti10 = max(Ti10, Ti11 + v);</span><br><span class="line">        Ti11 = max(Ti11, -v); <span class="comment">// Ti11 = max(Ti11, Ti00-v);  Ti00=0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v); <span class="comment">// k=inf，因此k-1=k</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">2</span>; <span class="comment">// k=2</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;); <span class="comment">//定义一个k+1的dp数组，dp[0]为初始状态</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v); <span class="comment">// 买入时，消耗交易次数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = prices.size(); </span><br><span class="line">    <span class="keyword">if</span> (k &gt;= (len &gt;&gt; <span class="number">1</span>)) &#123; <span class="comment">//k为任意次数。在长度为n的prices数组中，最大的收益交易次数为n/2，因此，当k&gt;=n/2时，k的交易次数不限</span></span><br><span class="line">        <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">            Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">            Ti1 = max(Ti1, Ti0-v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Ti0;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cd = <span class="number">1</span>; <span class="comment">//卖出股票之后，要等1天才能再次买入，cooldown(cd) = 1</span></span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> pre_Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; pre; <span class="comment">// 定义一个队列，用于存储每一天手里没有股票的收益</span></span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        pre.push(Ti0); <span class="comment">// 此时没有股票，放入队列</span></span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        <span class="keyword">if</span> (pre.size()==cd+<span class="number">1</span>) &#123; <span class="comment">// 当队列的长度达到cd+1，即：队首的元素与当前买入操作之间相隔了一天</span></span><br><span class="line">            pre_Ti0 = pre.front();</span><br><span class="line">            pre.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        Ti1 = max(Ti1, pre_Ti0-v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v-fee); <span class="comment">// 交易时，减去手续费</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>leecode</category>
+        <category>动态规划</category>
+        <category>买卖股票的最佳时机</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
       </tags>
   </entry>
   <entry>
@@ -433,58 +538,38 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>leecode第198题：打家劫舍</title>
-    <url>/2020/01/15/leecode-198/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
 <a id="more"></a>
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,7,9,3,1]</span><br><span class="line">输出: 12</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。偷窃到的最高金额 = 2 + 9 + 1 = 12 。</span><br></pre></td></tr></table></figure>
 
-<p><strong>解题思路：</strong>这题可以看做是背包问题。在当前位置存在两种选择，偷或者不偷。</p>
-<ul>
-<li>偷：dp[i] = dp[i-2] + nums[i]</li>
-<li>不偷：dp[i] = dp[i-1]<br>要偷取最大的金额，因此状态转移方程为：dp[i] = max(dp[i-2] + nums[i], dp[i-1])。在代码实现中，可以直接使用nums来作为dp数组。</li>
-</ul>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//nums为空</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;nums.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==<span class="number">1</span>) nums[<span class="number">1</span>] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]); <span class="comment">//从第1个开始判断，因为第0个肯定选择偷</span></span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-1</span>], nums[i<span class="number">-2</span>]+nums[i]); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>leecode</category>
+        <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>leecode</tag>
         <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
-    <title>leecode第213题：打家劫舍II</title>
-    <url>/2020/01/15/leecode-213/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
+    <title>剑指Offer第11题：二进制中1的个数</title>
+    <url>/2020/01/04/offer-11/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
 <a id="more"></a>
-
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
-<ul>
-<li>去除起始位置，能抢到的最大金额</li>
-<li>去除结束位置，能抢到的最大金额</li>
-<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
-</ul>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>leecode</category>
+        <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
+        <tag>进制转化</tag>
       </tags>
   </entry>
   <entry>
@@ -528,56 +613,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>leecode专题：买卖股票的最佳时机</title>
-    <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
-<ol>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a>：只能交易一次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a>：不限定交易次数</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a>：限定最多只能交易两次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a>：限定最多只能交易k次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a>：交易冻结期</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a>：交易费用<a id="more"></a></li>
-</ol>
-<p><strong>解题思路：</strong>给定数组prices代表每天的股票价格。我们每天能执行的动作有：买入、卖出或者什么都不做三种选择。然而，题目规定<strong>必须在再次购买前出售掉之前的股票</strong>，因此，我们执行买入动作的时候，手里必须没有股票；执行卖出动作的时候，手里有且仅有一支股票。我们令k为最多交易的次数，i为第i天股票的价格。第i天所能获得的最大收益T分为两种情况：</p>
-<ul>
-<li>第i天结束时，手里没有股票。结束时手里没有股票，可能有两种原因：</li>
-</ul>
-<ol>
-<li>第i-1天结束时，手里没有股票，且第i天什么都不做；</li>
-<li>第i-1天结束时，手里有且仅有一支股票，且第i天卖出这支股票。<br>取这两种情况的最大值，即为第i天结束时，手里没有股票所能获得的最大收益。<br>$$<br>T[i][k][0]=max(T[i-1][k][0], T[i-1][k][1]+prices[i])<br>$$</li>
-</ol>
-<ul>
-<li>第i天结束时，手里有且仅有一支股票。结束时手里有且仅有一支股票，同样可能有两种原因：</li>
-</ul>
-<ol>
-<li>第i-1天结束时，手里有且仅有一支股票，且第i天什么都不做；</li>
-<li>第i-1天结束时，手里没有股票，且第i天买入一支股票。<br>取这两种情况的最大值，即为第i天结束时，手里有且仅有一支股票所能获得的最大收益。<br>$$<br>T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0]-prices[i])<br>$$</li>
-</ol>
-<p><strong>注意：</strong>买入股票时，可用交易次数发生改变<br>初始条件：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">T[-1][k][0] = 0; //第-1天，手里没有股票，收益为0。（或者初始T[0][k][0]=0）</span><br><span class="line">T[-1][k][1] = INT_MIN; //第-1天，手里有一支股票，收益为INT_MIN。（或者初始T[0][K][1]=-prices[1]）</span><br><span class="line">T[i][0][0] = 0; // 允许的交易次数为0，手里有没有股票，收益为0。</span><br><span class="line">T[i][0][1] = INT_MIN; // 允许的交易次数为1，手里有一支股票，收益为INT_MIN。</span><br></pre></td></tr></table></figure>
-<p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems/111002" target="_blank" rel="noopener">思路来源</a></p>
-<p><strong>代码：</strong></p>
-<ol>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti10 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti11 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti10 = max(Ti10, Ti11 + v);</span><br><span class="line">        Ti11 = max(Ti11, -v); <span class="comment">// Ti11 = max(Ti11, Ti00-v);  Ti00=0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v); <span class="comment">// k=inf，因此k-1=k</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">2</span>; <span class="comment">// k=2</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;); <span class="comment">//定义一个k+1的dp数组，dp[0]为初始状态</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v); <span class="comment">// 买入时，消耗交易次数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = prices.size(); </span><br><span class="line">    <span class="keyword">if</span> (k &gt;= (len &gt;&gt; <span class="number">1</span>)) &#123; <span class="comment">//k为任意次数。在长度为n的prices数组中，最大的收益交易次数为n/2，因此，当k&gt;=n/2时，k的交易次数不限</span></span><br><span class="line">        <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">            Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">            Ti1 = max(Ti1, Ti0-v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Ti0;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cd = <span class="number">1</span>; <span class="comment">//卖出股票之后，要等1天才能再次买入，cooldown(cd) = 1</span></span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> pre_Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; pre; <span class="comment">// 定义一个队列，用于存储每一天手里没有股票的收益</span></span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        pre.push(Ti0); <span class="comment">// 此时没有股票，放入队列</span></span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        <span class="keyword">if</span> (pre.size()==cd+<span class="number">1</span>) &#123; <span class="comment">// 当队列的长度达到cd+1，即：队首的元素与当前买入操作之间相隔了一天</span></span><br><span class="line">            pre_Ti0 = pre.front();</span><br><span class="line">            pre.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        Ti1 = max(Ti1, pre_Ti0-v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v-fee); <span class="comment">// 交易时，减去手续费</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>leecode</category>
-        <category>动态规划</category>
-        <category>买卖股票的最佳时机</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
     <url>/2020/01/04/offer-13/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
@@ -610,41 +645,6 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第11题：二进制中1的个数</title>
-    <url>/2020/01/04/offer-11/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
-<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>进制转化</tag>
       </tags>
   </entry>
   <entry>
@@ -711,6 +711,57 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第19题：顺时针打印矩阵</title>
+    <url>/2020/01/06/offer-19/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：<br>[[1, 2, 3, 4],<br> [5, 6, 7, 8],<br> [9,10,11,12],<br> [13,14,15,16]]<br>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
+<p><strong>解题思路：</strong>顺时针打印，服从右下左上的规律，可使用leecode上岛屿的个数思路解决，对访问过的元素设置一个标志值，按照规律访问剩下的数组，注意，顺时针的右下左上中的“右”需要满足一定的条件才可以往右走，此条件为：当前行是第0行，或者上一行已经被遍历过</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printMatrixHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;matrix, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;res, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">    res.push_back(matrix[i][j]); <span class="comment">//将当前值添加值结果中</span></span><br><span class="line">    matrix[i][j] = INT_MAX; <span class="comment">//遍历过的值置为INT_MAX</span></span><br><span class="line">    <span class="keyword">if</span> (j+<span class="number">1</span> &lt; c &amp;&amp; matrix[i][j+<span class="number">1</span>] != INT_MAX &amp;&amp; (i==<span class="number">0</span> || matrix[i<span class="number">-1</span>][j]==INT_MAX)) <span class="comment">//往右的条件，当前行是第0行，或者上一行被遍历过</span></span><br><span class="line">        printMatrixHelper(matrix, res, i, j+<span class="number">1</span>, r, c); </span><br><span class="line">    <span class="keyword">if</span> (i+<span class="number">1</span> &lt; r &amp;&amp; matrix[i+<span class="number">1</span>][j] != INT_MAX ) <span class="comment">//判断边界条件，判断是否被遍历过</span></span><br><span class="line">        printMatrixHelper(matrix, res, i+<span class="number">1</span>, j, r, c);</span><br><span class="line">    <span class="keyword">if</span> (j<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; matrix[i][j<span class="number">-1</span>] != INT_MAX )</span><br><span class="line">        printMatrixHelper(matrix, res, i, j<span class="number">-1</span>, r, c);</span><br><span class="line">    <span class="keyword">if</span> (i<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; matrix[i<span class="number">-1</span>][j] != INT_MAX )</span><br><span class="line">        printMatrixHelper(matrix, res, i<span class="number">-1</span>, j, r, c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; printMatrix(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; matrix) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">int</span> r = matrix.size();</span><br><span class="line">    <span class="keyword">if</span> (r == <span class="number">0</span>) <span class="keyword">return</span> res;</span><br><span class="line">    <span class="keyword">int</span> c = matrix[<span class="number">0</span>].size();</span><br><span class="line">    printMatrixHelper(matrix, res, <span class="number">0</span>, <span class="number">0</span>, r, c);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第20题：包含min函数的栈</title>
+    <url>/2020/01/06/offer-20/</url>
+    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第21题：栈的压入、弹出序列</title>
+    <url>/2020/01/06/offer-21/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -1136,57 +1187,6 @@ table {
       </categories>
       <tags>
         <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第20题：包含min函数的栈</title>
-    <url>/2020/01/06/offer-20/</url>
-    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第19题：顺时针打印矩阵</title>
-    <url>/2020/01/06/offer-19/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：<br>[[1, 2, 3, 4],<br> [5, 6, 7, 8],<br> [9,10,11,12],<br> [13,14,15,16]]<br>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
-<p><strong>解题思路：</strong>顺时针打印，服从右下左上的规律，可使用leecode上岛屿的个数思路解决，对访问过的元素设置一个标志值，按照规律访问剩下的数组，注意，顺时针的右下左上中的“右”需要满足一定的条件才可以往右走，此条件为：当前行是第0行，或者上一行已经被遍历过</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printMatrixHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;matrix, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;res, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">    res.push_back(matrix[i][j]); <span class="comment">//将当前值添加值结果中</span></span><br><span class="line">    matrix[i][j] = INT_MAX; <span class="comment">//遍历过的值置为INT_MAX</span></span><br><span class="line">    <span class="keyword">if</span> (j+<span class="number">1</span> &lt; c &amp;&amp; matrix[i][j+<span class="number">1</span>] != INT_MAX &amp;&amp; (i==<span class="number">0</span> || matrix[i<span class="number">-1</span>][j]==INT_MAX)) <span class="comment">//往右的条件，当前行是第0行，或者上一行被遍历过</span></span><br><span class="line">        printMatrixHelper(matrix, res, i, j+<span class="number">1</span>, r, c); </span><br><span class="line">    <span class="keyword">if</span> (i+<span class="number">1</span> &lt; r &amp;&amp; matrix[i+<span class="number">1</span>][j] != INT_MAX ) <span class="comment">//判断边界条件，判断是否被遍历过</span></span><br><span class="line">        printMatrixHelper(matrix, res, i+<span class="number">1</span>, j, r, c);</span><br><span class="line">    <span class="keyword">if</span> (j<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; matrix[i][j<span class="number">-1</span>] != INT_MAX )</span><br><span class="line">        printMatrixHelper(matrix, res, i, j<span class="number">-1</span>, r, c);</span><br><span class="line">    <span class="keyword">if</span> (i<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; matrix[i<span class="number">-1</span>][j] != INT_MAX )</span><br><span class="line">        printMatrixHelper(matrix, res, i<span class="number">-1</span>, j, r, c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; printMatrix(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; matrix) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">int</span> r = matrix.size();</span><br><span class="line">    <span class="keyword">if</span> (r == <span class="number">0</span>) <span class="keyword">return</span> res;</span><br><span class="line">    <span class="keyword">int</span> c = matrix[<span class="number">0</span>].size();</span><br><span class="line">    printMatrixHelper(matrix, res, <span class="number">0</span>, <span class="number">0</span>, r, c);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第21题：栈的压入、弹出序列</title>
-    <url>/2020/01/06/offer-21/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
       </tags>
   </entry>
 </search>
