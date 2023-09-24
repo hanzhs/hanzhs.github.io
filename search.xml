@@ -28,9 +28,12 @@
 ]]></content>
   </entry>
   <entry>
-    <title>使用shell脚本实现图像序列到视频的批量转换</title>
-    <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
-    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+    <title>使用ffmpeg分离视频中的音频</title>
+    <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
+    <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
+<p>2、提取视频</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 ]]></content>
       <categories>
@@ -38,7 +41,6 @@
       </categories>
       <tags>
         <tag>ffmpeg</tag>
-        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
@@ -58,12 +60,9 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ffmpeg分离视频中的音频</title>
-    <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
-    <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
-<p>2、提取视频</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
+    <title>使用shell脚本实现图像序列到视频的批量转换</title>
+    <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
+    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 ]]></content>
       <categories>
@@ -71,26 +70,7 @@
       </categories>
       <tags>
         <tag>ffmpeg</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git移除历史提交中的敏感信息文件</title>
-    <url>/2023/08/31/git-remove-sensetive-files/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
+        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
@@ -152,25 +132,23 @@
       </tags>
   </entry>
   <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+    <title>git移除历史提交中的敏感信息文件</title>
+    <url>/2023/08/31/git-remove-sensetive-files/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
+
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>nginx</category>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>nginx</tag>
-        <tag>https</tag>
-        <tag>IPv6</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -223,6 +201,28 @@
       </tags>
   </entry>
   <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>https</tag>
+        <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第146题：LRU缓存机制</title>
     <url>/2020/07/12/leecode-146/</url>
     <content><![CDATA[<p><strong>题目：</strong>运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
@@ -257,32 +257,6 @@
       </tags>
   </entry>
   <entry>
-    <title>leecode第198题：打家劫舍</title>
-    <url>/2020/01/15/leecode-198/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,7,9,3,1]</span><br><span class="line">输出: 12</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。偷窃到的最高金额 = 2 + 9 + 1 = 12 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解题思路：</strong>这题可以看做是背包问题。在当前位置存在两种选择，偷或者不偷。</p>
-<ul>
-<li>偷：dp[i] = dp[i-2] + nums[i]</li>
-<li>不偷：dp[i] = dp[i-1]<br>要偷取最大的金额，因此状态转移方程为：dp[i] = max(dp[i-2] + nums[i], dp[i-1])。在代码实现中，可以直接使用nums来作为dp数组。</li>
-</ul>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//nums为空</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;nums.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==<span class="number">1</span>) nums[<span class="number">1</span>] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]); <span class="comment">//从第1个开始判断，因为第0个肯定选择偷</span></span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-1</span>], nums[i<span class="number">-2</span>]+nums[i]); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第213题：打家劫舍II</title>
     <url>/2020/01/15/leecode-213/</url>
     <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
@@ -302,6 +276,32 @@
 </ul>
 <p><strong>代码：</strong></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode第198题：打家劫舍</title>
+    <url>/2020/01/15/leecode-198/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,7,9,3,1]</span><br><span class="line">输出: 12</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。偷窃到的最高金额 = 2 + 9 + 1 = 12 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>这题可以看做是背包问题。在当前位置存在两种选择，偷或者不偷。</p>
+<ul>
+<li>偷：dp[i] = dp[i-2] + nums[i]</li>
+<li>不偷：dp[i] = dp[i-1]<br>要偷取最大的金额，因此状态转移方程为：dp[i] = max(dp[i-2] + nums[i], dp[i-1])。在代码实现中，可以直接使用nums来作为dp数组。</li>
+</ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//nums为空</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;nums.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==<span class="number">1</span>) nums[<span class="number">1</span>] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]); <span class="comment">//从第1个开始判断，因为第0个肯定选择偷</span></span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-1</span>], nums[i<span class="number">-2</span>]+nums[i]); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>leecode</category>
@@ -538,23 +538,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第11题：二进制中1的个数</title>
     <url>/2020/01/04/offer-11/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
@@ -570,6 +553,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -783,6 +783,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
+    <url>/2020/01/07/offer-26/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
+<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+        <tag>树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第23题：二叉搜索树的后序遍历序列</title>
     <url>/2020/01/06/offer-23/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</p>
@@ -836,21 +854,17 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
-    <url>/2020/01/07/offer-26/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
-<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
+    <title>PyTorch DataParallel 指定显卡运行出错</title>
+    <url>/2020/01/03/pytorch-dataparrel/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
 ]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
       <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-        <tag>树</tag>
+        <tag>PyTorch</tag>
       </tags>
   </entry>
   <entry>
@@ -911,20 +925,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>PyTorch DataParallel 指定显卡运行出错</title>
-    <url>/2020/01/03/pytorch-dataparrel/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
-]]></content>
-      <tags>
-        <tag>PyTorch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PyTorch冻结部分层</title>
     <url>/2020/01/03/pytorch-freeze-layer/</url>
     <content><![CDATA[<p><strong>需求：</strong>PyTorch中，固定某些层，只更新部分层的参数<br><strong>方法：</strong></p>
@@ -936,6 +936,20 @@ table {
       </categories>
       <tags>
         <tag>PyTorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多系统引导工具：refind</title>
+    <url>/2021/08/01/refind/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>系统引导</tag>
       </tags>
   </entry>
   <entry>
@@ -964,20 +978,6 @@ table {
       <tags>
         <tag>vps</tag>
         <tag>rclone</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>多系统引导工具：refind</title>
-    <url>/2021/08/01/refind/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>系统引导</tag>
       </tags>
   </entry>
   <entry>
@@ -1159,11 +1159,14 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>vmware tools doesn&#39;t work in ubuntu server</title>
-    <url>/2020/01/03/ubuntu-vmware/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
+    <title>ubuntu 16.04配置静态ip</title>
+    <url>/2020/01/03/ubuntu-static-ip/</url>
+    <content><![CDATA[<p><strong>步骤：</strong><br>1、修改网络配置文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
+<p>2、注释掉dhcp，添加静态ip</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#The primary network interface</span></span><br><span class="line">auto enp9s0</span><br><span class="line"><span class="comment">#iface enp9s0 inet dhcp </span></span><br><span class="line">iface enp9s0 inet static</span><br><span class="line">address 192.168.2.105</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.2.1</span><br><span class="line">dns-nameservers 8.8.8.8</span><br></pre></td></tr></table></figure>
+<p>若是配置完静态ip后无法解析服务器，则需要添加最后的dns-nameserver，此地址控制/etc/resov.conf中nameserver的地址，重启后生效。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
@@ -1173,14 +1176,11 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu 16.04配置静态ip</title>
-    <url>/2020/01/03/ubuntu-static-ip/</url>
-    <content><![CDATA[<p><strong>步骤：</strong><br>1、修改网络配置文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+    <title>vmware tools doesn&#39;t work in ubuntu server</title>
+    <url>/2020/01/03/ubuntu-vmware/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>2、注释掉dhcp，添加静态ip</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#The primary network interface</span></span><br><span class="line">auto enp9s0</span><br><span class="line"><span class="comment">#iface enp9s0 inet dhcp </span></span><br><span class="line">iface enp9s0 inet static</span><br><span class="line">address 192.168.2.105</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.2.1</span><br><span class="line">dns-nameservers 8.8.8.8</span><br></pre></td></tr></table></figure>
-<p>若是配置完静态ip后无法解析服务器，则需要添加最后的dns-nameserver，此地址控制/etc/resov.conf中nameserver的地址，重启后生效。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
