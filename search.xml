@@ -74,22 +74,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git 代理</title>
-    <url>/2019/10/26/git_proxy/</url>
-    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>如果不想使用代理，运行下面两条命令取消代理：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>git</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git使用socks5代理</title>
     <url>/2023/08/31/git-ssh-proxy/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
@@ -129,6 +113,88 @@
       </tags>
   </entry>
   <entry>
+    <title>git 代理</title>
+    <url>/2019/10/26/git_proxy/</url>
+    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>git</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客部署使用</title>
+    <url>/2023/08/31/hexo-blog/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;在VPS上使用Docker方式部署hexo，映射出/var/www/hexo目录，并将ssh私钥放入容器内，用于拉取和推送github仓库。具体可用脚本<code>start_hexo_docker.sh</code>部署</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移除旧容器</span></span><br><span class="line">docker rm -f hexo</span><br><span class="line"><span class="comment"># 启动新容器</span></span><br><span class="line">docker run -itd --net=host --name hexo --restart=always -v /var/www/hexo:/var/www/hexo hexo:2308</span><br><span class="line"><span class="comment"># 在容器内创建.ssh目录</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo mkdir -p /root/.ssh</span><br><span class="line"><span class="comment"># 复制ssh私钥文件</span></span><br><span class="line">docker cp ~/.ssh/id_rsa hexo:/root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 赋予私钥600权限</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo chmod 600 /root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it hexo bash</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;容器内通过crontab每分钟拉取github仓库，判断_posts目录是否有更新，如果有更新，就需要重新生成网站静态资源文件，然后部署上去。通过<code>crontab -l</code>查看定时任务，有定时任务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其中<code>periodic_check.sh</code>文件为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 进入源文件目录，目录已在github建立对应仓库</span><br><span class="line">cd /var/www/hexo/source/_posts</span><br><span class="line"># 如果git pull显示结果为非最新，就进入hexo博客目录，执行清除、生成和部署三个步骤</span><br><span class="line">if [ &quot;$(git pull | tail -n 1)&quot; != &quot;Already up to date.&quot; ]; then</span><br><span class="line">  cd /var/www/hexo</span><br><span class="line">  hexo clean</span><br><span class="line">  hexo g</span><br><span class="line">  hexo d</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新hexo-docker镜像"><a href="#更新hexo-docker镜像" class="headerlink" title="更新hexo docker镜像"></a>更新hexo docker镜像</h3><p>&emsp;&emsp;上一版本的docker镜像时区没有设置为中国，crond没有在容器内执行，通过<code>docker build . -t hexo:2308</code>构建新镜像，<code>Dockerfile</code>为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM hexo:latest</span><br><span class="line">RUN apk add -U tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh"</span> &gt;&gt; /var/spool/cron/crontabs/root</span><br><span class="line">CMD [<span class="string">"/usr/sbin/crond"</span>, <span class="string">"-f"</span>, <span class="string">"-d"</span>, <span class="string">"0"</span>]</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>https</tag>
+        <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode第120题：</title>
+    <url>/2020/07/14/leecode-120/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
+<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第1227题：飞机座位分配概率</title>
     <url>/2020/01/14/leecode-1227/</url>
     <content><![CDATA[<p><strong>题目：</strong>有 n 位乘客即将登机，飞机正好有 n 个座位。第一位乘客的票丢了，他随便选了一个座位坐下。</p>
@@ -157,47 +223,37 @@
       </tags>
   </entry>
   <entry>
-    <title>leecode第120题：</title>
-    <url>/2020/07/14/leecode-120/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
-<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
+    <title>leecode第146题：LRU缓存机制</title>
+    <url>/2020/07/12/leecode-146/</url>
+    <content><![CDATA[<p><strong>题目：</strong>运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
+<p>获取数据 get(key) - 如果关键字 (key) 存在于缓存中，则获取关键字的值（总是正数），否则返回 -1。<br>写入数据 put(key, value) - 如果关键字已经存在，则变更其数据值；如果关键字不存在，则插入该组「关键字/值」。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。</p>
+<p><a href="https://leetcode-cn.com/problems/lru-cache" target="_blank" rel="noopener">原题链接</a></p>
+<p><strong>解题思路：</strong>采用双向链表和哈希表实现。双向链表中记录key, val两个值，以及prev和next两个指针。哈希表以key作为索引，值为链表节点。</p>
+<ul>
+<li>获取数据时，在哈希表中根据key查找<ul>
+<li>key在哈希表中，根据表中存储的链表节点返回val；并将该节点放到链表的头部。</li>
+<li>key不在哈希表中，返回-1。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>写入数据时，判断key是否已经在哈希表中<ul>
+<li>key在哈希表中，重新覆盖该链表的val值，并将该链表节点移动至头部；</li>
+<li>key不在哈希表中，新建一个链表节点，并将链表节点放到头部；之后判断此时的链表长度是否超过容量，若超过容量，则删除链表的尾部节点，并将该节点对应的key从哈希表中删除。</li>
+</ul>
+</li>
+</ul>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dListNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    dListNode* prev;</span><br><span class="line">    dListNode* next;</span><br><span class="line">    dListNode(): key(<span class="number">0</span>), val(<span class="number">0</span>), prev(<span class="literal">NULL</span>), next(<span class="literal">NULL</span>)&#123;&#125;</span><br><span class="line">    dListNode(<span class="keyword">int</span> k, <span class="keyword">int</span> v): key(k), val(v), prev(<span class="literal">NULL</span>), next(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> size;</span><br><span class="line">    <span class="keyword">int</span> capacity;</span><br><span class="line">    dListNode* head = <span class="keyword">new</span> dListNode();</span><br><span class="line">    dListNode* tail = <span class="keyword">new</span> dListNode();</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, dListNode*&gt; cache;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    LRUCache(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;capacity = capacity;</span><br><span class="line">        <span class="keyword">this</span>-&gt;size = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>-&gt;head-&gt;next = <span class="keyword">this</span>-&gt;tail;</span><br><span class="line">        <span class="keyword">this</span>-&gt;tail-&gt;prev = <span class="keyword">this</span>-&gt;head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!cache.count(key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            dListNode* tmp = cache[key];</span><br><span class="line">            mv2head(tmp);</span><br><span class="line">            <span class="keyword">return</span> tmp-&gt;val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!cache.count(key)) &#123;</span><br><span class="line">            dListNode* tmp = <span class="keyword">new</span> dListNode(key, value);</span><br><span class="line">            cache[key] = tmp; <span class="comment">//注意，新增加的节点要添加进哈希表中。</span></span><br><span class="line">            add2head(tmp);</span><br><span class="line">            size += <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (size&gt;capacity) &#123;</span><br><span class="line">                dListNode* tail_rmed = rm_tail();</span><br><span class="line">                cache.erase(tail_rmed-&gt;key); <span class="comment">//删除的节点要从哈希表中删除</span></span><br><span class="line">                <span class="keyword">delete</span> tail_rmed; <span class="comment">//释放内存</span></span><br><span class="line">                size -= <span class="number">1</span>; </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            dListNode* tmp = cache[key];</span><br><span class="line">            tmp-&gt;val = value;</span><br><span class="line">            mv2head(tmp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rm_node</span><span class="params">(dListNode* p)</span> </span>&#123;</span><br><span class="line">        p-&gt;next-&gt;prev = p-&gt;prev;</span><br><span class="line">        p-&gt;prev-&gt;next = p-&gt;next;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add2head</span><span class="params">(dListNode* p)</span> </span>&#123;</span><br><span class="line">        p-&gt;next = head-&gt;next;</span><br><span class="line">        p-&gt;prev = head;</span><br><span class="line">        head-&gt;next = p;</span><br><span class="line">        p-&gt;next-&gt;prev = p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">dListNode* <span class="title">rm_tail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        dListNode* tmp = tail-&gt;prev;</span><br><span class="line">        tail-&gt;prev = tmp-&gt;prev;</span><br><span class="line">        tail-&gt;prev-&gt;next = tail;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">mv2head</span><span class="params">(dListNode* p)</span> </span>&#123;</span><br><span class="line">        rm_node(p);</span><br><span class="line">        add2head(p);</span><br><span class="line">    &#125;</span><br><span class="line">    ~LRUCache () &#123;</span><br><span class="line">        <span class="keyword">while</span> (head) &#123;</span><br><span class="line">            dListNode* tmp = head-&gt;next;</span><br><span class="line">            <span class="keyword">delete</span> head;</span><br><span class="line">            head = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your LRUCache object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * LRUCache* obj = new LRUCache(capacity);</span></span><br><span class="line"><span class="comment"> * int param_1 = obj-&gt;get(key);</span></span><br><span class="line"><span class="comment"> * obj-&gt;put(key,value);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+
 ]]></content>
       <categories>
         <category>leecode</category>
       </categories>
       <tags>
         <tag>leecode</tag>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客部署使用</title>
-    <url>/2023/08/31/hexo-blog/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;在VPS上使用Docker方式部署hexo，映射出/var/www/hexo目录，并将ssh私钥放入容器内，用于拉取和推送github仓库。具体可用脚本<code>start_hexo_docker.sh</code>部署</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移除旧容器</span></span><br><span class="line">docker rm -f hexo</span><br><span class="line"><span class="comment"># 启动新容器</span></span><br><span class="line">docker run -itd --net=host --name hexo --restart=always -v /var/www/hexo:/var/www/hexo hexo:2308</span><br><span class="line"><span class="comment"># 在容器内创建.ssh目录</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo mkdir -p /root/.ssh</span><br><span class="line"><span class="comment"># 复制ssh私钥文件</span></span><br><span class="line">docker cp ~/.ssh/id_rsa hexo:/root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 赋予私钥600权限</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo chmod 600 /root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it hexo bash</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;容器内通过crontab每分钟拉取github仓库，判断_posts目录是否有更新，如果有更新，就需要重新生成网站静态资源文件，然后部署上去。通过<code>crontab -l</code>查看定时任务，有定时任务</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;其中<code>periodic_check.sh</code>文件为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 进入源文件目录，目录已在github建立对应仓库</span><br><span class="line">cd /var/www/hexo/source/_posts</span><br><span class="line"># 如果git pull显示结果为非最新，就进入hexo博客目录，执行清除、生成和部署三个步骤</span><br><span class="line">if [ &quot;$(git pull | tail -n 1)&quot; != &quot;Already up to date.&quot; ]; then</span><br><span class="line">  cd /var/www/hexo</span><br><span class="line">  hexo clean</span><br><span class="line">  hexo g</span><br><span class="line">  hexo d</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新hexo-docker镜像"><a href="#更新hexo-docker镜像" class="headerlink" title="更新hexo docker镜像"></a>更新hexo docker镜像</h3><p>&emsp;&emsp;上一版本的docker镜像时区没有设置为中国，crond没有在容器内执行，通过<code>docker build . -t hexo:2308</code>构建新镜像，<code>Dockerfile</code>为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM hexo:latest</span><br><span class="line">RUN apk add -U tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh"</span> &gt;&gt; /var/spool/cron/crontabs/root</span><br><span class="line">CMD [<span class="string">"/usr/sbin/crond"</span>, <span class="string">"-f"</span>, <span class="string">"-d"</span>, <span class="string">"0"</span>]</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -256,62 +312,6 @@
       </tags>
   </entry>
   <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>https</tag>
-        <tag>IPv6</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第146题：LRU缓存机制</title>
-    <url>/2020/07/12/leecode-146/</url>
-    <content><![CDATA[<p><strong>题目：</strong>运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
-<p>获取数据 get(key) - 如果关键字 (key) 存在于缓存中，则获取关键字的值（总是正数），否则返回 -1。<br>写入数据 put(key, value) - 如果关键字已经存在，则变更其数据值；如果关键字不存在，则插入该组「关键字/值」。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。</p>
-<p><a href="https://leetcode-cn.com/problems/lru-cache" target="_blank" rel="noopener">原题链接</a></p>
-<p><strong>解题思路：</strong>采用双向链表和哈希表实现。双向链表中记录key, val两个值，以及prev和next两个指针。哈希表以key作为索引，值为链表节点。</p>
-<ul>
-<li>获取数据时，在哈希表中根据key查找<ul>
-<li>key在哈希表中，根据表中存储的链表节点返回val；并将该节点放到链表的头部。</li>
-<li>key不在哈希表中，返回-1。</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>写入数据时，判断key是否已经在哈希表中<ul>
-<li>key在哈希表中，重新覆盖该链表的val值，并将该链表节点移动至头部；</li>
-<li>key不在哈希表中，新建一个链表节点，并将链表节点放到头部；之后判断此时的链表长度是否超过容量，若超过容量，则删除链表的尾部节点，并将该节点对应的key从哈希表中删除。</li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dListNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    dListNode* prev;</span><br><span class="line">    dListNode* next;</span><br><span class="line">    dListNode(): key(<span class="number">0</span>), val(<span class="number">0</span>), prev(<span class="literal">NULL</span>), next(<span class="literal">NULL</span>)&#123;&#125;</span><br><span class="line">    dListNode(<span class="keyword">int</span> k, <span class="keyword">int</span> v): key(k), val(v), prev(<span class="literal">NULL</span>), next(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> size;</span><br><span class="line">    <span class="keyword">int</span> capacity;</span><br><span class="line">    dListNode* head = <span class="keyword">new</span> dListNode();</span><br><span class="line">    dListNode* tail = <span class="keyword">new</span> dListNode();</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, dListNode*&gt; cache;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    LRUCache(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;capacity = capacity;</span><br><span class="line">        <span class="keyword">this</span>-&gt;size = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>-&gt;head-&gt;next = <span class="keyword">this</span>-&gt;tail;</span><br><span class="line">        <span class="keyword">this</span>-&gt;tail-&gt;prev = <span class="keyword">this</span>-&gt;head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!cache.count(key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            dListNode* tmp = cache[key];</span><br><span class="line">            mv2head(tmp);</span><br><span class="line">            <span class="keyword">return</span> tmp-&gt;val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!cache.count(key)) &#123;</span><br><span class="line">            dListNode* tmp = <span class="keyword">new</span> dListNode(key, value);</span><br><span class="line">            cache[key] = tmp; <span class="comment">//注意，新增加的节点要添加进哈希表中。</span></span><br><span class="line">            add2head(tmp);</span><br><span class="line">            size += <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (size&gt;capacity) &#123;</span><br><span class="line">                dListNode* tail_rmed = rm_tail();</span><br><span class="line">                cache.erase(tail_rmed-&gt;key); <span class="comment">//删除的节点要从哈希表中删除</span></span><br><span class="line">                <span class="keyword">delete</span> tail_rmed; <span class="comment">//释放内存</span></span><br><span class="line">                size -= <span class="number">1</span>; </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            dListNode* tmp = cache[key];</span><br><span class="line">            tmp-&gt;val = value;</span><br><span class="line">            mv2head(tmp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rm_node</span><span class="params">(dListNode* p)</span> </span>&#123;</span><br><span class="line">        p-&gt;next-&gt;prev = p-&gt;prev;</span><br><span class="line">        p-&gt;prev-&gt;next = p-&gt;next;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add2head</span><span class="params">(dListNode* p)</span> </span>&#123;</span><br><span class="line">        p-&gt;next = head-&gt;next;</span><br><span class="line">        p-&gt;prev = head;</span><br><span class="line">        head-&gt;next = p;</span><br><span class="line">        p-&gt;next-&gt;prev = p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">dListNode* <span class="title">rm_tail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        dListNode* tmp = tail-&gt;prev;</span><br><span class="line">        tail-&gt;prev = tmp-&gt;prev;</span><br><span class="line">        tail-&gt;prev-&gt;next = tail;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">mv2head</span><span class="params">(dListNode* p)</span> </span>&#123;</span><br><span class="line">        rm_node(p);</span><br><span class="line">        add2head(p);</span><br><span class="line">    &#125;</span><br><span class="line">    ~LRUCache () &#123;</span><br><span class="line">        <span class="keyword">while</span> (head) &#123;</span><br><span class="line">            dListNode* tmp = head-&gt;next;</span><br><span class="line">            <span class="keyword">delete</span> head;</span><br><span class="line">            head = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your LRUCache object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * LRUCache* obj = new LRUCache(capacity);</span></span><br><span class="line"><span class="comment"> * int param_1 = obj-&gt;get(key);</span></span><br><span class="line"><span class="comment"> * obj-&gt;put(key,value);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第337题：打家劫舍III</title>
     <url>/2020/01/15/leecode-337/</url>
     <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
@@ -350,6 +350,56 @@
         <tag>leecode</tag>
         <tag>动态规划</tag>
         <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode专题：买卖股票的最佳时机</title>
+    <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
+<ol>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a>：只能交易一次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a>：不限定交易次数</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a>：限定最多只能交易两次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a>：限定最多只能交易k次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a>：交易冻结期</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a>：交易费用<a id="more"></a></li>
+</ol>
+<p><strong>解题思路：</strong>给定数组prices代表每天的股票价格。我们每天能执行的动作有：买入、卖出或者什么都不做三种选择。然而，题目规定<strong>必须在再次购买前出售掉之前的股票</strong>，因此，我们执行买入动作的时候，手里必须没有股票；执行卖出动作的时候，手里有且仅有一支股票。我们令k为最多交易的次数，i为第i天股票的价格。第i天所能获得的最大收益T分为两种情况：</p>
+<ul>
+<li>第i天结束时，手里没有股票。结束时手里没有股票，可能有两种原因：</li>
+</ul>
+<ol>
+<li>第i-1天结束时，手里没有股票，且第i天什么都不做；</li>
+<li>第i-1天结束时，手里有且仅有一支股票，且第i天卖出这支股票。<br>取这两种情况的最大值，即为第i天结束时，手里没有股票所能获得的最大收益。<br>$$<br>T[i][k][0]=max(T[i-1][k][0], T[i-1][k][1]+prices[i])<br>$$</li>
+</ol>
+<ul>
+<li>第i天结束时，手里有且仅有一支股票。结束时手里有且仅有一支股票，同样可能有两种原因：</li>
+</ul>
+<ol>
+<li>第i-1天结束时，手里有且仅有一支股票，且第i天什么都不做；</li>
+<li>第i-1天结束时，手里没有股票，且第i天买入一支股票。<br>取这两种情况的最大值，即为第i天结束时，手里有且仅有一支股票所能获得的最大收益。<br>$$<br>T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0]-prices[i])<br>$$</li>
+</ol>
+<p><strong>注意：</strong>买入股票时，可用交易次数发生改变<br>初始条件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">T[-1][k][0] = 0; //第-1天，手里没有股票，收益为0。（或者初始T[0][k][0]=0）</span><br><span class="line">T[-1][k][1] = INT_MIN; //第-1天，手里有一支股票，收益为INT_MIN。（或者初始T[0][K][1]=-prices[1]）</span><br><span class="line">T[i][0][0] = 0; // 允许的交易次数为0，手里有没有股票，收益为0。</span><br><span class="line">T[i][0][1] = INT_MIN; // 允许的交易次数为1，手里有一支股票，收益为INT_MIN。</span><br></pre></td></tr></table></figure>
+<p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems/111002" target="_blank" rel="noopener">思路来源</a></p>
+<p><strong>代码：</strong></p>
+<ol>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti10 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti11 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti10 = max(Ti10, Ti11 + v);</span><br><span class="line">        Ti11 = max(Ti11, -v); <span class="comment">// Ti11 = max(Ti11, Ti00-v);  Ti00=0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v); <span class="comment">// k=inf，因此k-1=k</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">2</span>; <span class="comment">// k=2</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;); <span class="comment">//定义一个k+1的dp数组，dp[0]为初始状态</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v); <span class="comment">// 买入时，消耗交易次数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = prices.size(); </span><br><span class="line">    <span class="keyword">if</span> (k &gt;= (len &gt;&gt; <span class="number">1</span>)) &#123; <span class="comment">//k为任意次数。在长度为n的prices数组中，最大的收益交易次数为n/2，因此，当k&gt;=n/2时，k的交易次数不限</span></span><br><span class="line">        <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">            Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">            Ti1 = max(Ti1, Ti0-v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Ti0;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cd = <span class="number">1</span>; <span class="comment">//卖出股票之后，要等1天才能再次买入，cooldown(cd) = 1</span></span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> pre_Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; pre; <span class="comment">// 定义一个队列，用于存储每一天手里没有股票的收益</span></span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        pre.push(Ti0); <span class="comment">// 此时没有股票，放入队列</span></span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        <span class="keyword">if</span> (pre.size()==cd+<span class="number">1</span>) &#123; <span class="comment">// 当队列的长度达到cd+1，即：队首的元素与当前买入操作之间相隔了一天</span></span><br><span class="line">            pre_Ti0 = pre.front();</span><br><span class="line">            pre.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        Ti1 = max(Ti1, pre_Ti0-v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v-fee); <span class="comment">// 交易时，减去手续费</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>leecode</category>
+        <category>动态规划</category>
+        <category>买卖股票的最佳时机</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
       </tags>
   </entry>
   <entry>
@@ -413,20 +463,24 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+    <title>剑指Offer第7题：斐波那契数列</title>
+    <url>/2020/01/03/offer-07/</url>
+    <content><![CDATA[<p><strong>题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&lt;=39</strong></p>
+<p>解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结果，因为斐波那契数列的计算只跟前面两个值有关。</p>
 <a id="more"></a>
+<p>数组法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp(n+<span class="number">1</span>, <span class="number">0</span>); <span class="comment">//定义数组，数组中的值初始化为0</span></span><br><span class="line">    dp[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">//第一个元素为1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; i++) &#123;</span><br><span class="line">        dp[i] = dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>]; <span class="comment">//递推公式</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b; <span class="comment">// 保存最终结果</span></span><br><span class="line">        b = a - b; <span class="comment">// 保存上一次的结果</span></span><br><span class="line">        n -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>动态规划</tag>
         <tag>剑指Offer</tag>
+        <tag>递归</tag>
       </tags>
   </entry>
   <entry>
@@ -484,74 +538,20 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第7题：斐波那契数列</title>
-    <url>/2020/01/03/offer-07/</url>
-    <content><![CDATA[<p><strong>题目：大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n&lt;=39</strong></p>
-<p>解题思路：斐波那契数列的递推公式为f(n)=f(n-1)+f(n-2)，因此最直接的想法是直接递归来做，直接递归的话，算法的时间复杂度过大。此题可以用动态规划来解答，题目中限定了n的范围，因此可以先声明一个长度为(n+1)的数组，用来保存结果。更好的办法是，只用两个数保存结果，因为斐波那契数列的计算只跟前面两个值有关。</p>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
 <a id="more"></a>
-<p>数组法：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp(n+<span class="number">1</span>, <span class="number">0</span>); <span class="comment">//定义数组，数组中的值初始化为0</span></span><br><span class="line">    dp[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">//第一个元素为1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; i++) &#123;</span><br><span class="line">        dp[i] = dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>]; <span class="comment">//递推公式</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b; <span class="comment">// 保存最终结果</span></span><br><span class="line">        b = a - b; <span class="comment">// 保存上一次的结果</span></span><br><span class="line">        n -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>动态规划</tag>
         <tag>剑指Offer</tag>
-        <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode专题：买卖股票的最佳时机</title>
-    <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
-<ol>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a>：只能交易一次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a>：不限定交易次数</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a>：限定最多只能交易两次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a>：限定最多只能交易k次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a>：交易冻结期</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a>：交易费用<a id="more"></a></li>
-</ol>
-<p><strong>解题思路：</strong>给定数组prices代表每天的股票价格。我们每天能执行的动作有：买入、卖出或者什么都不做三种选择。然而，题目规定<strong>必须在再次购买前出售掉之前的股票</strong>，因此，我们执行买入动作的时候，手里必须没有股票；执行卖出动作的时候，手里有且仅有一支股票。我们令k为最多交易的次数，i为第i天股票的价格。第i天所能获得的最大收益T分为两种情况：</p>
-<ul>
-<li>第i天结束时，手里没有股票。结束时手里没有股票，可能有两种原因：</li>
-</ul>
-<ol>
-<li>第i-1天结束时，手里没有股票，且第i天什么都不做；</li>
-<li>第i-1天结束时，手里有且仅有一支股票，且第i天卖出这支股票。<br>取这两种情况的最大值，即为第i天结束时，手里没有股票所能获得的最大收益。<br>$$<br>T[i][k][0]=max(T[i-1][k][0], T[i-1][k][1]+prices[i])<br>$$</li>
-</ol>
-<ul>
-<li>第i天结束时，手里有且仅有一支股票。结束时手里有且仅有一支股票，同样可能有两种原因：</li>
-</ul>
-<ol>
-<li>第i-1天结束时，手里有且仅有一支股票，且第i天什么都不做；</li>
-<li>第i-1天结束时，手里没有股票，且第i天买入一支股票。<br>取这两种情况的最大值，即为第i天结束时，手里有且仅有一支股票所能获得的最大收益。<br>$$<br>T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0]-prices[i])<br>$$</li>
-</ol>
-<p><strong>注意：</strong>买入股票时，可用交易次数发生改变<br>初始条件：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">T[-1][k][0] = 0; //第-1天，手里没有股票，收益为0。（或者初始T[0][k][0]=0）</span><br><span class="line">T[-1][k][1] = INT_MIN; //第-1天，手里有一支股票，收益为INT_MIN。（或者初始T[0][K][1]=-prices[1]）</span><br><span class="line">T[i][0][0] = 0; // 允许的交易次数为0，手里有没有股票，收益为0。</span><br><span class="line">T[i][0][1] = INT_MIN; // 允许的交易次数为1，手里有一支股票，收益为INT_MIN。</span><br></pre></td></tr></table></figure>
-<p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems/111002" target="_blank" rel="noopener">思路来源</a></p>
-<p><strong>代码：</strong></p>
-<ol>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti10 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti11 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti10 = max(Ti10, Ti11 + v);</span><br><span class="line">        Ti11 = max(Ti11, -v); <span class="comment">// Ti11 = max(Ti11, Ti00-v);  Ti00=0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v); <span class="comment">// k=inf，因此k-1=k</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">2</span>; <span class="comment">// k=2</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;); <span class="comment">//定义一个k+1的dp数组，dp[0]为初始状态</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v); <span class="comment">// 买入时，消耗交易次数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = prices.size(); </span><br><span class="line">    <span class="keyword">if</span> (k &gt;= (len &gt;&gt; <span class="number">1</span>)) &#123; <span class="comment">//k为任意次数。在长度为n的prices数组中，最大的收益交易次数为n/2，因此，当k&gt;=n/2时，k的交易次数不限</span></span><br><span class="line">        <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">            Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">            Ti1 = max(Ti1, Ti0-v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Ti0;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cd = <span class="number">1</span>; <span class="comment">//卖出股票之后，要等1天才能再次买入，cooldown(cd) = 1</span></span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> pre_Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; pre; <span class="comment">// 定义一个队列，用于存储每一天手里没有股票的收益</span></span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        pre.push(Ti0); <span class="comment">// 此时没有股票，放入队列</span></span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        <span class="keyword">if</span> (pre.size()==cd+<span class="number">1</span>) &#123; <span class="comment">// 当队列的长度达到cd+1，即：队首的元素与当前买入操作之间相隔了一天</span></span><br><span class="line">            pre_Ti0 = pre.front();</span><br><span class="line">            pre.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        Ti1 = max(Ti1, pre_Ti0-v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v-fee); <span class="comment">// 交易时，减去手续费</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>leecode</category>
-        <category>动态规划</category>
-        <category>买卖股票的最佳时机</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
       </tags>
   </entry>
   <entry>
@@ -648,6 +648,22 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第15题：反转链表</title>
+    <url>/2020/01/04/offer-15/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第16题：合并两个排序的链表</title>
     <url>/2020/01/04/offer-16/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。<br><strong>解题思路：</strong>创建一个新的链表头结点，比较两个链表的头结点值的大小，并将res-&gt;next指向值小的结点，直至有一个链表为空。之后合并剩下的非空链表即可。<br><strong>代码：</strong></p>
@@ -680,19 +696,21 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第15题：反转链表</title>
-    <url>/2020/01/04/offer-15/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
+    <title>剑指Offer第18题：二叉树的镜像</title>
+    <url>/2020/01/06/offer-18/</url>
+    <content><![CDATA[<p><strong>题目：</strong>操作给定的二叉树，将其变换为源二叉树的镜像。<br>二叉树的镜像定义：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">源二叉树      8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  6   10</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	5  7 9 11</span><br><span class="line"></span><br><span class="line">镜像二叉树</span><br><span class="line">    	    8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  10   6</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	11 9 7  5</span><br></pre></td></tr></table></figure>
+<p><strong>解题思路：</strong>递归交换二叉树的左右子树，直至叶子结点</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode *pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot) &#123;</span><br><span class="line">        swap(pRoot-&gt;left, pRoot-&gt;right);</span><br><span class="line">        Mirror(pRoot-&gt;left);</span><br><span class="line">        Mirror(pRoot-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
+        <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -744,24 +762,6 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第18题：二叉树的镜像</title>
-    <url>/2020/01/06/offer-18/</url>
-    <content><![CDATA[<p><strong>题目：</strong>操作给定的二叉树，将其变换为源二叉树的镜像。<br>二叉树的镜像定义：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">源二叉树      8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  6   10</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	5  7 9 11</span><br><span class="line"></span><br><span class="line">镜像二叉树</span><br><span class="line">    	    8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  10   6</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	11 9 7  5</span><br></pre></td></tr></table></figure>
-<p><strong>解题思路：</strong>递归交换二叉树的左右子树，直至叶子结点</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode *pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot) &#123;</span><br><span class="line">        swap(pRoot-&gt;left, pRoot-&gt;right);</span><br><span class="line">        Mirror(pRoot-&gt;left);</span><br><span class="line">        Mirror(pRoot-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -953,6 +953,34 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>VPS使用rclone挂载Google Drive</title>
+    <url>/2023/09/23/rclone/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>VPS自带磁盘空间较小，存储空间紧张，可考虑通过挂载网盘的方式来扩容</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;通过<a href="#ref-1">参考链接[1]</a>，使用rclone完成。为了防止链接之后无法访问，这里记录一些主要步骤：</p>
+<ol>
+<li><p>安装rclone</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://rclone.org/install.sh | sudo bash</span><br></pre></td></tr></table></figure></li>
+<li><p>安装完毕后，执行<code>rclone config</code>进行配置，选择n创建配置，之后选择google drive</p>
+</li>
+<li><p>创建google api，保存您的应用时出错，可以更改应用的名字</p>
+</li>
+<li><p>挂载时，根据<a href="#ref-2">参考链接[2]</a>，–vfs-cache-mode可以选择本地磁盘缓存模式，经过测试，off模式无法使用qbt下，其他模式会先缓存在.cache/rclone目录下</p>
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://pickstar.today/2022/05/vps%E4%BD%BF%E7%94%A8rclone%E6%8C%82%E8%BD%BDgoogle-drive%E8%AF%A6%E7%BB%86%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">vps使用rclone挂载Google Drive详细记录</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rclone.org/commands/rclone_mount/" target="_blank" rel="noopener">rclone mount</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>rclone</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重新分配服务器的ip地址</title>
     <url>/2019/12/27/server-network/</url>
     <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
@@ -979,34 +1007,6 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VPS使用rclone挂载Google Drive</title>
-    <url>/2023/09/23/rclone/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>VPS自带磁盘空间较小，存储空间紧张，可考虑通过挂载网盘的方式来扩容</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;通过<a href="#ref-1">参考链接[1]</a>，使用rclone完成。为了防止链接之后无法访问，这里记录一些主要步骤：</p>
-<ol>
-<li><p>安装rclone</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://rclone.org/install.sh | sudo bash</span><br></pre></td></tr></table></figure></li>
-<li><p>安装完毕后，执行<code>rclone config</code>进行配置，选择n创建配置，之后选择google drive</p>
-</li>
-<li><p>创建google api，保存您的应用时出错，可以更改应用的名字</p>
-</li>
-<li><p>挂载时，根据<a href="#ref-2">参考链接[2]</a>，–vfs-cache-mode可以选择本地磁盘缓存模式，经过测试，off模式无法使用qbt下，其他模式会先缓存在.cache/rclone目录下</p>
-</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://pickstar.today/2022/05/vps%E4%BD%BF%E7%94%A8rclone%E6%8C%82%E8%BD%BDgoogle-drive%E8%AF%A6%E7%BB%86%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">vps使用rclone挂载Google Drive详细记录</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://rclone.org/commands/rclone_mount/" target="_blank" rel="noopener">rclone mount</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>rclone</tag>
       </tags>
   </entry>
   <entry>
