@@ -1159,14 +1159,11 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu 16.04配置静态ip</title>
-    <url>/2020/01/03/ubuntu-static-ip/</url>
-    <content><![CDATA[<p><strong>步骤：</strong><br>1、修改网络配置文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+    <title>vmware tools doesn&#39;t work in ubuntu server</title>
+    <url>/2020/01/03/ubuntu-vmware/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>2、注释掉dhcp，添加静态ip</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#The primary network interface</span></span><br><span class="line">auto enp9s0</span><br><span class="line"><span class="comment">#iface enp9s0 inet dhcp </span></span><br><span class="line">iface enp9s0 inet static</span><br><span class="line">address 192.168.2.105</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.2.1</span><br><span class="line">dns-nameservers 8.8.8.8</span><br></pre></td></tr></table></figure>
-<p>若是配置完静态ip后无法解析服务器，则需要添加最后的dns-nameserver，此地址控制/etc/resov.conf中nameserver的地址，重启后生效。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
@@ -1176,11 +1173,14 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>vmware tools doesn&#39;t work in ubuntu server</title>
-    <url>/2020/01/03/ubuntu-vmware/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
+    <title>ubuntu 16.04配置静态ip</title>
+    <url>/2020/01/03/ubuntu-static-ip/</url>
+    <content><![CDATA[<p><strong>步骤：</strong><br>1、修改网络配置文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
+<p>2、注释掉dhcp，添加静态ip</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#The primary network interface</span></span><br><span class="line">auto enp9s0</span><br><span class="line"><span class="comment">#iface enp9s0 inet dhcp </span></span><br><span class="line">iface enp9s0 inet static</span><br><span class="line">address 192.168.2.105</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.2.1</span><br><span class="line">dns-nameservers 8.8.8.8</span><br></pre></td></tr></table></figure>
+<p>若是配置完静态ip后无法解析服务器，则需要添加最后的dns-nameserver，此地址控制/etc/resov.conf中nameserver的地址，重启后生效。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
