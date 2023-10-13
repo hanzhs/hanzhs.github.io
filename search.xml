@@ -28,27 +28,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用shell脚本实现图像序列到视频的批量转换</title>
     <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
     <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
@@ -92,6 +71,27 @@
       </categories>
       <tags>
         <tag>ffmpeg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
       </tags>
   </entry>
   <entry>
@@ -194,6 +194,28 @@
       </tags>
   </entry>
   <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>https</tag>
+        <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第1227题：飞机座位分配概率</title>
     <url>/2020/01/14/leecode-1227/</url>
     <content><![CDATA[<p><strong>题目：</strong>有 n 位乘客即将登机，飞机正好有 n 个座位。第一位乘客的票丢了，他随便选了一个座位坐下。</p>
@@ -219,28 +241,6 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>https</tag>
-        <tag>IPv6</tag>
       </tags>
   </entry>
   <entry>
@@ -374,56 +374,6 @@
       </tags>
   </entry>
   <entry>
-    <title>leecode专题：买卖股票的最佳时机</title>
-    <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
-<ol>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a>：只能交易一次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a>：不限定交易次数</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a>：限定最多只能交易两次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a>：限定最多只能交易k次</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a>：交易冻结期</li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a>：交易费用<a id="more"></a></li>
-</ol>
-<p><strong>解题思路：</strong>给定数组prices代表每天的股票价格。我们每天能执行的动作有：买入、卖出或者什么都不做三种选择。然而，题目规定<strong>必须在再次购买前出售掉之前的股票</strong>，因此，我们执行买入动作的时候，手里必须没有股票；执行卖出动作的时候，手里有且仅有一支股票。我们令k为最多交易的次数，i为第i天股票的价格。第i天所能获得的最大收益T分为两种情况：</p>
-<ul>
-<li>第i天结束时，手里没有股票。结束时手里没有股票，可能有两种原因：</li>
-</ul>
-<ol>
-<li>第i-1天结束时，手里没有股票，且第i天什么都不做；</li>
-<li>第i-1天结束时，手里有且仅有一支股票，且第i天卖出这支股票。<br>取这两种情况的最大值，即为第i天结束时，手里没有股票所能获得的最大收益。<br>$$<br>T[i][k][0]=max(T[i-1][k][0], T[i-1][k][1]+prices[i])<br>$$</li>
-</ol>
-<ul>
-<li>第i天结束时，手里有且仅有一支股票。结束时手里有且仅有一支股票，同样可能有两种原因：</li>
-</ul>
-<ol>
-<li>第i-1天结束时，手里有且仅有一支股票，且第i天什么都不做；</li>
-<li>第i-1天结束时，手里没有股票，且第i天买入一支股票。<br>取这两种情况的最大值，即为第i天结束时，手里有且仅有一支股票所能获得的最大收益。<br>$$<br>T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0]-prices[i])<br>$$</li>
-</ol>
-<p><strong>注意：</strong>买入股票时，可用交易次数发生改变<br>初始条件：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">T[-1][k][0] = 0; //第-1天，手里没有股票，收益为0。（或者初始T[0][k][0]=0）</span><br><span class="line">T[-1][k][1] = INT_MIN; //第-1天，手里有一支股票，收益为INT_MIN。（或者初始T[0][K][1]=-prices[1]）</span><br><span class="line">T[i][0][0] = 0; // 允许的交易次数为0，手里有没有股票，收益为0。</span><br><span class="line">T[i][0][1] = INT_MIN; // 允许的交易次数为1，手里有一支股票，收益为INT_MIN。</span><br></pre></td></tr></table></figure>
-<p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems/111002" target="_blank" rel="noopener">思路来源</a></p>
-<p><strong>代码：</strong></p>
-<ol>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti10 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti11 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti10 = max(Ti10, Ti11 + v);</span><br><span class="line">        Ti11 = max(Ti11, -v); <span class="comment">// Ti11 = max(Ti11, Ti00-v);  Ti00=0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v); <span class="comment">// k=inf，因此k-1=k</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">2</span>; <span class="comment">// k=2</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;); <span class="comment">//定义一个k+1的dp数组，dp[0]为初始状态</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v); <span class="comment">// 买入时，消耗交易次数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = prices.size(); </span><br><span class="line">    <span class="keyword">if</span> (k &gt;= (len &gt;&gt; <span class="number">1</span>)) &#123; <span class="comment">//k为任意次数。在长度为n的prices数组中，最大的收益交易次数为n/2，因此，当k&gt;=n/2时，k的交易次数不限</span></span><br><span class="line">        <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">            Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">            Ti1 = max(Ti1, Ti0-v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Ti0;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cd = <span class="number">1</span>; <span class="comment">//卖出股票之后，要等1天才能再次买入，cooldown(cd) = 1</span></span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> pre_Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; pre; <span class="comment">// 定义一个队列，用于存储每一天手里没有股票的收益</span></span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        pre.push(Ti0); <span class="comment">// 此时没有股票，放入队列</span></span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        <span class="keyword">if</span> (pre.size()==cd+<span class="number">1</span>) &#123; <span class="comment">// 当队列的长度达到cd+1，即：队首的元素与当前买入操作之间相隔了一天</span></span><br><span class="line">            pre_Ti0 = pre.front();</span><br><span class="line">            pre.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        Ti1 = max(Ti1, pre_Ti0-v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v-fee); <span class="comment">// 交易时，减去手续费</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>leecode</category>
-        <category>动态规划</category>
-        <category>买卖股票的最佳时机</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>音乐文件添加封面与歌词</title>
     <url>/2023/10/12/music-tag/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
@@ -511,6 +461,56 @@
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode专题：买卖股票的最佳时机</title>
+    <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
+<ol>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a>：只能交易一次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a>：不限定交易次数</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a>：限定最多只能交易两次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a>：限定最多只能交易k次</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a>：交易冻结期</li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a>：交易费用<a id="more"></a></li>
+</ol>
+<p><strong>解题思路：</strong>给定数组prices代表每天的股票价格。我们每天能执行的动作有：买入、卖出或者什么都不做三种选择。然而，题目规定<strong>必须在再次购买前出售掉之前的股票</strong>，因此，我们执行买入动作的时候，手里必须没有股票；执行卖出动作的时候，手里有且仅有一支股票。我们令k为最多交易的次数，i为第i天股票的价格。第i天所能获得的最大收益T分为两种情况：</p>
+<ul>
+<li>第i天结束时，手里没有股票。结束时手里没有股票，可能有两种原因：</li>
+</ul>
+<ol>
+<li>第i-1天结束时，手里没有股票，且第i天什么都不做；</li>
+<li>第i-1天结束时，手里有且仅有一支股票，且第i天卖出这支股票。<br>取这两种情况的最大值，即为第i天结束时，手里没有股票所能获得的最大收益。<br>$$<br>T[i][k][0]=max(T[i-1][k][0], T[i-1][k][1]+prices[i])<br>$$</li>
+</ol>
+<ul>
+<li>第i天结束时，手里有且仅有一支股票。结束时手里有且仅有一支股票，同样可能有两种原因：</li>
+</ul>
+<ol>
+<li>第i-1天结束时，手里有且仅有一支股票，且第i天什么都不做；</li>
+<li>第i-1天结束时，手里没有股票，且第i天买入一支股票。<br>取这两种情况的最大值，即为第i天结束时，手里有且仅有一支股票所能获得的最大收益。<br>$$<br>T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0]-prices[i])<br>$$</li>
+</ol>
+<p><strong>注意：</strong>买入股票时，可用交易次数发生改变<br>初始条件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">T[-1][k][0] = 0; //第-1天，手里没有股票，收益为0。（或者初始T[0][k][0]=0）</span><br><span class="line">T[-1][k][1] = INT_MIN; //第-1天，手里有一支股票，收益为INT_MIN。（或者初始T[0][K][1]=-prices[1]）</span><br><span class="line">T[i][0][0] = 0; // 允许的交易次数为0，手里有没有股票，收益为0。</span><br><span class="line">T[i][0][1] = INT_MIN; // 允许的交易次数为1，手里有一支股票，收益为INT_MIN。</span><br></pre></td></tr></table></figure>
+<p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems/111002" target="_blank" rel="noopener">思路来源</a></p>
+<p><strong>代码：</strong></p>
+<ol>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121.买卖股票的最佳时机I</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti10 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti11 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti10 = max(Ti10, Ti11 + v);</span><br><span class="line">        Ti11 = max(Ti11, -v); <span class="comment">// Ti11 = max(Ti11, Ti00-v);  Ti00=0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122.买卖股票的最佳时机II</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v); <span class="comment">// k=inf，因此k-1=k</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/" target="_blank" rel="noopener">123.买卖股票的最佳时机III</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">2</span>; <span class="comment">// k=2</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;); <span class="comment">//定义一个k+1的dp数组，dp[0]为初始状态</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v); <span class="comment">// 买入时，消耗交易次数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188.买卖股票的最佳时机IV</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = prices.size(); </span><br><span class="line">    <span class="keyword">if</span> (k &gt;= (len &gt;&gt; <span class="number">1</span>)) &#123; <span class="comment">//k为任意次数。在长度为n的prices数组中，最大的收益交易次数为n/2，因此，当k&gt;=n/2时，k的交易次数不限</span></span><br><span class="line">        <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">            Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">            Ti1 = max(Ti1, Ti0-v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Ti0;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp(k+<span class="number">1</span>, &#123;<span class="number">0</span>, INT_MIN&#125;);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=k; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>]+v);</span><br><span class="line">            dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[i<span class="number">-1</span>][<span class="number">0</span>]-v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp.back()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309.最佳买卖股票时机含冷冻期</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cd = <span class="number">1</span>; <span class="comment">//卖出股票之后，要等1天才能再次买入，cooldown(cd) = 1</span></span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> pre_Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; pre; <span class="comment">// 定义一个队列，用于存储每一天手里没有股票的收益</span></span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        pre.push(Ti0); <span class="comment">// 此时没有股票，放入队列</span></span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        <span class="keyword">if</span> (pre.size()==cd+<span class="number">1</span>) &#123; <span class="comment">// 当队列的长度达到cd+1，即：队首的元素与当前买入操作之间相隔了一天</span></span><br><span class="line">            pre_Ti0 = pre.front();</span><br><span class="line">            pre.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        Ti1 = max(Ti1, pre_Ti0-v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714.买卖股票的最佳时机含手续费</a><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices, <span class="keyword">int</span> fee)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Ti0 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> Ti1 = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> v:prices) &#123;</span><br><span class="line">        Ti0 = max(Ti0, Ti1+v);</span><br><span class="line">        Ti1 = max(Ti1, Ti0-v-fee); <span class="comment">// 交易时，减去手续费</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Ti0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>leecode</category>
+        <category>动态规划</category>
+        <category>买卖股票的最佳时机</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
       </tags>
   </entry>
   <entry>
@@ -685,21 +685,18 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
-    <url>/2020/01/04/offer-13/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+    <title>剑指Offer第16题：合并两个排序的链表</title>
+    <url>/2020/01/04/offer-16/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。<br><strong>解题思路：</strong>创建一个新的链表头结点，比较两个链表的头结点值的大小，并将res-&gt;next指向值小的结点，直至有一个链表为空。之后合并剩下的非空链表即可。<br><strong>代码：</strong></p>
 <a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">Merge</span><span class="params">(ListNode* pHead1, ListNode* pHead2)</span></span>&#123;</span><br><span class="line">    ListNode* res = <span class="keyword">new</span> ListNode(<span class="number">-1</span>); <span class="comment">//创建一个dummy head，防止两个链表中存在空链表</span></span><br><span class="line">    ListNode* p = res;</span><br><span class="line">    <span class="keyword">while</span> (pHead1 &amp;&amp; pHead2) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pHead1-&gt;val &lt;= pHead2-&gt;val) &#123; <span class="comment">//比较两个链表头结点值的大小，将p指向值小的那个结点，之后该结点后移一位</span></span><br><span class="line">            p-&gt;next = pHead1;</span><br><span class="line">            pHead1 = pHead1-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            p-&gt;next = pHead2;</span><br><span class="line">            pHead2 = pHead2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next; <span class="comment">// p后移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pHead1) p-&gt;next = pHead1; <span class="comment">// 合并其中一个空链表</span></span><br><span class="line">    <span class="keyword">if</span> (pHead2) p-&gt;next = pHead2;</span><br><span class="line">    <span class="keyword">return</span> res-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>排序</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -726,21 +723,6 @@ table {
 <a id="more"></a>
 <p><strong>代码：</strong></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第16题：合并两个排序的链表</title>
-    <url>/2020/01/04/offer-16/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。<br><strong>解题思路：</strong>创建一个新的链表头结点，比较两个链表的头结点值的大小，并将res-&gt;next指向值小的结点，直至有一个链表为空。之后合并剩下的非空链表即可。<br><strong>代码：</strong></p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">Merge</span><span class="params">(ListNode* pHead1, ListNode* pHead2)</span></span>&#123;</span><br><span class="line">    ListNode* res = <span class="keyword">new</span> ListNode(<span class="number">-1</span>); <span class="comment">//创建一个dummy head，防止两个链表中存在空链表</span></span><br><span class="line">    ListNode* p = res;</span><br><span class="line">    <span class="keyword">while</span> (pHead1 &amp;&amp; pHead2) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pHead1-&gt;val &lt;= pHead2-&gt;val) &#123; <span class="comment">//比较两个链表头结点值的大小，将p指向值小的那个结点，之后该结点后移一位</span></span><br><span class="line">            p-&gt;next = pHead1;</span><br><span class="line">            pHead1 = pHead1-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            p-&gt;next = pHead2;</span><br><span class="line">            pHead2 = pHead2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next; <span class="comment">// p后移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pHead1) p-&gt;next = pHead1; <span class="comment">// 合并其中一个空链表</span></span><br><span class="line">    <span class="keyword">if</span> (pHead2) p-&gt;next = pHead2;</span><br><span class="line">    <span class="keyword">return</span> res-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -855,6 +837,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
+    <url>/2020/01/04/offer-13/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第26题：二叉搜索树与双向链表</title>
     <url>/2020/01/07/offer-26/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
@@ -904,34 +904,6 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PyTorch冻结部分层</title>
-    <url>/2020/01/03/pytorch-freeze-layer/</url>
-    <content><![CDATA[<p><strong>需求：</strong>PyTorch中，固定某些层，只更新部分层的参数<br><strong>方法：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> model.parameters():</span><br><span class="line">    param.requires_grad = <span class="literal">False</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> model.classifier_parameters():</span><br><span class="line">    param.requires_grad = <span class="literal">True</span></span><br><span class="line">optimizer = torch.optim.Adam(model.classifier_parameters(), lr=args.lr, weight_decay=<span class="number">1e-4</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>若是不设置param.requires_grad = False，直接在optimizer设置需要更新的参数，网络还是会计算所有参数的梯度，只是不更新网络的权重。设置param.requires_grad = False可以加快网络的运算速度，在将不需要更新参数的梯度设为False之后，在optimizer里面填写的是整个模型的参数或是仅有需要更新部分的参数。</p>
-<a id="more"></a>]]></content>
-      <categories>
-        <category>PyTorch</category>
-      </categories>
-      <tags>
-        <tag>PyTorch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PyTorch DataParallel 指定显卡运行出错</title>
-    <url>/2020/01/03/pytorch-dataparrel/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
-]]></content>
-      <tags>
-        <tag>PyTorch</tag>
       </tags>
   </entry>
   <entry>
@@ -992,6 +964,34 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>PyTorch DataParallel 指定显卡运行出错</title>
+    <url>/2020/01/03/pytorch-dataparrel/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
+]]></content>
+      <tags>
+        <tag>PyTorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PyTorch冻结部分层</title>
+    <url>/2020/01/03/pytorch-freeze-layer/</url>
+    <content><![CDATA[<p><strong>需求：</strong>PyTorch中，固定某些层，只更新部分层的参数<br><strong>方法：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> model.parameters():</span><br><span class="line">    param.requires_grad = <span class="literal">False</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> model.classifier_parameters():</span><br><span class="line">    param.requires_grad = <span class="literal">True</span></span><br><span class="line">optimizer = torch.optim.Adam(model.classifier_parameters(), lr=args.lr, weight_decay=<span class="number">1e-4</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>若是不设置param.requires_grad = False，直接在optimizer设置需要更新的参数，网络还是会计算所有参数的梯度，只是不更新网络的权重。设置param.requires_grad = False可以加快网络的运算速度，在将不需要更新参数的梯度设为False之后，在optimizer里面填写的是整个模型的参数或是仅有需要更新部分的参数。</p>
+<a id="more"></a>]]></content>
+      <categories>
+        <category>PyTorch</category>
+      </categories>
+      <tags>
+        <tag>PyTorch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第23题：二叉搜索树的后序遍历序列</title>
     <url>/2020/01/06/offer-23/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</p>
@@ -1008,20 +1008,6 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>多系统引导工具：refind</title>
-    <url>/2021/08/01/refind/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>系统引导</tag>
       </tags>
   </entry>
   <entry>
@@ -1050,6 +1036,20 @@ table {
       <tags>
         <tag>vps</tag>
         <tag>rclone</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多系统引导工具：refind</title>
+    <url>/2021/08/01/refind/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>系统引导</tag>
       </tags>
   </entry>
   <entry>
