@@ -556,38 +556,57 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第11题：二进制中1的个数</title>
-    <url>/2020/01/04/offer-11/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
-<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
+    <title>剑指Offer第9题：变态跳台阶</title>
+    <url>/2020/01/03/offer-09/</url>
+    <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</strong></p>
+<p>解题思路：跳上n级台阶的跳法，等于跳上前n-1级台阶的所有跳法之和，即：f(n) = f(n-1) + f(n-2) + … + f(0)。可以这样考虑问题，因为青蛙可以跳的台阶数是任意的，因此，跳上n级台阶可由台阶0、台阶1、台阶2、……、台阶n-1起跳。</p>
 <a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
+<p>写出n在4以内的跳法</p>
+<style>
+table {
+    width: 15%;
+    margin: auto;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th align="center">idx</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>2</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>4</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>8</td>
+</tr>
+</tbody></table>
+<p>可以发现规律，即：$f(n) = 2^{(n-1)}$</p>
+<p><strong>代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloorII</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">pow</span>(<span class="number">2</span>, number<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>乘方可用移位优化</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloorII</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;(number<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-        <tag>进制转化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
+        <tag>贪心</tag>
       </tags>
   </entry>
   <entry>
@@ -631,6 +650,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第11题：二进制中1的个数</title>
+    <url>/2020/01/04/offer-11/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
     <url>/2020/01/04/offer-13/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
@@ -646,6 +683,23 @@ table {
         <tag>剑指Offer</tag>
         <tag>数组</tag>
         <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -732,60 +786,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第9题：变态跳台阶</title>
-    <url>/2020/01/03/offer-09/</url>
-    <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</strong></p>
-<p>解题思路：跳上n级台阶的跳法，等于跳上前n-1级台阶的所有跳法之和，即：f(n) = f(n-1) + f(n-2) + … + f(0)。可以这样考虑问题，因为青蛙可以跳的台阶数是任意的，因此，跳上n级台阶可由台阶0、台阶1、台阶2、……、台阶n-1起跳。</p>
-<a id="more"></a>
-<p>写出n在4以内的跳法</p>
-<style>
-table {
-    width: 15%;
-    margin: auto;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th align="center">idx</th>
-<th>n</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">0</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td>2</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td>4</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td>8</td>
-</tr>
-</tbody></table>
-<p>可以发现规律，即：$f(n) = 2^{(n-1)}$</p>
-<p><strong>代码</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloorII</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">pow</span>(<span class="number">2</span>, number<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>乘方可用移位优化</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloorII</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;(number<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>贪心</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第19题：顺时针打印矩阵</title>
     <url>/2020/01/06/offer-19/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：<br>[[1, 2, 3, 4],<br> [5, 6, 7, 8],<br> [9,10,11,12],<br> [13,14,15,16]]<br>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
@@ -820,23 +820,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第21题：栈的压入、弹出序列</title>
-    <url>/2020/01/06/offer-21/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第22题：从上往下打印二叉树</title>
     <url>/2020/01/06/offer-22/</url>
     <content><![CDATA[<p><strong>题目：</strong>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
@@ -855,20 +838,38 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第24题：二叉树中和为某一值的路径</title>
-    <url>/2020/01/06/offer-24/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)</p>
-<p><strong>解题思路：</strong>定义一个辅助函数，用于遍历二叉树，当遍历至叶子结点时，判断是否符合条件。注意：辅助函数中的res要用引用传递。</p>
+    <title>剑指Offer第21题：栈的压入、弹出序列</title>
+    <url>/2020/01/06/offer-21/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindPathHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;res, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; one_res, <span class="keyword">int</span> sum, TreeNode* root, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root) &#123; <span class="comment">//根据二叉树的遍历修改代码</span></span><br><span class="line">        sum += root-&gt;val;</span><br><span class="line">        one_res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (sum == n &amp;&amp; !root-&gt;left &amp;&amp; !root-&gt;right) &#123; <span class="comment">//达到根结点并且当前的和与目标和相等</span></span><br><span class="line">            res.push_back(one_res);</span><br><span class="line">            one_res.clear();</span><br><span class="line">            sum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;left, n);</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;right, n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compare</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b)</span></span></span><br><span class="line">    return a.size() &gt; b.size();</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindPath(TreeNode* root,<span class="keyword">int</span> expectNumber) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; res;</span><br><span class="line">    FindPathHelper(res, &#123;&#125;, <span class="number">0</span>, root, expectNumber);</span><br><span class="line">    sort(res.begin(), res.end(), compare); <span class="comment">//数组长度大的数组靠前</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+        <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
+    <url>/2020/01/07/offer-26/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
+<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -889,21 +890,20 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
-    <url>/2020/01/07/offer-26/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
-<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
+    <title>剑指Offer第24题：二叉树中和为某一值的路径</title>
+    <url>/2020/01/06/offer-24/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)</p>
+<p><strong>解题思路：</strong>定义一个辅助函数，用于遍历二叉树，当遍历至叶子结点时，判断是否符合条件。注意：辅助函数中的res要用引用传递。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindPathHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;res, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; one_res, <span class="keyword">int</span> sum, TreeNode* root, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root) &#123; <span class="comment">//根据二叉树的遍历修改代码</span></span><br><span class="line">        sum += root-&gt;val;</span><br><span class="line">        one_res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (sum == n &amp;&amp; !root-&gt;left &amp;&amp; !root-&gt;right) &#123; <span class="comment">//达到根结点并且当前的和与目标和相等</span></span><br><span class="line">            res.push_back(one_res);</span><br><span class="line">            one_res.clear();</span><br><span class="line">            sum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;left, n);</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;right, n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compare</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b)</span></span></span><br><span class="line">    return a.size() &gt; b.size();</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindPath(TreeNode* root,<span class="keyword">int</span> expectNumber) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; res;</span><br><span class="line">    FindPathHelper(res, &#123;&#125;, <span class="number">0</span>, root, expectNumber);</span><br><span class="line">    sort(res.begin(), res.end(), compare); <span class="comment">//数组长度大的数组靠前</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
+        <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-        <tag>链表</tag>
-        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -992,6 +992,20 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>多系统引导工具：refind</title>
+    <url>/2021/08/01/refind/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>系统引导</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VPS使用rclone挂载Google Drive</title>
     <url>/2023/09/23/rclone/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;VPS自带磁盘空间较小，存储空间紧张，可考虑通过挂载网盘的方式来扩容</p>
@@ -1020,45 +1034,12 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>多系统引导工具：refind</title>
-    <url>/2021/08/01/refind/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>系统引导</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>重新分配服务器的ip地址</title>
     <url>/2019/12/27/server-network/</url>
     <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>]]></content>
-  </entry>
-  <entry>
-    <title>剑指Offer第23题：二叉搜索树的后序遍历序列</title>
-    <url>/2020/01/06/offer-23/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</p>
-<p><strong>解题思路：</strong>二叉搜索树中，左子树的值小于根结点小于右子树。二叉搜索树的后序遍历中，根结点在最右边的位置，遍历数组，找到第一个大于根结点的值，则该值左边为左子树，包含该值的右边为右子树（去除根结点）；继续搜寻数组，若存在比根结点小的值，则该数组肯定不是二叉搜索树的后续遍历，直接返回false。递归判断左右子树是否为后序遍历的二叉搜索树即可。</p>
-<a id="more"></a>
-<p><strong>代码：</strong><br>法一：定义两个辅助数组，用于存放左右序列</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sequence)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (sequence.empty()) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//先判断给出的序列是否为空</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left_seq;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right_seq;</span><br><span class="line">    <span class="keyword">int</span> root_val = sequence.back();</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">//在for循环的外部定义i</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;sequence.size()<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sequence[i] &lt; root_val) left_seq.push_back(sequence[i]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (; i&lt;sequence.size()<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sequence[i] &lt; root_val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        right_seq.push_back(sequence[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">bool</span> left = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!left_seq.empty()) left = VerifySquenceOfBST(left_seq);</span><br><span class="line">    <span class="keyword">bool</span> right = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!right_seq.empty()) right = VerifySquenceOfBST(right_seq);</span><br><span class="line">    <span class="keyword">return</span> left &amp;&amp; right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>法二：不需要定义辅助数组，直接记录左右子树的起始位置和终止位置即可</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBSTHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;seq, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (seq.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (start &gt;= end) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 等效于 if (start &gt; end) &#123;&#125; else return true</span></span><br><span class="line">    <span class="keyword">int</span> root_val = seq.back();</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (; i&lt;end; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (seq[i] &gt; root_val) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j=i; j&lt;end; j++) </span><br><span class="line">        <span class="keyword">if</span> (seq[j] &lt; root_val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> VerifySquenceOfBSTHelper(seq, <span class="number">0</span>, i<span class="number">-1</span>) &amp;&amp; VerifySquenceOfBSTHelper(seq, i, end<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sequence)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> VerifySquenceOfBSTHelper(sequence, <span class="number">0</span>, sequence.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
-      </tags>
   </entry>
   <entry>
     <title>shadowsocks中转</title>
@@ -1117,6 +1098,23 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>gnome-terminal 启动错误</title>
+    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>gnome-terminal</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Scaleway</title>
     <url>/2023/10/11/scaleway/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
@@ -1134,23 +1132,6 @@ table {
       </categories>
       <tags>
         <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>gnome-terminal 启动错误</title>
-    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>gnome-terminal</tag>
       </tags>
   </entry>
   <entry>
@@ -1177,6 +1158,25 @@ table {
       </categories>
       <tags>
         <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第23题：二叉搜索树的后序遍历序列</title>
+    <url>/2020/01/06/offer-23/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</p>
+<p><strong>解题思路：</strong>二叉搜索树中，左子树的值小于根结点小于右子树。二叉搜索树的后序遍历中，根结点在最右边的位置，遍历数组，找到第一个大于根结点的值，则该值左边为左子树，包含该值的右边为右子树（去除根结点）；继续搜寻数组，若存在比根结点小的值，则该数组肯定不是二叉搜索树的后续遍历，直接返回false。递归判断左右子树是否为后序遍历的二叉搜索树即可。</p>
+<a id="more"></a>
+<p><strong>代码：</strong><br>法一：定义两个辅助数组，用于存放左右序列</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sequence)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (sequence.empty()) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//先判断给出的序列是否为空</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left_seq;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right_seq;</span><br><span class="line">    <span class="keyword">int</span> root_val = sequence.back();</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">//在for循环的外部定义i</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;sequence.size()<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sequence[i] &lt; root_val) left_seq.push_back(sequence[i]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (; i&lt;sequence.size()<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sequence[i] &lt; root_val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        right_seq.push_back(sequence[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">bool</span> left = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!left_seq.empty()) left = VerifySquenceOfBST(left_seq);</span><br><span class="line">    <span class="keyword">bool</span> right = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!right_seq.empty()) right = VerifySquenceOfBST(right_seq);</span><br><span class="line">    <span class="keyword">return</span> left &amp;&amp; right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>法二：不需要定义辅助数组，直接记录左右子树的起始位置和终止位置即可</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBSTHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;seq, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (seq.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (start &gt;= end) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 等效于 if (start &gt; end) &#123;&#125; else return true</span></span><br><span class="line">    <span class="keyword">int</span> root_val = seq.back();</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (; i&lt;end; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (seq[i] &gt; root_val) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j=i; j&lt;end; j++) </span><br><span class="line">        <span class="keyword">if</span> (seq[j] &lt; root_val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> VerifySquenceOfBSTHelper(seq, <span class="number">0</span>, i<span class="number">-1</span>) &amp;&amp; VerifySquenceOfBSTHelper(seq, i, end<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sequence)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> VerifySquenceOfBSTHelper(sequence, <span class="number">0</span>, sequence.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
