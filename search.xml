@@ -150,6 +150,28 @@
       </tags>
   </entry>
   <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>https</tag>
+        <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客部署使用</title>
     <url>/2023/08/31/hexo-blog/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
@@ -170,28 +192,6 @@
       <tags>
         <tag>hexo</tag>
         <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>https</tag>
-        <tag>IPv6</tag>
       </tags>
   </entry>
   <entry>
@@ -333,6 +333,57 @@
       </tags>
   </entry>
   <entry>
+    <title>音乐文件添加封面与歌词</title>
+    <url>/2023/10/12/music-tag/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
+<ol>
+<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
+</li>
+<li><p>移除comment和genre；</p>
+</li>
+<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
+</li>
+<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
+</li>
+<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
+</li>
+<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
+<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
+<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
+<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
+<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
+</li>
+<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
+</li>
+<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
+</li>
+<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><p><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></p>
+</li>
+<li><p><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></p>
+</li>
+<li><p><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></p>
+</li>
+<li><p><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>music</category>
+      </categories>
+      <tags>
+        <tag>music</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第337题：打家劫舍III</title>
     <url>/2020/01/15/leecode-337/</url>
     <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
@@ -421,57 +472,6 @@
       </categories>
       <tags>
         <tag>leecode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>音乐文件添加封面与歌词</title>
-    <url>/2023/10/12/music-tag/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
-<ol>
-<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
-</li>
-<li><p>移除comment和genre；</p>
-</li>
-<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
-</li>
-<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
-</li>
-<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
-</li>
-<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
-<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
-<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
-<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
-<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
-</li>
-<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
-</li>
-<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
-</li>
-<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
-</li>
-</ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><p><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></p>
-</li>
-<li><p><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></p>
-</li>
-<li><p><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></p>
-</li>
-<li><p><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>music</category>
-      </categories>
-      <tags>
-        <tag>music</tag>
       </tags>
   </entry>
   <entry>
