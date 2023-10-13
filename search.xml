@@ -63,12 +63,12 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ffmpeg分离视频中的音频</title>
-    <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
-    <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
-<p>2、提取视频</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
+    <title>使用ffmpeg将图像转换成视频</title>
+    <url>/2020/01/03/ffmpeg-imgs2vid/</url>
+    <content><![CDATA[<p><strong>需求</strong>：按照制定的码率将一系列图像转换成视频<br>1、图像名字连续：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i image%d.jpg -vcodec mpeg4 -b 800k video.avi</span><br></pre></td></tr></table></figure>
+<p>2、图像名字不连续</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i %*.png out.avi</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 ]]></content>
       <categories>
@@ -79,12 +79,12 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ffmpeg将图像转换成视频</title>
-    <url>/2020/01/03/ffmpeg-imgs2vid/</url>
-    <content><![CDATA[<p><strong>需求</strong>：按照制定的码率将一系列图像转换成视频<br>1、图像名字连续：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i image%d.jpg -vcodec mpeg4 -b 800k video.avi</span><br></pre></td></tr></table></figure>
-<p>2、图像名字不连续</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i %*.png out.avi</span><br></pre></td></tr></table></figure>
+    <title>使用ffmpeg分离视频中的音频</title>
+    <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
+    <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
+<p>2、提取视频</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 ]]></content>
       <categories>
@@ -173,27 +173,6 @@
       </tags>
   </entry>
   <entry>
-    <title>leecode第120题：</title>
-    <url>/2020/07/14/leecode-120/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
-<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>https泛域名证书申请</title>
     <url>/2023/08/30/https-cert/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
@@ -213,6 +192,27 @@
         <tag>nginx</tag>
         <tag>https</tag>
         <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode第120题：</title>
+    <url>/2020/07/14/leecode-120/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
+<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -301,57 +301,6 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>音乐文件添加封面与歌词</title>
-    <url>/2023/10/12/music-tag/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
-<ol>
-<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
-</li>
-<li><p>移除comment和genre；</p>
-</li>
-<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
-</li>
-<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
-</li>
-<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
-</li>
-<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
-<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
-<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
-<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
-<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
-</li>
-<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
-</li>
-<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
-</li>
-<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
-</li>
-</ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><p><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></p>
-</li>
-<li><p><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></p>
-</li>
-<li><p><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></p>
-</li>
-<li><p><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>music</category>
-      </categories>
-      <tags>
-        <tag>music</tag>
       </tags>
   </entry>
   <entry>
@@ -491,24 +440,54 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第6题：旋转数组的最小数字</title>
-    <url>/2020/01/02/offer-06/</url>
-    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
-<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>音乐文件添加封面与歌词</title>
+    <url>/2023/10/12/music-tag/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
+<ol>
+<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
+</li>
+<li><p>移除comment和genre；</p>
+</li>
+<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
+</li>
+<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
+</li>
+<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
+</li>
+<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
+<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
+<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
+<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
+<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
+</li>
+<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
+</li>
+<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
+</li>
+<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><p><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></p>
+</li>
+<li><p><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></p>
+</li>
+<li><p><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></p>
+</li>
+<li><p><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></p>
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>剑指Offer</category>
+        <category>music</category>
       </categories>
       <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
+        <tag>music</tag>
       </tags>
   </entry>
   <entry>
@@ -532,6 +511,27 @@
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第6题：旋转数组的最小数字</title>
+    <url>/2020/01/02/offer-06/</url>
+    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
+<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -685,6 +685,22 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第15题：反转链表</title>
+    <url>/2020/01/04/offer-15/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
     <url>/2020/01/04/offer-13/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
@@ -700,6 +716,21 @@ table {
         <tag>剑指Offer</tag>
         <tag>数组</tag>
         <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第16题：合并两个排序的链表</title>
+    <url>/2020/01/04/offer-16/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。<br><strong>解题思路：</strong>创建一个新的链表头结点，比较两个链表的头结点值的大小，并将res-&gt;next指向值小的结点，直至有一个链表为空。之后合并剩下的非空链表即可。<br><strong>代码：</strong></p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">Merge</span><span class="params">(ListNode* pHead1, ListNode* pHead2)</span></span>&#123;</span><br><span class="line">    ListNode* res = <span class="keyword">new</span> ListNode(<span class="number">-1</span>); <span class="comment">//创建一个dummy head，防止两个链表中存在空链表</span></span><br><span class="line">    ListNode* p = res;</span><br><span class="line">    <span class="keyword">while</span> (pHead1 &amp;&amp; pHead2) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pHead1-&gt;val &lt;= pHead2-&gt;val) &#123; <span class="comment">//比较两个链表头结点值的大小，将p指向值小的那个结点，之后该结点后移一位</span></span><br><span class="line">            p-&gt;next = pHead1;</span><br><span class="line">            pHead1 = pHead1-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            p-&gt;next = pHead2;</span><br><span class="line">            pHead2 = pHead2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next; <span class="comment">// p后移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pHead1) p-&gt;next = pHead1; <span class="comment">// 合并其中一个空链表</span></span><br><span class="line">    <span class="keyword">if</span> (pHead2) p-&gt;next = pHead2;</span><br><span class="line">    <span class="keyword">return</span> res-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -720,44 +751,14 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第15题：反转链表</title>
-    <url>/2020/01/04/offer-15/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，反转链表后，输出新链表的表头。<br><strong>解题思路：</strong>定义一个指针rev用于存储反转过的头结点，p用于指向还未反转的头结点，tmp指针用于存储p的下一结点。</p>
+    <title>剑指Offer第18题：二叉树的镜像</title>
+    <url>/2020/01/06/offer-18/</url>
+    <content><![CDATA[<p><strong>题目：</strong>操作给定的二叉树，将其变换为源二叉树的镜像。<br>二叉树的镜像定义：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">源二叉树      8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  6   10</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	5  7 9 11</span><br><span class="line"></span><br><span class="line">镜像二叉树</span><br><span class="line">    	    8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  10   6</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	11 9 7  5</span><br></pre></td></tr></table></figure>
+<p><strong>解题思路：</strong>递归交换二叉树的左右子树，直至叶子结点</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第16题：合并两个排序的链表</title>
-    <url>/2020/01/04/offer-16/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。<br><strong>解题思路：</strong>创建一个新的链表头结点，比较两个链表的头结点值的大小，并将res-&gt;next指向值小的结点，直至有一个链表为空。之后合并剩下的非空链表即可。<br><strong>代码：</strong></p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">Merge</span><span class="params">(ListNode* pHead1, ListNode* pHead2)</span></span>&#123;</span><br><span class="line">    ListNode* res = <span class="keyword">new</span> ListNode(<span class="number">-1</span>); <span class="comment">//创建一个dummy head，防止两个链表中存在空链表</span></span><br><span class="line">    ListNode* p = res;</span><br><span class="line">    <span class="keyword">while</span> (pHead1 &amp;&amp; pHead2) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pHead1-&gt;val &lt;= pHead2-&gt;val) &#123; <span class="comment">//比较两个链表头结点值的大小，将p指向值小的那个结点，之后该结点后移一位</span></span><br><span class="line">            p-&gt;next = pHead1;</span><br><span class="line">            pHead1 = pHead1-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            p-&gt;next = pHead2;</span><br><span class="line">            pHead2 = pHead2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next; <span class="comment">// p后移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pHead1) p-&gt;next = pHead1; <span class="comment">// 合并其中一个空链表</span></span><br><span class="line">    <span class="keyword">if</span> (pHead2) p-&gt;next = pHead2;</span><br><span class="line">    <span class="keyword">return</span> res-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第17题：树的子结构</title>
-    <url>/2020/01/06/offer-17/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
-<p><strong>解题思路：</strong>遍历A树，找到一个与B树的根结点值相同的结点，开始同时遍历A、B树，判断对应结点上的值是否相同，直至遍历完B树，期间碰到A、B不同的值，则返回false。继续遍历A树，找下一个与B树根结点值相同的结点。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtreeHelper</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">//B树先遍历至空，说明B树的每一个结点都在</span></span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1-&gt;val == pRoot2-&gt;val)</span><br><span class="line">        <span class="keyword">return</span> HasSubtreeHelper(pRoot1-&gt;left, pRoot2-&gt;left) &amp;&amp;  HasSubtreeHelper(pRoot1-&gt;right, pRoot2-&gt;right);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtree</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span> || pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//空树不是任意一个树的子结构</span></span><br><span class="line">    <span class="keyword">return</span> HasSubtreeHelper(pRoot1, pRoot2) || HasSubtree(pRoot1-&gt;left, pRoot2) || HasSubtree(pRoot1-&gt;right, pRoot2); <span class="comment">// 递归判断A树的每一个结点是否可以作为B树的子结构根结点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode *pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot) &#123;</span><br><span class="line">        swap(pRoot-&gt;left, pRoot-&gt;right);</span><br><span class="line">        Mirror(pRoot-&gt;left);</span><br><span class="line">        Mirror(pRoot-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -768,14 +769,13 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第18题：二叉树的镜像</title>
-    <url>/2020/01/06/offer-18/</url>
-    <content><![CDATA[<p><strong>题目：</strong>操作给定的二叉树，将其变换为源二叉树的镜像。<br>二叉树的镜像定义：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">源二叉树      8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  6   10</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	5  7 9 11</span><br><span class="line"></span><br><span class="line">镜像二叉树</span><br><span class="line">    	    8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  10   6</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	11 9 7  5</span><br></pre></td></tr></table></figure>
-<p><strong>解题思路：</strong>递归交换二叉树的左右子树，直至叶子结点</p>
+    <title>剑指Offer第17题：树的子结构</title>
+    <url>/2020/01/06/offer-17/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
+<p><strong>解题思路：</strong>遍历A树，找到一个与B树的根结点值相同的结点，开始同时遍历A、B树，判断对应结点上的值是否相同，直至遍历完B树，期间碰到A、B不同的值，则返回false。继续遍历A树，找下一个与B树根结点值相同的结点。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode *pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot) &#123;</span><br><span class="line">        swap(pRoot-&gt;left, pRoot-&gt;right);</span><br><span class="line">        Mirror(pRoot-&gt;left);</span><br><span class="line">        Mirror(pRoot-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtreeHelper</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">//B树先遍历至空，说明B树的每一个结点都在</span></span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1-&gt;val == pRoot2-&gt;val)</span><br><span class="line">        <span class="keyword">return</span> HasSubtreeHelper(pRoot1-&gt;left, pRoot2-&gt;left) &amp;&amp;  HasSubtreeHelper(pRoot1-&gt;right, pRoot2-&gt;right);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtree</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span> || pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//空树不是任意一个树的子结构</span></span><br><span class="line">    <span class="keyword">return</span> HasSubtreeHelper(pRoot1, pRoot2) || HasSubtree(pRoot1-&gt;left, pRoot2) || HasSubtree(pRoot1-&gt;right, pRoot2); <span class="comment">// 递归判断A树的每一个结点是否可以作为B树的子结构根结点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -820,23 +820,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第21题：栈的压入、弹出序列</title>
-    <url>/2020/01/06/offer-21/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第22题：从上往下打印二叉树</title>
     <url>/2020/01/06/offer-22/</url>
     <content><![CDATA[<p><strong>题目：</strong>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
@@ -852,6 +835,23 @@ table {
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
         <tag>队列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第21题：栈的压入、弹出序列</title>
+    <url>/2020/01/06/offer-21/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -891,6 +891,23 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第25题：复杂链表的复制</title>
+    <url>/2020/01/06/offer-25/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）</p>
+<p><strong>解题思路：</strong><br>1、在原始链表的每个元素后面都插入一个对应元素值的新结点；<br>2、根据原始结点的随机指针，复制新节点的随机指针；<br>3、断开原始链表与复制好的新链表。<br>注意：对链表取值，取next操作时，一定要先确定该位置为空</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">RandomListNode* <span class="title">Clone</span><span class="params">(RandomListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pHead) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 注意先判断原始链表是否为空</span></span><br><span class="line">    RandomListNode* p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        RandomListNode* tmp = p-&gt;next; </span><br><span class="line">        p-&gt;next = <span class="keyword">new</span> RandomListNode(p-&gt;label);</span><br><span class="line">        p-&gt;next-&gt;next = tmp;</span><br><span class="line">        p = p-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;random) p-&gt;next-&gt;random = p-&gt;random-&gt;next; <span class="comment">// 注意判断p-&gt;random是否为空，再来取next</span></span><br><span class="line">        <span class="keyword">else</span> p-&gt;next-&gt;random = <span class="literal">NULL</span>;</span><br><span class="line">        p = p-&gt;next-&gt;next; <span class="comment">// 因为先前复制过一遍链表，所以链表的结点数为偶数，因此可以不用判断p-&gt;next是否为空</span></span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    RandomListNode* res = p-&gt;next;</span><br><span class="line">    RandomListNode* p2 = res;</span><br><span class="line">    <span class="keyword">while</span> (p2) &#123;</span><br><span class="line">        p-&gt;next = p2-&gt;next; <span class="comment">// while (p2)， 所以p2一定非空</span></span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (p) p2-&gt;next = p-&gt;next; <span class="comment">// 先判断p是否为空，再取next</span></span><br><span class="line">        <span class="keyword">else</span> p2-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第26题：二叉搜索树与双向链表</title>
     <url>/2020/01/07/offer-26/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
@@ -906,23 +923,6 @@ table {
         <tag>剑指Offer</tag>
         <tag>链表</tag>
         <tag>树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第25题：复杂链表的复制</title>
-    <url>/2020/01/06/offer-25/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）</p>
-<p><strong>解题思路：</strong><br>1、在原始链表的每个元素后面都插入一个对应元素值的新结点；<br>2、根据原始结点的随机指针，复制新节点的随机指针；<br>3、断开原始链表与复制好的新链表。<br>注意：对链表取值，取next操作时，一定要先确定该位置为空</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">RandomListNode* <span class="title">Clone</span><span class="params">(RandomListNode* pHead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pHead) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 注意先判断原始链表是否为空</span></span><br><span class="line">    RandomListNode* p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        RandomListNode* tmp = p-&gt;next; </span><br><span class="line">        p-&gt;next = <span class="keyword">new</span> RandomListNode(p-&gt;label);</span><br><span class="line">        p-&gt;next-&gt;next = tmp;</span><br><span class="line">        p = p-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;random) p-&gt;next-&gt;random = p-&gt;random-&gt;next; <span class="comment">// 注意判断p-&gt;random是否为空，再来取next</span></span><br><span class="line">        <span class="keyword">else</span> p-&gt;next-&gt;random = <span class="literal">NULL</span>;</span><br><span class="line">        p = p-&gt;next-&gt;next; <span class="comment">// 因为先前复制过一遍链表，所以链表的结点数为偶数，因此可以不用判断p-&gt;next是否为空</span></span><br><span class="line">    &#125;</span><br><span class="line">    p = pHead;</span><br><span class="line">    RandomListNode* res = p-&gt;next;</span><br><span class="line">    RandomListNode* p2 = res;</span><br><span class="line">    <span class="keyword">while</span> (p2) &#123;</span><br><span class="line">        p-&gt;next = p2-&gt;next; <span class="comment">// while (p2)， 所以p2一定非空</span></span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (p) p2-&gt;next = p-&gt;next; <span class="comment">// 先判断p是否为空，再取next</span></span><br><span class="line">        <span class="keyword">else</span> p2-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
