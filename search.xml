@@ -18,27 +18,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>欧式距离与余弦距离的区别与联系</title>
     <url>/2019/10/26/euclidean-cosine-distance/</url>
     <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
@@ -95,23 +74,24 @@
       </tags>
   </entry>
   <entry>
-    <title>git移除历史提交中的敏感信息文件</title>
-    <url>/2023/08/31/git-remove-sensetive-files/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
-
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>vps</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
       </tags>
   </entry>
   <entry>
@@ -150,6 +130,26 @@
       </tags>
   </entry>
   <entry>
+    <title>git移除历史提交中的敏感信息文件</title>
+    <url>/2023/08/31/git-remove-sensetive-files/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客部署使用</title>
     <url>/2023/08/31/hexo-blog/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
@@ -173,6 +173,27 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第120题：</title>
+    <url>/2020/07/14/leecode-120/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
+<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>https泛域名证书申请</title>
     <url>/2023/08/30/https-cert/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
@@ -192,27 +213,6 @@
         <tag>nginx</tag>
         <tag>https</tag>
         <tag>IPv6</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第120题：</title>
-    <url>/2020/07/14/leecode-120/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
-<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -374,6 +374,22 @@
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第1题：二维数组中的查找</title>
+    <url>/2019/12/27/offer-01/</url>
+    <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">leecode 74</a>相同，可以参照leecode的矩阵示例。<br>解题思路：数组为排序过的数组，左上角的元素最小，右下角的元素最大。我们可以选取一个位于中间值的位置作为搜索的起始点，因此这个位置可以是左下角或者是右上角，本次选取左下角作为搜索起始点。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="built_in">array</span>.size();</span><br><span class="line">    <span class="keyword">int</span> c = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">    <span class="keyword">int</span> i = r<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&gt;=<span class="number">0</span> &amp;&amp; j&lt;c) &#123; </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target) i -= <span class="number">1</span>; <span class="comment">//从左下角开始搜索，如果此处的值大于目标值，因此需要往上搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &lt; target) j += <span class="number">1</span>; <span class="comment">//如果小于目标值，因此需要往右边搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 如果等于目标值，就返回true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//否则返回false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode专题：买卖股票的最佳时机</title>
     <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
     <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
@@ -475,12 +491,16 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第1题：二维数组中的查找</title>
-    <url>/2019/12/27/offer-01/</url>
-    <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">leecode 74</a>相同，可以参照leecode的矩阵示例。<br>解题思路：数组为排序过的数组，左上角的元素最小，右下角的元素最大。我们可以选取一个位于中间值的位置作为搜索的起始点，因此这个位置可以是左下角或者是右上角，本次选取左下角作为搜索起始点。</p>
+    <title>剑指Offer第6题：旋转数组的最小数字</title>
+    <url>/2020/01/02/offer-06/</url>
+    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
+<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
 <a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="built_in">array</span>.size();</span><br><span class="line">    <span class="keyword">int</span> c = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">    <span class="keyword">int</span> i = r<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&gt;=<span class="number">0</span> &amp;&amp; j&lt;c) &#123; </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target) i -= <span class="number">1</span>; <span class="comment">//从左下角开始搜索，如果此处的值大于目标值，因此需要往上搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &lt; target) j += <span class="number">1</span>; <span class="comment">//如果小于目标值，因此需要往右边搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 如果等于目标值，就返回true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//否则返回false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -488,6 +508,7 @@
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
+        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -511,27 +532,6 @@
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第6题：旋转数组的最小数字</title>
-    <url>/2020/01/02/offer-06/</url>
-    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
-<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -610,23 +610,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第11题：二进制中1的个数</title>
     <url>/2020/01/04/offer-11/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
@@ -642,6 +625,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
