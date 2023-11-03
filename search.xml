@@ -18,27 +18,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>欧式距离与余弦距离的区别与联系</title>
     <url>/2019/10/26/euclidean-cosine-distance/</url>
     <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
@@ -47,20 +26,6 @@
 <a id="more"></a>
 <p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>使用shell脚本实现图像序列到视频的批量转换</title>
-    <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
-    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-]]></content>
-      <categories>
-        <category>ffmpeg</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>shell</tag>
-      </tags>
   </entry>
   <entry>
     <title>使用ffmpeg将图像转换成视频</title>
@@ -95,6 +60,57 @@
       </tags>
   </entry>
   <entry>
+    <title>使用shell脚本实现图像序列到视频的批量转换</title>
+    <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
+    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>ffmpeg</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 代理</title>
+    <url>/2019/10/26/git_proxy/</url>
+    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>git</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git移除历史提交中的敏感信息文件</title>
     <url>/2023/08/31/git-remove-sensetive-files/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
@@ -115,22 +131,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git 代理</title>
-    <url>/2019/10/26/git_proxy/</url>
-    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>如果不想使用代理，运行下面两条命令取消代理：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>git</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git使用socks5代理</title>
     <url>/2023/08/31/git-ssh-proxy/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
@@ -147,53 +147,6 @@
       <tags>
         <tag>git</tag>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客部署使用</title>
-    <url>/2023/08/31/hexo-blog/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;在VPS上使用Docker方式部署hexo，映射出/var/www/hexo目录，并将ssh私钥放入容器内，用于拉取和推送github仓库。具体可用脚本<code>start_hexo_docker.sh</code>部署</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移除旧容器</span></span><br><span class="line">docker rm -f hexo</span><br><span class="line"><span class="comment"># 启动新容器</span></span><br><span class="line">docker run -itd --net=host --name hexo --restart=always -v /var/www/hexo:/var/www/hexo hexo:2308</span><br><span class="line"><span class="comment"># 在容器内创建.ssh目录</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo mkdir -p /root/.ssh</span><br><span class="line"><span class="comment"># 复制ssh私钥文件</span></span><br><span class="line">docker cp ~/.ssh/id_rsa hexo:/root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 赋予私钥600权限</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo chmod 600 /root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it hexo bash</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;容器内通过crontab每分钟拉取github仓库，判断_posts目录是否有更新，如果有更新，就需要重新生成网站静态资源文件，然后部署上去。通过<code>crontab -l</code>查看定时任务，有定时任务</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;其中<code>periodic_check.sh</code>文件为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 进入源文件目录，目录已在github建立对应仓库</span><br><span class="line">cd /var/www/hexo/source/_posts</span><br><span class="line"># 如果git pull显示结果为非最新，就进入hexo博客目录，执行清除、生成和部署三个步骤</span><br><span class="line">if [ &quot;$(git pull | tail -n 1)&quot; != &quot;Already up to date.&quot; ]; then</span><br><span class="line">  cd /var/www/hexo</span><br><span class="line">  hexo clean</span><br><span class="line">  hexo g</span><br><span class="line">  hexo d</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新hexo-docker镜像"><a href="#更新hexo-docker镜像" class="headerlink" title="更新hexo docker镜像"></a>更新hexo docker镜像</h3><p>&emsp;&emsp;上一版本的docker镜像时区没有设置为中国，crond没有在容器内执行，通过<code>docker build . -t hexo:2308</code>构建新镜像，<code>Dockerfile</code>为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM hexo:latest</span><br><span class="line">RUN apk add -U tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh"</span> &gt;&gt; /var/spool/cron/crontabs/root</span><br><span class="line">CMD [<span class="string">"/usr/sbin/crond"</span>, <span class="string">"-f"</span>, <span class="string">"-d"</span>, <span class="string">"0"</span>]</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hysteria 2 配置</title>
-    <url>/2023/10/21/hysteria-2/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -246,54 +199,6 @@
       </tags>
   </entry>
   <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>https</tag>
-        <tag>IPv6</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第198题：打家劫舍</title>
-    <url>/2020/01/15/leecode-198/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,7,9,3,1]</span><br><span class="line">输出: 12</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。偷窃到的最高金额 = 2 + 9 + 1 = 12 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解题思路：</strong>这题可以看做是背包问题。在当前位置存在两种选择，偷或者不偷。</p>
-<ul>
-<li>偷：dp[i] = dp[i-2] + nums[i]</li>
-<li>不偷：dp[i] = dp[i-1]<br>要偷取最大的金额，因此状态转移方程为：dp[i] = max(dp[i-2] + nums[i], dp[i-1])。在代码实现中，可以直接使用nums来作为dp数组。</li>
-</ul>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//nums为空</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;nums.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==<span class="number">1</span>) nums[<span class="number">1</span>] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]); <span class="comment">//从第1个开始判断，因为第0个肯定选择偷</span></span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-1</span>], nums[i<span class="number">-2</span>]+nums[i]); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第146题：LRU缓存机制</title>
     <url>/2020/07/12/leecode-146/</url>
     <content><![CDATA[<p><strong>题目：</strong>运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
@@ -325,6 +230,79 @@
       </categories>
       <tags>
         <tag>leecode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hysteria 2 配置</title>
+    <url>/2023/10/21/hysteria-2/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode第198题：打家劫舍</title>
+    <url>/2020/01/15/leecode-198/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,7,9,3,1]</span><br><span class="line">输出: 12</span><br><span class="line">解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。偷窃到的最高金额 = 2 + 9 + 1 = 12 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>这题可以看做是背包问题。在当前位置存在两种选择，偷或者不偷。</p>
+<ul>
+<li>偷：dp[i] = dp[i-2] + nums[i]</li>
+<li>不偷：dp[i] = dp[i-1]<br>要偷取最大的金额，因此状态转移方程为：dp[i] = max(dp[i-2] + nums[i], dp[i-1])。在代码实现中，可以直接使用nums来作为dp数组。</li>
+</ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//nums为空</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;nums.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==<span class="number">1</span>) nums[<span class="number">1</span>] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]); <span class="comment">//从第1个开始判断，因为第0个肯定选择偷</span></span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-1</span>], nums[i<span class="number">-2</span>]+nums[i]); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客部署使用</title>
+    <url>/2023/08/31/hexo-blog/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;在VPS上使用Docker方式部署hexo，映射出/var/www/hexo目录，并将ssh私钥放入容器内，用于拉取和推送github仓库。具体可用脚本<code>start_hexo_docker.sh</code>部署</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移除旧容器</span></span><br><span class="line">docker rm -f hexo</span><br><span class="line"><span class="comment"># 启动新容器</span></span><br><span class="line">docker run -itd --net=host --name hexo --restart=always -v /var/www/hexo:/var/www/hexo hexo:2308</span><br><span class="line"><span class="comment"># 在容器内创建.ssh目录</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo mkdir -p /root/.ssh</span><br><span class="line"><span class="comment"># 复制ssh私钥文件</span></span><br><span class="line">docker cp ~/.ssh/id_rsa hexo:/root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 赋予私钥600权限</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo chmod 600 /root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it hexo bash</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;容器内通过crontab每分钟拉取github仓库，判断_posts目录是否有更新，如果有更新，就需要重新生成网站静态资源文件，然后部署上去。通过<code>crontab -l</code>查看定时任务，有定时任务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其中<code>periodic_check.sh</code>文件为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 进入源文件目录，目录已在github建立对应仓库</span><br><span class="line">cd /var/www/hexo/source/_posts</span><br><span class="line"># 如果git pull显示结果为非最新，就进入hexo博客目录，执行清除、生成和部署三个步骤</span><br><span class="line">if [ &quot;$(git pull | tail -n 1)&quot; != &quot;Already up to date.&quot; ]; then</span><br><span class="line">  cd /var/www/hexo</span><br><span class="line">  hexo clean</span><br><span class="line">  hexo g</span><br><span class="line">  hexo d</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新hexo-docker镜像"><a href="#更新hexo-docker镜像" class="headerlink" title="更新hexo docker镜像"></a>更新hexo docker镜像</h3><p>&emsp;&emsp;上一版本的docker镜像时区没有设置为中国，crond没有在容器内执行，通过<code>docker build . -t hexo:2308</code>构建新镜像，<code>Dockerfile</code>为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM hexo:latest</span><br><span class="line">RUN apk add -U tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh"</span> &gt;&gt; /var/spool/cron/crontabs/root</span><br><span class="line">CMD [<span class="string">"/usr/sbin/crond"</span>, <span class="string">"-f"</span>, <span class="string">"-d"</span>, <span class="string">"0"</span>]</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -448,6 +426,28 @@
       </tags>
   </entry>
   <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>https</tag>
+        <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第1题：二维数组中的查找</title>
     <url>/2019/12/27/offer-01/</url>
     <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
@@ -461,29 +461,6 @@
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第4题：重建二叉树</title>
-    <url>/2020/01/02/offer-04/</url>
-    <content><![CDATA[<p><strong>题目：输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</strong></p>
-<p>解题思路：在二叉树的前序遍历中，根节点总是最先出现；而中序遍历中，左子树的节点先出现。因此，我们可以先根据前序遍历中的第一个值k，构建根节点，接着在中序遍历中找到k, 则中序遍历中k左边的为左子树，右边的为右子树，然后递归的构建左右子树即可。</p>
-<a id="more"></a>
-<p>Python 代码</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reConstructBinaryTree</span><span class="params">(self, pre, tin)</span>:</span></span><br><span class="line">    <span class="comment"># write code here</span></span><br><span class="line">    <span class="keyword">if</span> len(pre) == <span class="number">0</span> <span class="keyword">or</span> len(tin) == <span class="number">0</span>: <span class="keyword">return</span> <span class="literal">None</span> <span class="comment"># 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    idx = tin.index(pre[<span class="number">0</span>]) <span class="comment"># 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    root = TreeNode(pre.pop(<span class="number">0</span>)) <span class="comment"># 创建根节点</span></span><br><span class="line">    root.left = self.reConstructBinaryTree(pre, tin[:idx]) <span class="comment"># 递归创建左子树</span></span><br><span class="line">    root.right = self.reConstructBinaryTree(pre, tin[idx+<span class="number">1</span>:]) <span class="comment"># 递归创建右子树</span></span><br><span class="line">    <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
-
-<p>使用c++实现中，由于给出的vector<int>不能pop出第0个值，因此，先反转顺序。<br>c++ 代码</int></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTreeHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pre.empty() || vin.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    TreeNode* tmp = <span class="keyword">new</span> TreeNode(pre.back()); <span class="comment">// 创建根节点</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">// 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;vin.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (vin[i] == pre.back()) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    pre.pop_back(); </span><br><span class="line">    tmp-&gt;left = reConstructBinaryTreeHelper(pre, &#123;vin.begin(), vin.begin()+i&#125;); <span class="comment">//递归创建左子树</span></span><br><span class="line">    <span class="keyword">if</span> (vin.size() == <span class="number">1</span>) tmp-&gt;right = <span class="literal">NULL</span>; <span class="comment">// 递归创建右子树， 注意，若此时中序遍历中只剩一个值，&#123;vin.begin()+i+1, vin.end()&#125; 会出错，因此要先判断。</span></span><br><span class="line">    <span class="keyword">else</span> tmp-&gt;right = reConstructBinaryTreeHelper(pre, &#123;vin.begin()+i+<span class="number">1</span>, vin.end()&#125;); </span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; revpre; <span class="comment">// 反转顺序</span></span><br><span class="line">    <span class="keyword">while</span> (!pre.empty()) &#123;</span><br><span class="line">        revpre.push_back(pre.back());</span><br><span class="line">        pre.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> reConstructBinaryTreeHelper(revpre, vin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -531,6 +508,29 @@
       </categories>
       <tags>
         <tag>music</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第4题：重建二叉树</title>
+    <url>/2020/01/02/offer-04/</url>
+    <content><![CDATA[<p><strong>题目：输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</strong></p>
+<p>解题思路：在二叉树的前序遍历中，根节点总是最先出现；而中序遍历中，左子树的节点先出现。因此，我们可以先根据前序遍历中的第一个值k，构建根节点，接着在中序遍历中找到k, 则中序遍历中k左边的为左子树，右边的为右子树，然后递归的构建左右子树即可。</p>
+<a id="more"></a>
+<p>Python 代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reConstructBinaryTree</span><span class="params">(self, pre, tin)</span>:</span></span><br><span class="line">    <span class="comment"># write code here</span></span><br><span class="line">    <span class="keyword">if</span> len(pre) == <span class="number">0</span> <span class="keyword">or</span> len(tin) == <span class="number">0</span>: <span class="keyword">return</span> <span class="literal">None</span> <span class="comment"># 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    idx = tin.index(pre[<span class="number">0</span>]) <span class="comment"># 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    root = TreeNode(pre.pop(<span class="number">0</span>)) <span class="comment"># 创建根节点</span></span><br><span class="line">    root.left = self.reConstructBinaryTree(pre, tin[:idx]) <span class="comment"># 递归创建左子树</span></span><br><span class="line">    root.right = self.reConstructBinaryTree(pre, tin[idx+<span class="number">1</span>:]) <span class="comment"># 递归创建右子树</span></span><br><span class="line">    <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
+
+<p>使用c++实现中，由于给出的vector<int>不能pop出第0个值，因此，先反转顺序。<br>c++ 代码</int></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTreeHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pre.empty() || vin.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    TreeNode* tmp = <span class="keyword">new</span> TreeNode(pre.back()); <span class="comment">// 创建根节点</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">// 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;vin.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (vin[i] == pre.back()) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    pre.pop_back(); </span><br><span class="line">    tmp-&gt;left = reConstructBinaryTreeHelper(pre, &#123;vin.begin(), vin.begin()+i&#125;); <span class="comment">//递归创建左子树</span></span><br><span class="line">    <span class="keyword">if</span> (vin.size() == <span class="number">1</span>) tmp-&gt;right = <span class="literal">NULL</span>; <span class="comment">// 递归创建右子树， 注意，若此时中序遍历中只剩一个值，&#123;vin.begin()+i+1, vin.end()&#125; 会出错，因此要先判断。</span></span><br><span class="line">    <span class="keyword">else</span> tmp-&gt;right = reConstructBinaryTreeHelper(pre, &#123;vin.begin()+i+<span class="number">1</span>, vin.end()&#125;); </span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; revpre; <span class="comment">// 反转顺序</span></span><br><span class="line">    <span class="keyword">while</span> (!pre.empty()) &#123;</span><br><span class="line">        revpre.push_back(pre.back());</span><br><span class="line">        pre.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> reConstructBinaryTreeHelper(revpre, vin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -946,6 +946,63 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第8题：跳台阶</title>
+    <url>/2020/01/03/offer-8/</url>
+    <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。</strong></p>
+<p>解题思路：此题跟计算斐波那契数列一样，令n为台阶的阶数，则f(n)=f(n-1)+f(n-2)<br>注意初始条件的不同，当n=2时候，f(n)=2，与斐波那契数列之间相差一位。如下表所示，a列为最终输出的结果，b列为上一次的结果，在斐波那契数列中，f(2)=1，而在此题f(2)=2，因此需要调整初始位置，使得idx==0时，a=1，b=0</p>
+<a id="more"></a>
+<style>
+table {
+    width: 20%;
+    margin: auto;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th align="center">idx</th>
+<th>a</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>3</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloor</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a-b;</span><br><span class="line">        number -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
+        <tag>递归</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PyTorch DataParallel 指定显卡运行出错</title>
     <url>/2020/01/03/pytorch-dataparrel/</url>
     <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
@@ -1016,63 +1073,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第8题：跳台阶</title>
-    <url>/2020/01/03/offer-8/</url>
-    <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。</strong></p>
-<p>解题思路：此题跟计算斐波那契数列一样，令n为台阶的阶数，则f(n)=f(n-1)+f(n-2)<br>注意初始条件的不同，当n=2时候，f(n)=2，与斐波那契数列之间相差一位。如下表所示，a列为最终输出的结果，b列为上一次的结果，在斐波那契数列中，f(2)=1，而在此题f(2)=2，因此需要调整初始位置，使得idx==0时，a=1，b=0</p>
-<a id="more"></a>
-<style>
-table {
-    width: 20%;
-    margin: auto;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th align="center">idx</th>
-<th>a</th>
-<th>b</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td>2</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td>3</td>
-<td>2</td>
-</tr>
-</tbody></table>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloor</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a-b;</span><br><span class="line">        number -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-        <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>重新分配服务器的ip地址</title>
     <url>/2019/12/27/server-network/</url>
     <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
@@ -1099,6 +1099,26 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scaleway</title>
+    <url>/2023/10/11/scaleway/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
+<ol>
+<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
+<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -1137,26 +1157,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>Scaleway</title>
-    <url>/2023/10/11/scaleway/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
-<ol>
-<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
-<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>gnome-terminal 启动错误</title>
     <url>/2020/01/03/ubuntu-gnome-terminal/</url>
     <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
@@ -1171,6 +1171,26 @@ table {
       <tags>
         <tag>ubuntu</tag>
         <tag>gnome-terminal</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
+    <url>/2020/01/03/ubuntu-reboot-slow/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
+<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
+<a id="more"></a>
+<p><strong>解决方法：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
+
+
+<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -1191,26 +1211,6 @@ table {
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>修改完成后要先测试能否使用，否则开机会出现问题</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
 <p>没有提示错误则成功。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
-    <url>/2020/01/03/ubuntu-reboot-slow/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
-<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
-<a id="more"></a>
-<p><strong>解决方法：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
-
-
-<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
