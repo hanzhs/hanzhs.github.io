@@ -170,24 +170,24 @@
       </tags>
   </entry>
   <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
+    <title>leecode第120题：</title>
+    <url>/2020/07/14/leecode-120/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
+<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>vps</category>
+        <category>leecode</category>
       </categories>
       <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -210,51 +210,6 @@
         <tag>IPv6</tag>
         <tag>nginx</tag>
         <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hysteria 2 配置</title>
-    <url>/2023/10/21/hysteria-2/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第120题：</title>
-    <url>/2020/07/14/leecode-120/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
-<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -320,6 +275,27 @@
       </tags>
   </entry>
   <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第198题：打家劫舍</title>
     <url>/2020/01/15/leecode-198/</url>
     <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
@@ -343,6 +319,30 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hysteria 2 配置</title>
+    <url>/2023/10/21/hysteria-2/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -372,6 +372,47 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode第337题：打家劫舍III</title>
+    <url>/2020/01/15/leecode-337/</url>
+    <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
+<p>计算在不触动警报的情况下，小偷一晚能够盗取的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-iii/" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,2,3,null,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   2   3</span><br><span class="line">    \   \ </span><br><span class="line">     3   1</span><br><span class="line"></span><br><span class="line">输出: 7 </span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 3 + 3 + 1 = 7.</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,4,5,1,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   4   5</span><br><span class="line">  / \   \ </span><br><span class="line"> 1   3   1</span><br><span class="line"></span><br><span class="line">输出: 9</span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 4 + 5 = 9.</span><br></pre></td></tr></table></figure>
+<p><strong>解题思路：</strong></p>
+<ol>
+<li><strong>法一</strong>：类似先前的打家劫舍，对于当前位置root，可以选择，或者不选择。</li>
+</ol>
+<ul>
+<li>若选择root，就不能选择root-&gt;left和root-&gt;right，可以选择root-&gt;left-&gt;left，root-&gt;left-&gt;right，root-&gt;right-&gt;left，root-&gt;right-&gt;right。</li>
+<li>若不选择root，就能选择root-&gt;left，root-&gt;right。</li>
+<li>以上两种的最大值，就是当前位置所能抢劫到的最大金额。</li>
+</ul>
+<ol start="2">
+<li><strong>法二</strong>：法一中，在计算root-&gt;left处所能抢劫到的最大金额时，需要计算root-&gt;left-&gt;left处，root-&gt;left-&gt;right处所能抢劫的最大值；而之后计算root-&gt;left-&gt;left位置所能抢劫的最大值时，又需要重新计算一遍，从而造成重复计算。因此，可用一个哈希表记录结点位置所能抢劫的最大金额，计算过的结点就无需重复计算。</li>
+<li><strong>法三</strong>：对于每个结点，都维护一个长度为2的数组，第0个位置记录的是不选择该结点所能取得的最大值，第1个位置记录的是选择该结点所能取得的最大值。</li>
+</ol>
+<p><a href="https://leetcode.com/problems/house-robber-iii/discuss/79330/Step-by-step-tackling-of-the-problem" target="_blank" rel="noopener">参考链接</a></p>
+<p><strong>代码：</strong></p>
+<ol>
+<li><strong>法一</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>法二</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unordered_map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt; <span class="built_in">map</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">map</span>[root]) <span class="keyword">return</span> <span class="built_in">map</span>[root]; <span class="comment">//判断哈希表中是否有该结点的记录</span></span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    res = max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">    <span class="built_in">map</span>[root] = res;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>法三</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; helper(TreeNode* root) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> &#123;<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left = helper(root-&gt;left);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right = helper(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> &#123;max(left[<span class="number">0</span>], left[<span class="number">1</span>])+max(right[<span class="number">0</span>], right[<span class="number">1</span>]), root-&gt;val+left[<span class="number">0</span>]+right[<span class="number">0</span>]&#125;;</span><br><span class="line">    <span class="comment">// 当前结点不选择，则左右两子结点选择与否都无所谓，只要选择最大值即可；</span></span><br><span class="line">    <span class="comment">// 当前结点选择，则左右两子结点均不能选择，因此需要取0位置的值。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res = helper(root);</span><br><span class="line">    <span class="keyword">return</span> max(res[<span class="number">0</span>], res[<span class="number">1</span>]); <span class="comment">//返回的是选择或者不选择根结点两种结果中的最大值。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+        <tag>二叉树</tag>
       </tags>
   </entry>
   <entry>
@@ -419,47 +460,6 @@
       </categories>
       <tags>
         <tag>music</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第337题：打家劫舍III</title>
-    <url>/2020/01/15/leecode-337/</url>
-    <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
-<p>计算在不触动警报的情况下，小偷一晚能够盗取的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-iii/" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,2,3,null,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   2   3</span><br><span class="line">    \   \ </span><br><span class="line">     3   1</span><br><span class="line"></span><br><span class="line">输出: 7 </span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 3 + 3 + 1 = 7.</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,4,5,1,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   4   5</span><br><span class="line">  / \   \ </span><br><span class="line"> 1   3   1</span><br><span class="line"></span><br><span class="line">输出: 9</span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 4 + 5 = 9.</span><br></pre></td></tr></table></figure>
-<p><strong>解题思路：</strong></p>
-<ol>
-<li><strong>法一</strong>：类似先前的打家劫舍，对于当前位置root，可以选择，或者不选择。</li>
-</ol>
-<ul>
-<li>若选择root，就不能选择root-&gt;left和root-&gt;right，可以选择root-&gt;left-&gt;left，root-&gt;left-&gt;right，root-&gt;right-&gt;left，root-&gt;right-&gt;right。</li>
-<li>若不选择root，就能选择root-&gt;left，root-&gt;right。</li>
-<li>以上两种的最大值，就是当前位置所能抢劫到的最大金额。</li>
-</ul>
-<ol start="2">
-<li><strong>法二</strong>：法一中，在计算root-&gt;left处所能抢劫到的最大金额时，需要计算root-&gt;left-&gt;left处，root-&gt;left-&gt;right处所能抢劫的最大值；而之后计算root-&gt;left-&gt;left位置所能抢劫的最大值时，又需要重新计算一遍，从而造成重复计算。因此，可用一个哈希表记录结点位置所能抢劫的最大金额，计算过的结点就无需重复计算。</li>
-<li><strong>法三</strong>：对于每个结点，都维护一个长度为2的数组，第0个位置记录的是不选择该结点所能取得的最大值，第1个位置记录的是选择该结点所能取得的最大值。</li>
-</ol>
-<p><a href="https://leetcode.com/problems/house-robber-iii/discuss/79330/Step-by-step-tackling-of-the-problem" target="_blank" rel="noopener">参考链接</a></p>
-<p><strong>代码：</strong></p>
-<ol>
-<li><strong>法一</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><strong>法二</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unordered_map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt; <span class="built_in">map</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">map</span>[root]) <span class="keyword">return</span> <span class="built_in">map</span>[root]; <span class="comment">//判断哈希表中是否有该结点的记录</span></span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    res = max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">    <span class="built_in">map</span>[root] = res;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><strong>法三</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; helper(TreeNode* root) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> &#123;<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left = helper(root-&gt;left);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right = helper(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> &#123;max(left[<span class="number">0</span>], left[<span class="number">1</span>])+max(right[<span class="number">0</span>], right[<span class="number">1</span>]), root-&gt;val+left[<span class="number">0</span>]+right[<span class="number">0</span>]&#125;;</span><br><span class="line">    <span class="comment">// 当前结点不选择，则左右两子结点选择与否都无所谓，只要选择最大值即可；</span></span><br><span class="line">    <span class="comment">// 当前结点选择，则左右两子结点均不能选择，因此需要取0位置的值。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res = helper(root);</span><br><span class="line">    <span class="keyword">return</span> max(res[<span class="number">0</span>], res[<span class="number">1</span>]); <span class="comment">//返回的是选择或者不选择根结点两种结果中的最大值。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-        <tag>二叉树</tag>
       </tags>
   </entry>
   <entry>
@@ -1283,19 +1283,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu server 安装sogou输入法</title>
-    <url>/2020/01/03/ubuntu-server-sougou/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>ubuntu的状态栏没有fctix的状态图标<br><strong>解决方法：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fcitx-config-gtk3</span><br></pre></td></tr></table></figure>
-<a id="more"></a>]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ubuntu server 16.04 添加开机启动脚本</title>
     <url>/2020/01/03/ubuntu-startup-scripts/</url>
     <content><![CDATA[<p><strong>失败方案：</strong><br>1、rc.local等一系列方法，包括在/etc/init.d/rc.local里面添加PATH的环境变量等<br><strong>原因：</strong> ubuntu 15.04之后，开机脚本采用systemd管理</p>
@@ -1310,6 +1297,19 @@ table {
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls -l /etc/systemd/system/multi-user.target.wants/sslocal.service</span><br></pre></td></tr></table></figure>
 <p>链接为蓝色则正常，红色为错误的软链接。</p>
 ]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu server 安装sogou输入法</title>
+    <url>/2020/01/03/ubuntu-server-sougou/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>ubuntu的状态栏没有fctix的状态图标<br><strong>解决方法：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fcitx-config-gtk3</span><br></pre></td></tr></table></figure>
+<a id="more"></a>]]></content>
       <categories>
         <category>ubuntu</category>
       </categories>
