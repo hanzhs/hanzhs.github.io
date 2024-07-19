@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>中文数字转换成阿拉伯数字</title>
+    <url>/2020/07/11/chinese-num-to-arbic-num/</url>
+    <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
+<p><strong>解题思路：</strong> 以亿为分界点，将亿之前的数字作为一部分，其余的部分再做处理。</p>
+<p><a href="https://github.com/fuhailin/show-me-python-code/blob/master/leetcode/%E4%B8%AD%E6%96%87%E6%95%B0%E5%AD%972%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97.py" target="_blank" rel="noopener">参考链接</a></p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chs_arabic_map = &#123;<span class="string">'零'</span>: <span class="number">0</span>, <span class="string">'一'</span>: <span class="number">1</span>, <span class="string">'二'</span>: <span class="number">2</span>, <span class="string">'三'</span>: <span class="number">3</span>, <span class="string">'四'</span>: <span class="number">4</span>, <span class="string">'五'</span>: <span class="number">5</span>, <span class="string">'六'</span>: <span class="number">6</span>, <span class="string">'七'</span>: <span class="number">7</span>, <span class="string">'八'</span>: <span class="number">8</span>, <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">                  <span class="string">'十'</span>: <span class="number">10</span>, <span class="string">'百'</span>: <span class="number">100</span>, <span class="string">'千'</span>: <span class="number">1000</span>, <span class="string">'万'</span>: <span class="number">10000</span>, <span class="string">'亿'</span>: <span class="number">10</span> ** <span class="number">8</span>,</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertChineseDigitsToArabic</span><span class="params">(chinese_digits, encoding=<span class="string">"utf-8"</span>)</span>:</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    res_before_yi = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> chinese_digits:</span><br><span class="line">        val = chs_arabic_map.get(char, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> val == <span class="number">10</span>**<span class="number">8</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            res_before_yi = res_before_yi * <span class="number">10</span> ** <span class="number">8</span> + res</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val == <span class="number">10000</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val &gt;=<span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">                tmp = <span class="number">1</span></span><br><span class="line">            res = res + tmp*val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = tmp * <span class="number">10</span> + val</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"不合法的字符"</span>)</span><br><span class="line">    res += res_before_yi</span><br><span class="line">    res += tmp</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_map = &#123;</span><br><span class="line">        <span class="comment"># '三千五百二十三': 3523,</span></span><br><span class="line">        <span class="string">'九万五千零七十五亿八百零七万九千二百零八'</span>: <span class="number">9507508079208</span>,</span><br><span class="line">        <span class="string">'四万三千五百二十一'</span>: <span class="number">43521</span>,</span><br><span class="line">        <span class="string">'三千五百二十一'</span>: <span class="number">3521</span>,</span><br><span class="line">        <span class="string">'三千五百零八'</span>: <span class="number">3508</span>,</span><br><span class="line">        <span class="string">'三五六零'</span>: <span class="number">3560</span>,</span><br><span class="line">        <span class="string">'一万零三十'</span>: <span class="number">10030</span>,</span><br><span class="line">        <span class="string">''</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment"># 1 digit 个</span></span><br><span class="line">        <span class="string">'零'</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">'一'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'二'</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">'三'</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="string">'四'</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="string">'五'</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="string">'六'</span>: <span class="number">6</span>,</span><br><span class="line">        <span class="string">'七'</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="string">'八'</span>: <span class="number">8</span>,</span><br><span class="line">        <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">        <span class="comment"># 2 digits 十</span></span><br><span class="line">        <span class="string">'十'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'十一'</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="string">'二十'</span>: <span class="number">20</span>,</span><br><span class="line">        <span class="string">'二十一'</span>: <span class="number">21</span>,</span><br><span class="line">        <span class="comment"># 3 digits 百</span></span><br><span class="line">        <span class="string">'一百'</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="string">'一百零一'</span>: <span class="number">101</span>,</span><br><span class="line">        <span class="string">'一百一十'</span>: <span class="number">110</span>,</span><br><span class="line">        <span class="string">'一百二十三'</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="comment"># 4 digits 千</span></span><br><span class="line">        <span class="string">'一千'</span>: <span class="number">1000</span>,</span><br><span class="line">        <span class="string">'一千零一'</span>: <span class="number">1001</span>,</span><br><span class="line">        <span class="string">'一千零一十'</span>: <span class="number">1010</span>,</span><br><span class="line">        <span class="string">'一千一百'</span>: <span class="number">1100</span>,</span><br><span class="line">        <span class="string">'一千零二十三'</span>: <span class="number">1023</span>,</span><br><span class="line">        <span class="string">'一千二百零三'</span>: <span class="number">1203</span>,</span><br><span class="line">        <span class="string">'一千二百三十'</span>: <span class="number">1230</span>,</span><br><span class="line">        <span class="comment"># 5 digits 万</span></span><br><span class="line">        <span class="string">'一万'</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">'一万零一'</span>: <span class="number">10001</span>,</span><br><span class="line">        <span class="string">'一万零一十'</span>: <span class="number">10010</span>,</span><br><span class="line">        <span class="string">'一万零一百'</span>: <span class="number">10100</span>,</span><br><span class="line">        <span class="string">'一万一千'</span>: <span class="number">11000</span>,</span><br><span class="line">        <span class="string">'一万零一十一'</span>: <span class="number">10011</span>,</span><br><span class="line">        <span class="string">'一万零一百零一'</span>: <span class="number">10101</span>,</span><br><span class="line">        <span class="string">'一万一千零一'</span>: <span class="number">11001</span>,</span><br><span class="line">        <span class="string">'一万零一百一十'</span>: <span class="number">10110</span>,</span><br><span class="line">        <span class="string">'一万一千零一十'</span>: <span class="number">11010</span>,</span><br><span class="line">        <span class="string">'一万一千一百'</span>: <span class="number">11100</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十'</span>: <span class="number">11110</span>,</span><br><span class="line">        <span class="string">'一万一千一百零一'</span>: <span class="number">11101</span>,</span><br><span class="line">        <span class="string">'一万一千零一十一'</span>: <span class="number">11011</span>,</span><br><span class="line">        <span class="string">'一万零一百一十一'</span>: <span class="number">10111</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十一'</span>: <span class="number">11111</span>,</span><br><span class="line">        <span class="comment"># 6 digits 十万</span></span><br><span class="line">        <span class="string">'十万零二千三百四十五'</span>: <span class="number">102345</span>,</span><br><span class="line">        <span class="string">'十二万三千四百五十六'</span>: <span class="number">123456</span>,</span><br><span class="line">        <span class="string">'十万零三百五十六'</span>: <span class="number">100356</span>,</span><br><span class="line">        <span class="string">'十万零三千六百零九'</span>: <span class="number">103609</span>,</span><br><span class="line">        <span class="comment"># 7 digits 百万</span></span><br><span class="line">        <span class="string">'一百二十三万四千五百六十七'</span>: <span class="number">1234567</span>,</span><br><span class="line">        <span class="string">'一百零一万零一百零一'</span>: <span class="number">1010101</span>,</span><br><span class="line">        <span class="string">'一百万零一'</span>: <span class="number">1000001</span>,</span><br><span class="line">        <span class="comment"># 8 digits 千万</span></span><br><span class="line">        <span class="string">'一千一百二十三万四千五百六十七'</span>: <span class="number">11234567</span>,</span><br><span class="line">        <span class="string">'一千零一十一万零一百零一'</span>: <span class="number">10110101</span>,</span><br><span class="line">        <span class="string">'一千万零一'</span>: <span class="number">10000001</span>,</span><br><span class="line">        <span class="comment"># 9 digits 亿</span></span><br><span class="line">        <span class="string">'一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111234567</span>,</span><br><span class="line">        <span class="string">'一亿零一百零一万零一百零一'</span>: <span class="number">101010101</span>,</span><br><span class="line">        <span class="string">'一亿零一'</span>: <span class="number">100000001</span>,</span><br><span class="line">        <span class="comment"># 10 digits 十亿</span></span><br><span class="line">        <span class="string">'十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111234567</span>,</span><br><span class="line">        <span class="comment"># 11 digits 百亿</span></span><br><span class="line">        <span class="string">'一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111234567</span>,</span><br><span class="line">        <span class="comment"># 12 digits 千亿</span></span><br><span class="line">        <span class="string">'一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111111234567</span>,</span><br><span class="line">        <span class="comment"># 13 digits 万亿</span></span><br><span class="line">        <span class="string">'一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111111234567</span>,</span><br><span class="line">        <span class="comment"># 14 digits 十万亿</span></span><br><span class="line">        <span class="string">'十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111234567</span>,</span><br><span class="line">        <span class="comment"># 17 digits 亿亿</span></span><br><span class="line">        <span class="string">'一亿一千一百一十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111111234567</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> test_map:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">assert</span> (test_map[each] == convertChineseDigitsToArabic(each))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(each, test_map[each], convertChineseDigitsToArabic(each))</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>code</category>
+      </categories>
+      <tags>
+        <tag>code</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在纯IPv6环境添加Cloudflare Tunnel</title>
     <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
@@ -75,27 +113,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git移除历史提交中的敏感信息文件</title>
     <url>/2023/08/31/git-remove-sensetive-files/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
@@ -151,20 +168,48 @@
       </tags>
   </entry>
   <entry>
-    <title>中文数字转换成阿拉伯数字</title>
-    <url>/2020/07/11/chinese-num-to-arbic-num/</url>
-    <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
-<p><strong>解题思路：</strong> 以亿为分界点，将亿之前的数字作为一部分，其余的部分再做处理。</p>
-<p><a href="https://github.com/fuhailin/show-me-python-code/blob/master/leetcode/%E4%B8%AD%E6%96%87%E6%95%B0%E5%AD%972%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97.py" target="_blank" rel="noopener">参考链接</a></p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chs_arabic_map = &#123;<span class="string">'零'</span>: <span class="number">0</span>, <span class="string">'一'</span>: <span class="number">1</span>, <span class="string">'二'</span>: <span class="number">2</span>, <span class="string">'三'</span>: <span class="number">3</span>, <span class="string">'四'</span>: <span class="number">4</span>, <span class="string">'五'</span>: <span class="number">5</span>, <span class="string">'六'</span>: <span class="number">6</span>, <span class="string">'七'</span>: <span class="number">7</span>, <span class="string">'八'</span>: <span class="number">8</span>, <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">                  <span class="string">'十'</span>: <span class="number">10</span>, <span class="string">'百'</span>: <span class="number">100</span>, <span class="string">'千'</span>: <span class="number">1000</span>, <span class="string">'万'</span>: <span class="number">10000</span>, <span class="string">'亿'</span>: <span class="number">10</span> ** <span class="number">8</span>,</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertChineseDigitsToArabic</span><span class="params">(chinese_digits, encoding=<span class="string">"utf-8"</span>)</span>:</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    res_before_yi = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> chinese_digits:</span><br><span class="line">        val = chs_arabic_map.get(char, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> val == <span class="number">10</span>**<span class="number">8</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            res_before_yi = res_before_yi * <span class="number">10</span> ** <span class="number">8</span> + res</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val == <span class="number">10000</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val &gt;=<span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">                tmp = <span class="number">1</span></span><br><span class="line">            res = res + tmp*val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = tmp * <span class="number">10</span> + val</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"不合法的字符"</span>)</span><br><span class="line">    res += res_before_yi</span><br><span class="line">    res += tmp</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_map = &#123;</span><br><span class="line">        <span class="comment"># '三千五百二十三': 3523,</span></span><br><span class="line">        <span class="string">'九万五千零七十五亿八百零七万九千二百零八'</span>: <span class="number">9507508079208</span>,</span><br><span class="line">        <span class="string">'四万三千五百二十一'</span>: <span class="number">43521</span>,</span><br><span class="line">        <span class="string">'三千五百二十一'</span>: <span class="number">3521</span>,</span><br><span class="line">        <span class="string">'三千五百零八'</span>: <span class="number">3508</span>,</span><br><span class="line">        <span class="string">'三五六零'</span>: <span class="number">3560</span>,</span><br><span class="line">        <span class="string">'一万零三十'</span>: <span class="number">10030</span>,</span><br><span class="line">        <span class="string">''</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment"># 1 digit 个</span></span><br><span class="line">        <span class="string">'零'</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">'一'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'二'</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">'三'</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="string">'四'</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="string">'五'</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="string">'六'</span>: <span class="number">6</span>,</span><br><span class="line">        <span class="string">'七'</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="string">'八'</span>: <span class="number">8</span>,</span><br><span class="line">        <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">        <span class="comment"># 2 digits 十</span></span><br><span class="line">        <span class="string">'十'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'十一'</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="string">'二十'</span>: <span class="number">20</span>,</span><br><span class="line">        <span class="string">'二十一'</span>: <span class="number">21</span>,</span><br><span class="line">        <span class="comment"># 3 digits 百</span></span><br><span class="line">        <span class="string">'一百'</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="string">'一百零一'</span>: <span class="number">101</span>,</span><br><span class="line">        <span class="string">'一百一十'</span>: <span class="number">110</span>,</span><br><span class="line">        <span class="string">'一百二十三'</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="comment"># 4 digits 千</span></span><br><span class="line">        <span class="string">'一千'</span>: <span class="number">1000</span>,</span><br><span class="line">        <span class="string">'一千零一'</span>: <span class="number">1001</span>,</span><br><span class="line">        <span class="string">'一千零一十'</span>: <span class="number">1010</span>,</span><br><span class="line">        <span class="string">'一千一百'</span>: <span class="number">1100</span>,</span><br><span class="line">        <span class="string">'一千零二十三'</span>: <span class="number">1023</span>,</span><br><span class="line">        <span class="string">'一千二百零三'</span>: <span class="number">1203</span>,</span><br><span class="line">        <span class="string">'一千二百三十'</span>: <span class="number">1230</span>,</span><br><span class="line">        <span class="comment"># 5 digits 万</span></span><br><span class="line">        <span class="string">'一万'</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">'一万零一'</span>: <span class="number">10001</span>,</span><br><span class="line">        <span class="string">'一万零一十'</span>: <span class="number">10010</span>,</span><br><span class="line">        <span class="string">'一万零一百'</span>: <span class="number">10100</span>,</span><br><span class="line">        <span class="string">'一万一千'</span>: <span class="number">11000</span>,</span><br><span class="line">        <span class="string">'一万零一十一'</span>: <span class="number">10011</span>,</span><br><span class="line">        <span class="string">'一万零一百零一'</span>: <span class="number">10101</span>,</span><br><span class="line">        <span class="string">'一万一千零一'</span>: <span class="number">11001</span>,</span><br><span class="line">        <span class="string">'一万零一百一十'</span>: <span class="number">10110</span>,</span><br><span class="line">        <span class="string">'一万一千零一十'</span>: <span class="number">11010</span>,</span><br><span class="line">        <span class="string">'一万一千一百'</span>: <span class="number">11100</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十'</span>: <span class="number">11110</span>,</span><br><span class="line">        <span class="string">'一万一千一百零一'</span>: <span class="number">11101</span>,</span><br><span class="line">        <span class="string">'一万一千零一十一'</span>: <span class="number">11011</span>,</span><br><span class="line">        <span class="string">'一万零一百一十一'</span>: <span class="number">10111</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十一'</span>: <span class="number">11111</span>,</span><br><span class="line">        <span class="comment"># 6 digits 十万</span></span><br><span class="line">        <span class="string">'十万零二千三百四十五'</span>: <span class="number">102345</span>,</span><br><span class="line">        <span class="string">'十二万三千四百五十六'</span>: <span class="number">123456</span>,</span><br><span class="line">        <span class="string">'十万零三百五十六'</span>: <span class="number">100356</span>,</span><br><span class="line">        <span class="string">'十万零三千六百零九'</span>: <span class="number">103609</span>,</span><br><span class="line">        <span class="comment"># 7 digits 百万</span></span><br><span class="line">        <span class="string">'一百二十三万四千五百六十七'</span>: <span class="number">1234567</span>,</span><br><span class="line">        <span class="string">'一百零一万零一百零一'</span>: <span class="number">1010101</span>,</span><br><span class="line">        <span class="string">'一百万零一'</span>: <span class="number">1000001</span>,</span><br><span class="line">        <span class="comment"># 8 digits 千万</span></span><br><span class="line">        <span class="string">'一千一百二十三万四千五百六十七'</span>: <span class="number">11234567</span>,</span><br><span class="line">        <span class="string">'一千零一十一万零一百零一'</span>: <span class="number">10110101</span>,</span><br><span class="line">        <span class="string">'一千万零一'</span>: <span class="number">10000001</span>,</span><br><span class="line">        <span class="comment"># 9 digits 亿</span></span><br><span class="line">        <span class="string">'一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111234567</span>,</span><br><span class="line">        <span class="string">'一亿零一百零一万零一百零一'</span>: <span class="number">101010101</span>,</span><br><span class="line">        <span class="string">'一亿零一'</span>: <span class="number">100000001</span>,</span><br><span class="line">        <span class="comment"># 10 digits 十亿</span></span><br><span class="line">        <span class="string">'十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111234567</span>,</span><br><span class="line">        <span class="comment"># 11 digits 百亿</span></span><br><span class="line">        <span class="string">'一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111234567</span>,</span><br><span class="line">        <span class="comment"># 12 digits 千亿</span></span><br><span class="line">        <span class="string">'一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111111234567</span>,</span><br><span class="line">        <span class="comment"># 13 digits 万亿</span></span><br><span class="line">        <span class="string">'一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111111234567</span>,</span><br><span class="line">        <span class="comment"># 14 digits 十万亿</span></span><br><span class="line">        <span class="string">'十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111234567</span>,</span><br><span class="line">        <span class="comment"># 17 digits 亿亿</span></span><br><span class="line">        <span class="string">'一亿一千一百一十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111111234567</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> test_map:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">assert</span> (test_map[each] == convertChineseDigitsToArabic(each))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(each, test_map[each], convertChineseDigitsToArabic(each))</span><br></pre></td></tr></table></figure>
+    <title>hexo博客部署使用</title>
+    <url>/2023/08/31/hexo-blog/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;在VPS上使用Docker方式部署hexo，映射出/var/www/hexo目录，并将ssh私钥放入容器内，用于拉取和推送github仓库。具体可用脚本<code>start_hexo_docker.sh</code>部署</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移除旧容器</span></span><br><span class="line">docker rm -f hexo</span><br><span class="line"><span class="comment"># 启动新容器</span></span><br><span class="line">docker run -itd --net=host --name hexo --restart=always -v /var/www/hexo:/var/www/hexo hexo:2308</span><br><span class="line"><span class="comment"># 在容器内创建.ssh目录</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo mkdir -p /root/.ssh</span><br><span class="line"><span class="comment"># 复制ssh私钥文件</span></span><br><span class="line">docker cp ~/.ssh/id_rsa hexo:/root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 赋予私钥600权限</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo chmod 600 /root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it hexo bash</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;容器内通过crontab每分钟拉取github仓库，判断_posts目录是否有更新，如果有更新，就需要重新生成网站静态资源文件，然后部署上去。通过<code>crontab -l</code>查看定时任务，有定时任务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其中<code>periodic_check.sh</code>文件为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 进入源文件目录，目录已在github建立对应仓库</span><br><span class="line">cd /var/www/hexo/source/_posts</span><br><span class="line"># 如果git pull显示结果为非最新，就进入hexo博客目录，执行清除、生成和部署三个步骤</span><br><span class="line">if [ &quot;$(git pull | tail -n 1)&quot; != &quot;Already up to date.&quot; ]; then</span><br><span class="line">  cd /var/www/hexo</span><br><span class="line">  hexo clean</span><br><span class="line">  hexo g</span><br><span class="line">  hexo d</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新hexo-docker镜像"><a href="#更新hexo-docker镜像" class="headerlink" title="更新hexo docker镜像"></a>更新hexo docker镜像</h3><p>&emsp;&emsp;上一版本的docker镜像时区没有设置为中国，crond没有在容器内执行，通过<code>docker build . -t hexo:2308</code>构建新镜像，<code>Dockerfile</code>为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM hexo:latest</span><br><span class="line">RUN apk add -U tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh"</span> &gt;&gt; /var/spool/cron/crontabs/root</span><br><span class="line">CMD [<span class="string">"/usr/sbin/crond"</span>, <span class="string">"-f"</span>, <span class="string">"-d"</span>, <span class="string">"0"</span>]</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>code</category>
+        <category>blog</category>
       </categories>
       <tags>
-        <tag>code</tag>
+        <tag>hexo</tag>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>IPv6</tag>
+        <tag>nginx</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -186,6 +231,30 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hysteria 2 配置</title>
+    <url>/2023/10/21/hysteria-2/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -251,51 +320,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo博客部署使用</title>
-    <url>/2023/08/31/hexo-blog/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;在VPS上使用Docker方式部署hexo，映射出/var/www/hexo目录，并将ssh私钥放入容器内，用于拉取和推送github仓库。具体可用脚本<code>start_hexo_docker.sh</code>部署</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移除旧容器</span></span><br><span class="line">docker rm -f hexo</span><br><span class="line"><span class="comment"># 启动新容器</span></span><br><span class="line">docker run -itd --net=host --name hexo --restart=always -v /var/www/hexo:/var/www/hexo hexo:2308</span><br><span class="line"><span class="comment"># 在容器内创建.ssh目录</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo mkdir -p /root/.ssh</span><br><span class="line"><span class="comment"># 复制ssh私钥文件</span></span><br><span class="line">docker cp ~/.ssh/id_rsa hexo:/root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 赋予私钥600权限</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo chmod 600 /root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it hexo bash</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;容器内通过crontab每分钟拉取github仓库，判断_posts目录是否有更新，如果有更新，就需要重新生成网站静态资源文件，然后部署上去。通过<code>crontab -l</code>查看定时任务，有定时任务</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;其中<code>periodic_check.sh</code>文件为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 进入源文件目录，目录已在github建立对应仓库</span><br><span class="line">cd /var/www/hexo/source/_posts</span><br><span class="line"># 如果git pull显示结果为非最新，就进入hexo博客目录，执行清除、生成和部署三个步骤</span><br><span class="line">if [ &quot;$(git pull | tail -n 1)&quot; != &quot;Already up to date.&quot; ]; then</span><br><span class="line">  cd /var/www/hexo</span><br><span class="line">  hexo clean</span><br><span class="line">  hexo g</span><br><span class="line">  hexo d</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新hexo-docker镜像"><a href="#更新hexo-docker镜像" class="headerlink" title="更新hexo docker镜像"></a>更新hexo docker镜像</h3><p>&emsp;&emsp;上一版本的docker镜像时区没有设置为中国，crond没有在容器内执行，通过<code>docker build . -t hexo:2308</code>构建新镜像，<code>Dockerfile</code>为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM hexo:latest</span><br><span class="line">RUN apk add -U tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh"</span> &gt;&gt; /var/spool/cron/crontabs/root</span><br><span class="line">CMD [<span class="string">"/usr/sbin/crond"</span>, <span class="string">"-f"</span>, <span class="string">"-d"</span>, <span class="string">"0"</span>]</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>IPv6</tag>
-        <tag>nginx</tag>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第198题：打家劫舍</title>
     <url>/2020/01/15/leecode-198/</url>
     <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
@@ -351,30 +375,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hysteria 2 配置</title>
-    <url>/2023/10/21/hysteria-2/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第337题：打家劫舍III</title>
     <url>/2020/01/15/leecode-337/</url>
     <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
@@ -413,6 +413,53 @@
         <tag>leecode</tag>
         <tag>动态规划</tag>
         <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>音乐文件添加封面与歌词</title>
+    <url>/2023/10/12/music-tag/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
+<ol>
+<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
+</li>
+<li><p>移除comment和genre；</p>
+</li>
+<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
+</li>
+<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
+</li>
+<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
+</li>
+<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
+<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
+<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
+<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
+<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
+</li>
+<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
+</li>
+<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
+</li>
+<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></li>
+<li><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>music</category>
+      </categories>
+      <tags>
+        <tag>music</tag>
       </tags>
   </entry>
   <entry>
@@ -463,53 +510,6 @@
       </categories>
       <tags>
         <tag>leecode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>音乐文件添加封面与歌词</title>
-    <url>/2023/10/12/music-tag/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
-<ol>
-<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
-</li>
-<li><p>移除comment和genre；</p>
-</li>
-<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
-</li>
-<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
-</li>
-<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
-</li>
-<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
-<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
-<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
-<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
-<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
-</li>
-<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
-</li>
-<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
-</li>
-<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
-</li>
-</ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></li>
-<li><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>music</category>
-      </categories>
-      <tags>
-        <tag>music</tag>
       </tags>
   </entry>
   <entry>
@@ -648,38 +648,21 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第11题：二进制中1的个数</title>
-    <url>/2020/01/04/offer-11/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
-<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
+    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
+    <url>/2020/01/04/offer-13/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-        <tag>进制转化</tag>
+        <tag>数组</tag>
+        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -723,21 +706,38 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
-    <url>/2020/01/04/offer-13/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+    <title>剑指Offer第11题：二进制中1的个数</title>
+    <url>/2020/01/04/offer-11/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>排序</tag>
+        <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -893,39 +893,21 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第23题：二叉搜索树的后序遍历序列</title>
-    <url>/2020/01/06/offer-23/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</p>
-<p><strong>解题思路：</strong>二叉搜索树中，左子树的值小于根结点小于右子树。二叉搜索树的后序遍历中，根结点在最右边的位置，遍历数组，找到第一个大于根结点的值，则该值左边为左子树，包含该值的右边为右子树（去除根结点）；继续搜寻数组，若存在比根结点小的值，则该数组肯定不是二叉搜索树的后续遍历，直接返回false。递归判断左右子树是否为后序遍历的二叉搜索树即可。</p>
-<a id="more"></a>
-<p><strong>代码：</strong><br>法一：定义两个辅助数组，用于存放左右序列</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sequence)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (sequence.empty()) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//先判断给出的序列是否为空</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left_seq;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right_seq;</span><br><span class="line">    <span class="keyword">int</span> root_val = sequence.back();</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">//在for循环的外部定义i</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;sequence.size()<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sequence[i] &lt; root_val) left_seq.push_back(sequence[i]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (; i&lt;sequence.size()<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sequence[i] &lt; root_val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        right_seq.push_back(sequence[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">bool</span> left = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!left_seq.empty()) left = VerifySquenceOfBST(left_seq);</span><br><span class="line">    <span class="keyword">bool</span> right = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!right_seq.empty()) right = VerifySquenceOfBST(right_seq);</span><br><span class="line">    <span class="keyword">return</span> left &amp;&amp; right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>法二：不需要定义辅助数组，直接记录左右子树的起始位置和终止位置即可</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBSTHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;seq, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (seq.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (start &gt;= end) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 等效于 if (start &gt; end) &#123;&#125; else return true</span></span><br><span class="line">    <span class="keyword">int</span> root_val = seq.back();</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (; i&lt;end; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (seq[i] &gt; root_val) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j=i; j&lt;end; j++) </span><br><span class="line">        <span class="keyword">if</span> (seq[j] &lt; root_val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> VerifySquenceOfBSTHelper(seq, <span class="number">0</span>, i<span class="number">-1</span>) &amp;&amp; VerifySquenceOfBSTHelper(seq, i, end<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sequence)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> VerifySquenceOfBSTHelper(sequence, <span class="number">0</span>, sequence.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第24题：二叉树中和为某一值的路径</title>
-    <url>/2020/01/06/offer-24/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)</p>
-<p><strong>解题思路：</strong>定义一个辅助函数，用于遍历二叉树，当遍历至叶子结点时，判断是否符合条件。注意：辅助函数中的res要用引用传递。</p>
+    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
+    <url>/2020/01/07/offer-26/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
+<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindPathHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;res, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; one_res, <span class="keyword">int</span> sum, TreeNode* root, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root) &#123; <span class="comment">//根据二叉树的遍历修改代码</span></span><br><span class="line">        sum += root-&gt;val;</span><br><span class="line">        one_res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (sum == n &amp;&amp; !root-&gt;left &amp;&amp; !root-&gt;right) &#123; <span class="comment">//达到根结点并且当前的和与目标和相等</span></span><br><span class="line">            res.push_back(one_res);</span><br><span class="line">            one_res.clear();</span><br><span class="line">            sum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;left, n);</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;right, n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compare</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b)</span></span></span><br><span class="line">    return a.size() &gt; b.size();</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindPath(TreeNode* root,<span class="keyword">int</span> expectNumber) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; res;</span><br><span class="line">    FindPathHelper(res, &#123;&#125;, <span class="number">0</span>, root, expectNumber);</span><br><span class="line">    sort(res.begin(), res.end(), compare); <span class="comment">//数组长度大的数组靠前</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+        <tag>链表</tag>
+        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -946,78 +928,39 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
-    <url>/2020/01/07/offer-26/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
-<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
+    <title>剑指Offer第24题：二叉树中和为某一值的路径</title>
+    <url>/2020/01/06/offer-24/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)</p>
+<p><strong>解题思路：</strong>定义一个辅助函数，用于遍历二叉树，当遍历至叶子结点时，判断是否符合条件。注意：辅助函数中的res要用引用传递。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindPathHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;res, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; one_res, <span class="keyword">int</span> sum, TreeNode* root, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root) &#123; <span class="comment">//根据二叉树的遍历修改代码</span></span><br><span class="line">        sum += root-&gt;val;</span><br><span class="line">        one_res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (sum == n &amp;&amp; !root-&gt;left &amp;&amp; !root-&gt;right) &#123; <span class="comment">//达到根结点并且当前的和与目标和相等</span></span><br><span class="line">            res.push_back(one_res);</span><br><span class="line">            one_res.clear();</span><br><span class="line">            sum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;left, n);</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;right, n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compare</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b)</span></span></span><br><span class="line">    return a.size() &gt; b.size();</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindPath(TreeNode* root,<span class="keyword">int</span> expectNumber) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; res;</span><br><span class="line">    FindPathHelper(res, &#123;&#125;, <span class="number">0</span>, root, expectNumber);</span><br><span class="line">    sort(res.begin(), res.end(), compare); <span class="comment">//数组长度大的数组靠前</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
+        <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-        <tag>链表</tag>
-        <tag>树</tag>
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第8题：跳台阶</title>
-    <url>/2020/01/03/offer-8/</url>
-    <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。</strong></p>
-<p>解题思路：此题跟计算斐波那契数列一样，令n为台阶的阶数，则f(n)=f(n-1)+f(n-2)<br>注意初始条件的不同，当n=2时候，f(n)=2，与斐波那契数列之间相差一位。如下表所示，a列为最终输出的结果，b列为上一次的结果，在斐波那契数列中，f(2)=1，而在此题f(2)=2，因此需要调整初始位置，使得idx==0时，a=1，b=0</p>
+    <title>剑指Offer第23题：二叉搜索树的后序遍历序列</title>
+    <url>/2020/01/06/offer-23/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</p>
+<p><strong>解题思路：</strong>二叉搜索树中，左子树的值小于根结点小于右子树。二叉搜索树的后序遍历中，根结点在最右边的位置，遍历数组，找到第一个大于根结点的值，则该值左边为左子树，包含该值的右边为右子树（去除根结点）；继续搜寻数组，若存在比根结点小的值，则该数组肯定不是二叉搜索树的后续遍历，直接返回false。递归判断左右子树是否为后序遍历的二叉搜索树即可。</p>
 <a id="more"></a>
-<style>
-table {
-    width: 20%;
-    margin: auto;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th align="center">idx</th>
-<th>a</th>
-<th>b</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td>2</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td>3</td>
-<td>2</td>
-</tr>
-</tbody></table>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloor</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a-b;</span><br><span class="line">        number -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>代码：</strong><br>法一：定义两个辅助数组，用于存放左右序列</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sequence)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (sequence.empty()) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//先判断给出的序列是否为空</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left_seq;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right_seq;</span><br><span class="line">    <span class="keyword">int</span> root_val = sequence.back();</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">//在for循环的外部定义i</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;sequence.size()<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sequence[i] &lt; root_val) left_seq.push_back(sequence[i]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (; i&lt;sequence.size()<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sequence[i] &lt; root_val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        right_seq.push_back(sequence[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">bool</span> left = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!left_seq.empty()) left = VerifySquenceOfBST(left_seq);</span><br><span class="line">    <span class="keyword">bool</span> right = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!right_seq.empty()) right = VerifySquenceOfBST(right_seq);</span><br><span class="line">    <span class="keyword">return</span> left &amp;&amp; right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>法二：不需要定义辅助数组，直接记录左右子树的起始位置和终止位置即可</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBSTHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;seq, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (seq.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (start &gt;= end) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 等效于 if (start &gt; end) &#123;&#125; else return true</span></span><br><span class="line">    <span class="keyword">int</span> root_val = seq.back();</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (; i&lt;end; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (seq[i] &gt; root_val) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j=i; j&lt;end; j++) </span><br><span class="line">        <span class="keyword">if</span> (seq[j] &lt; root_val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> VerifySquenceOfBSTHelper(seq, <span class="number">0</span>, i<span class="number">-1</span>) &amp;&amp; VerifySquenceOfBSTHelper(seq, i, end<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sequence)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> VerifySquenceOfBSTHelper(sequence, <span class="number">0</span>, sequence.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
+        <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-        <tag>递归</tag>
       </tags>
   </entry>
   <entry>
@@ -1099,6 +1042,63 @@ table {
 <a id="more"></a>]]></content>
   </entry>
   <entry>
+    <title>剑指Offer第8题：跳台阶</title>
+    <url>/2020/01/03/offer-8/</url>
+    <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。</strong></p>
+<p>解题思路：此题跟计算斐波那契数列一样，令n为台阶的阶数，则f(n)=f(n-1)+f(n-2)<br>注意初始条件的不同，当n=2时候，f(n)=2，与斐波那契数列之间相差一位。如下表所示，a列为最终输出的结果，b列为上一次的结果，在斐波那契数列中，f(2)=1，而在此题f(2)=2，因此需要调整初始位置，使得idx==0时，a=1，b=0</p>
+<a id="more"></a>
+<style>
+table {
+    width: 20%;
+    margin: auto;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th align="center">idx</th>
+<th>a</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>3</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloor</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a-b;</span><br><span class="line">        number -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
+        <tag>递归</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shadowsocks中转</title>
     <url>/2020/01/03/shadowsocks-transit/</url>
     <content><![CDATA[<p><strong>需求：</strong>通过shadowsocks中继提升上网速度<br><strong>具体描述</strong>：Source(S)访问Destination(D)速度慢，我们需要找到一个中继位置T，此中继位置需满足S访问T速度快，且T访问D速度也要快。此时S访问D的完整路径为：S -&gt; T -&gt; D</p>
@@ -1117,26 +1117,6 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scaleway</title>
-    <url>/2023/10/11/scaleway/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
-<ol>
-<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
-<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -1172,35 +1152,6 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux系统swap分区配置</title>
-    <url>/2023/12/06/swap/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
-<ol>
-<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
-<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
-<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
-<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
-<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
-<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1346,6 +1297,55 @@ table {
       </categories>
       <tags>
         <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux系统swap分区配置</title>
+    <url>/2023/12/06/swap/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
+<ol>
+<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
+<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
+<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
+<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
+<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
+<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scaleway</title>
+    <url>/2023/10/11/scaleway/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
+<ol>
+<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
+<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
 </search>
