@@ -39,6 +39,16 @@
       </tags>
   </entry>
   <entry>
+    <title>欧式距离与余弦距离的区别与联系</title>
+    <url>/2019/10/26/euclidean-cosine-distance/</url>
+    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
+<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
+<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
+<a id="more"></a>
+<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
+]]></content>
+  </entry>
+  <entry>
     <title>在纯IPv6环境添加Cloudflare Tunnel</title>
     <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
@@ -55,16 +65,6 @@
         <tag>Cloudflare</tag>
         <tag>IPv6</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>欧式距离与余弦距离的区别与联系</title>
-    <url>/2019/10/26/euclidean-cosine-distance/</url>
-    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
-<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
-<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
-<a id="more"></a>
-<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
-]]></content>
   </entry>
   <entry>
     <title>使用shell脚本实现图像序列到视频的批量转换</title>
@@ -132,22 +132,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git 代理</title>
-    <url>/2019/10/26/git_proxy/</url>
-    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>如果不想使用代理，运行下面两条命令取消代理：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>git</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git移除历史提交中的敏感信息文件</title>
     <url>/2023/08/31/git-remove-sensetive-files/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
@@ -165,6 +149,22 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 代理</title>
+    <url>/2019/10/26/git_proxy/</url>
+    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>git</tag>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -187,6 +187,29 @@
         <tag>IPv6</tag>
         <tag>nginx</tag>
         <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客部署使用</title>
+    <url>/2023/08/31/hexo-blog/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;在VPS上使用Docker方式部署hexo，映射出/var/www/hexo目录，并将ssh私钥放入容器内，用于拉取和推送github仓库。具体可用脚本<code>start_hexo_docker.sh</code>部署</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移除旧容器</span></span><br><span class="line">docker rm -f hexo</span><br><span class="line"><span class="comment"># 启动新容器</span></span><br><span class="line">docker run -itd --net=host --name hexo --restart=always -v /var/www/hexo:/var/www/hexo hexo:2308</span><br><span class="line"><span class="comment"># 在容器内创建.ssh目录</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo mkdir -p /root/.ssh</span><br><span class="line"><span class="comment"># 复制ssh私钥文件</span></span><br><span class="line">docker cp ~/.ssh/id_rsa hexo:/root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 赋予私钥600权限</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo chmod 600 /root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it hexo bash</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;容器内通过crontab每分钟拉取github仓库，判断_posts目录是否有更新，如果有更新，就需要重新生成网站静态资源文件，然后部署上去。通过<code>crontab -l</code>查看定时任务，有定时任务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其中<code>periodic_check.sh</code>文件为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 进入源文件目录，目录已在github建立对应仓库</span><br><span class="line">cd /var/www/hexo/source/_posts</span><br><span class="line"># 如果git pull显示结果为非最新，就进入hexo博客目录，执行清除、生成和部署三个步骤</span><br><span class="line">if [ &quot;$(git pull | tail -n 1)&quot; != &quot;Already up to date.&quot; ]; then</span><br><span class="line">  cd /var/www/hexo</span><br><span class="line">  hexo clean</span><br><span class="line">  hexo g</span><br><span class="line">  hexo d</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新hexo-docker镜像"><a href="#更新hexo-docker镜像" class="headerlink" title="更新hexo docker镜像"></a>更新hexo docker镜像</h3><p>&emsp;&emsp;上一版本的docker镜像时区没有设置为中国，crond没有在容器内执行，通过<code>docker build . -t hexo:2308</code>构建新镜像，<code>Dockerfile</code>为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM hexo:latest</span><br><span class="line">RUN apk add -U tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh"</span> &gt;&gt; /var/spool/cron/crontabs/root</span><br><span class="line">CMD [<span class="string">"/usr/sbin/crond"</span>, <span class="string">"-f"</span>, <span class="string">"-d"</span>, <span class="string">"0"</span>]</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -352,70 +375,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo博客部署使用</title>
-    <url>/2023/08/31/hexo-blog/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;在VPS上使用Docker方式部署hexo，映射出/var/www/hexo目录，并将ssh私钥放入容器内，用于拉取和推送github仓库。具体可用脚本<code>start_hexo_docker.sh</code>部署</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移除旧容器</span></span><br><span class="line">docker rm -f hexo</span><br><span class="line"><span class="comment"># 启动新容器</span></span><br><span class="line">docker run -itd --net=host --name hexo --restart=always -v /var/www/hexo:/var/www/hexo hexo:2308</span><br><span class="line"><span class="comment"># 在容器内创建.ssh目录</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo mkdir -p /root/.ssh</span><br><span class="line"><span class="comment"># 复制ssh私钥文件</span></span><br><span class="line">docker cp ~/.ssh/id_rsa hexo:/root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 赋予私钥600权限</span></span><br><span class="line">docker <span class="built_in">exec</span> hexo chmod 600 /root/.ssh/id_rsa</span><br><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it hexo bash</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;容器内通过crontab每分钟拉取github仓库，判断_posts目录是否有更新，如果有更新，就需要重新生成网站静态资源文件，然后部署上去。通过<code>crontab -l</code>查看定时任务，有定时任务</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;其中<code>periodic_check.sh</code>文件为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 进入源文件目录，目录已在github建立对应仓库</span><br><span class="line">cd /var/www/hexo/source/_posts</span><br><span class="line"># 如果git pull显示结果为非最新，就进入hexo博客目录，执行清除、生成和部署三个步骤</span><br><span class="line">if [ &quot;$(git pull | tail -n 1)&quot; != &quot;Already up to date.&quot; ]; then</span><br><span class="line">  cd /var/www/hexo</span><br><span class="line">  hexo clean</span><br><span class="line">  hexo g</span><br><span class="line">  hexo d</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新hexo-docker镜像"><a href="#更新hexo-docker镜像" class="headerlink" title="更新hexo docker镜像"></a>更新hexo docker镜像</h3><p>&emsp;&emsp;上一版本的docker镜像时区没有设置为中国，crond没有在容器内执行，通过<code>docker build . -t hexo:2308</code>构建新镜像，<code>Dockerfile</code>为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM hexo:latest</span><br><span class="line">RUN apk add -U tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"*       *       *       *       *       /bin/bash /var/www/hexo/periodic_check.sh"</span> &gt;&gt; /var/spool/cron/crontabs/root</span><br><span class="line">CMD [<span class="string">"/usr/sbin/crond"</span>, <span class="string">"-f"</span>, <span class="string">"-d"</span>, <span class="string">"0"</span>]</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第337题：打家劫舍III</title>
-    <url>/2020/01/15/leecode-337/</url>
-    <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
-<p>计算在不触动警报的情况下，小偷一晚能够盗取的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-iii/" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,2,3,null,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   2   3</span><br><span class="line">    \   \ </span><br><span class="line">     3   1</span><br><span class="line"></span><br><span class="line">输出: 7 </span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 3 + 3 + 1 = 7.</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,4,5,1,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   4   5</span><br><span class="line">  / \   \ </span><br><span class="line"> 1   3   1</span><br><span class="line"></span><br><span class="line">输出: 9</span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 4 + 5 = 9.</span><br></pre></td></tr></table></figure>
-<p><strong>解题思路：</strong></p>
-<ol>
-<li><strong>法一</strong>：类似先前的打家劫舍，对于当前位置root，可以选择，或者不选择。</li>
-</ol>
-<ul>
-<li>若选择root，就不能选择root-&gt;left和root-&gt;right，可以选择root-&gt;left-&gt;left，root-&gt;left-&gt;right，root-&gt;right-&gt;left，root-&gt;right-&gt;right。</li>
-<li>若不选择root，就能选择root-&gt;left，root-&gt;right。</li>
-<li>以上两种的最大值，就是当前位置所能抢劫到的最大金额。</li>
-</ul>
-<ol start="2">
-<li><strong>法二</strong>：法一中，在计算root-&gt;left处所能抢劫到的最大金额时，需要计算root-&gt;left-&gt;left处，root-&gt;left-&gt;right处所能抢劫的最大值；而之后计算root-&gt;left-&gt;left位置所能抢劫的最大值时，又需要重新计算一遍，从而造成重复计算。因此，可用一个哈希表记录结点位置所能抢劫的最大金额，计算过的结点就无需重复计算。</li>
-<li><strong>法三</strong>：对于每个结点，都维护一个长度为2的数组，第0个位置记录的是不选择该结点所能取得的最大值，第1个位置记录的是选择该结点所能取得的最大值。</li>
-</ol>
-<p><a href="https://leetcode.com/problems/house-robber-iii/discuss/79330/Step-by-step-tackling-of-the-problem" target="_blank" rel="noopener">参考链接</a></p>
-<p><strong>代码：</strong></p>
-<ol>
-<li><strong>法一</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><strong>法二</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unordered_map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt; <span class="built_in">map</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">map</span>[root]) <span class="keyword">return</span> <span class="built_in">map</span>[root]; <span class="comment">//判断哈希表中是否有该结点的记录</span></span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    res = max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">    <span class="built_in">map</span>[root] = res;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><strong>法三</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; helper(TreeNode* root) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> &#123;<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left = helper(root-&gt;left);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right = helper(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> &#123;max(left[<span class="number">0</span>], left[<span class="number">1</span>])+max(right[<span class="number">0</span>], right[<span class="number">1</span>]), root-&gt;val+left[<span class="number">0</span>]+right[<span class="number">0</span>]&#125;;</span><br><span class="line">    <span class="comment">// 当前结点不选择，则左右两子结点选择与否都无所谓，只要选择最大值即可；</span></span><br><span class="line">    <span class="comment">// 当前结点选择，则左右两子结点均不能选择，因此需要取0位置的值。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res = helper(root);</span><br><span class="line">    <span class="keyword">return</span> max(res[<span class="number">0</span>], res[<span class="number">1</span>]); <span class="comment">//返回的是选择或者不选择根结点两种结果中的最大值。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-        <tag>二叉树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>音乐文件添加封面与歌词</title>
     <url>/2023/10/12/music-tag/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
@@ -513,6 +472,47 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第337题：打家劫舍III</title>
+    <url>/2020/01/15/leecode-337/</url>
+    <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
+<p>计算在不触动警报的情况下，小偷一晚能够盗取的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-iii/" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,2,3,null,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   2   3</span><br><span class="line">    \   \ </span><br><span class="line">     3   1</span><br><span class="line"></span><br><span class="line">输出: 7 </span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 3 + 3 + 1 = 7.</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,4,5,1,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   4   5</span><br><span class="line">  / \   \ </span><br><span class="line"> 1   3   1</span><br><span class="line"></span><br><span class="line">输出: 9</span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 4 + 5 = 9.</span><br></pre></td></tr></table></figure>
+<p><strong>解题思路：</strong></p>
+<ol>
+<li><strong>法一</strong>：类似先前的打家劫舍，对于当前位置root，可以选择，或者不选择。</li>
+</ol>
+<ul>
+<li>若选择root，就不能选择root-&gt;left和root-&gt;right，可以选择root-&gt;left-&gt;left，root-&gt;left-&gt;right，root-&gt;right-&gt;left，root-&gt;right-&gt;right。</li>
+<li>若不选择root，就能选择root-&gt;left，root-&gt;right。</li>
+<li>以上两种的最大值，就是当前位置所能抢劫到的最大金额。</li>
+</ul>
+<ol start="2">
+<li><strong>法二</strong>：法一中，在计算root-&gt;left处所能抢劫到的最大金额时，需要计算root-&gt;left-&gt;left处，root-&gt;left-&gt;right处所能抢劫的最大值；而之后计算root-&gt;left-&gt;left位置所能抢劫的最大值时，又需要重新计算一遍，从而造成重复计算。因此，可用一个哈希表记录结点位置所能抢劫的最大金额，计算过的结点就无需重复计算。</li>
+<li><strong>法三</strong>：对于每个结点，都维护一个长度为2的数组，第0个位置记录的是不选择该结点所能取得的最大值，第1个位置记录的是选择该结点所能取得的最大值。</li>
+</ol>
+<p><a href="https://leetcode.com/problems/house-robber-iii/discuss/79330/Step-by-step-tackling-of-the-problem" target="_blank" rel="noopener">参考链接</a></p>
+<p><strong>代码：</strong></p>
+<ol>
+<li><strong>法一</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>法二</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unordered_map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt; <span class="built_in">map</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">map</span>[root]) <span class="keyword">return</span> <span class="built_in">map</span>[root]; <span class="comment">//判断哈希表中是否有该结点的记录</span></span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    res = max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">    <span class="built_in">map</span>[root] = res;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>法三</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; helper(TreeNode* root) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> &#123;<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left = helper(root-&gt;left);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right = helper(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> &#123;max(left[<span class="number">0</span>], left[<span class="number">1</span>])+max(right[<span class="number">0</span>], right[<span class="number">1</span>]), root-&gt;val+left[<span class="number">0</span>]+right[<span class="number">0</span>]&#125;;</span><br><span class="line">    <span class="comment">// 当前结点不选择，则左右两子结点选择与否都无所谓，只要选择最大值即可；</span></span><br><span class="line">    <span class="comment">// 当前结点选择，则左右两子结点均不能选择，因此需要取0位置的值。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res = helper(root);</span><br><span class="line">    <span class="keyword">return</span> max(res[<span class="number">0</span>], res[<span class="number">1</span>]); <span class="comment">//返回的是选择或者不选择根结点两种结果中的最大值。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第1题：二维数组中的查找</title>
     <url>/2019/12/27/offer-01/</url>
     <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
@@ -526,27 +526,6 @@
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第6题：旋转数组的最小数字</title>
-    <url>/2020/01/02/offer-06/</url>
-    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
-<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -570,6 +549,27 @@
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第6题：旋转数组的最小数字</title>
+    <url>/2020/01/02/offer-06/</url>
+    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
+<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -683,6 +683,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
+    <url>/2020/01/04/offer-13/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第12题：数值的整数次方</title>
     <url>/2020/01/04/offer-12/</url>
     <content><![CDATA[<p><strong>题目：</strong>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0。</p>
@@ -720,24 +738,6 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
-    <url>/2020/01/04/offer-13/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -1099,26 +1099,6 @@ table {
 <a id="more"></a>]]></content>
   </entry>
   <entry>
-    <title>Scaleway</title>
-    <url>/2023/10/11/scaleway/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
-<ol>
-<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
-<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>shadowsocks中转</title>
     <url>/2020/01/03/shadowsocks-transit/</url>
     <content><![CDATA[<p><strong>需求：</strong>通过shadowsocks中继提升上网速度<br><strong>具体描述</strong>：Source(S)访问Destination(D)速度慢，我们需要找到一个中继位置T，此中继位置需满足S访问T速度快，且T访问D速度也要快。此时S访问D的完整路径为：S -&gt; T -&gt; D</p>
@@ -1137,6 +1117,26 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scaleway</title>
+    <url>/2023/10/11/scaleway/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
+<ol>
+<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
+<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -1175,23 +1175,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>gnome-terminal 启动错误</title>
-    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>gnome-terminal</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux系统swap分区配置</title>
     <url>/2023/12/06/swap/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
@@ -1218,6 +1201,23 @@ table {
       <tags>
         <tag>vps</tag>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gnome-terminal 启动错误</title>
+    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>gnome-terminal</tag>
       </tags>
   </entry>
   <entry>
