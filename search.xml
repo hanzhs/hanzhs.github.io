@@ -18,6 +18,24 @@
       </tags>
   </entry>
   <entry>
+    <title>在纯IPv6环境添加Cloudflare Tunnel</title>
+    <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp; 执行Cloudflare的安装命令后，会卡住，此时ctrl+c终端执行，修改<code>/etc/systemd/system/cloudflared.service</code>文件，在<code>ExecStart</code>的命令里面添加<code>--edge-ip-version 6</code>，之后通过<code>systemctl start cloudflared</code>开启服务即可</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://github.com/cloudflare/cloudflared/issues/842" target="_blank" rel="noopener">github issue</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Cloudflare</category>
+        <category>IPv6</category>
+      </categories>
+      <tags>
+        <tag>Cloudflare</tag>
+        <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>欧式距离与余弦距离的区别与联系</title>
     <url>/2019/10/26/euclidean-cosine-distance/</url>
     <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
@@ -42,12 +60,12 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ffmpeg分离视频中的音频</title>
-    <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
-    <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
-<p>2、提取视频</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
+    <title>使用ffmpeg将图像转换成视频</title>
+    <url>/2020/01/03/ffmpeg-imgs2vid/</url>
+    <content><![CDATA[<p><strong>需求</strong>：按照制定的码率将一系列图像转换成视频<br>1、图像名字连续：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i image%d.jpg -vcodec mpeg4 -b 800k video.avi</span><br></pre></td></tr></table></figure>
+<p>2、图像名字不连续</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i %*.png out.avi</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 ]]></content>
       <categories>
@@ -58,12 +76,12 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ffmpeg将图像转换成视频</title>
-    <url>/2020/01/03/ffmpeg-imgs2vid/</url>
-    <content><![CDATA[<p><strong>需求</strong>：按照制定的码率将一系列图像转换成视频<br>1、图像名字连续：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i image%d.jpg -vcodec mpeg4 -b 800k video.avi</span><br></pre></td></tr></table></figure>
-<p>2、图像名字不连续</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i %*.png out.avi</span><br></pre></td></tr></table></figure>
+    <title>使用ffmpeg分离视频中的音频</title>
+    <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
+    <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
+<p>2、提取视频</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 ]]></content>
       <categories>
@@ -126,24 +144,6 @@
       <tags>
         <tag>git</tag>
         <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在纯IPv6环境添加Cloudflare Tunnel</title>
-    <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp; 执行Cloudflare的安装命令后，会卡住，此时ctrl+c终端执行，修改<code>/etc/systemd/system/cloudflared.service</code>文件，在<code>ExecStart</code>的命令里面添加<code>--edge-ip-version 6</code>，之后通过<code>systemctl start cloudflared</code>开启服务即可</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://github.com/cloudflare/cloudflared/issues/842" target="_blank" rel="noopener">github issue</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Cloudflare</category>
-        <category>IPv6</category>
-      </categories>
-      <tags>
-        <tag>Cloudflare</tag>
-        <tag>IPv6</tag>
       </tags>
   </entry>
   <entry>
@@ -648,6 +648,23 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第11题：二进制中1的个数</title>
     <url>/2020/01/04/offer-11/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
@@ -703,23 +720,6 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -1099,6 +1099,26 @@ table {
 <a id="more"></a>]]></content>
   </entry>
   <entry>
+    <title>Scaleway</title>
+    <url>/2023/10/11/scaleway/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
+<ol>
+<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
+<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shadowsocks中转</title>
     <url>/2020/01/03/shadowsocks-transit/</url>
     <content><![CDATA[<p><strong>需求：</strong>通过shadowsocks中继提升上网速度<br><strong>具体描述</strong>：Source(S)访问Destination(D)速度慢，我们需要找到一个中继位置T，此中继位置需满足S访问T速度快，且T访问D速度也要快。此时S访问D的完整路径为：S -&gt; T -&gt; D</p>
@@ -1117,26 +1137,6 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scaleway</title>
-    <url>/2023/10/11/scaleway/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
-<ol>
-<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
-<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
