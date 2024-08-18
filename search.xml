@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>中文数字转换成阿拉伯数字</title>
-    <url>/2020/07/11/chinese-num-to-arbic-num/</url>
-    <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
-<p><strong>解题思路：</strong> 以亿为分界点，将亿之前的数字作为一部分，其余的部分再做处理。</p>
-<p><a href="https://github.com/fuhailin/show-me-python-code/blob/master/leetcode/%E4%B8%AD%E6%96%87%E6%95%B0%E5%AD%972%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97.py" target="_blank" rel="noopener">参考链接</a></p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chs_arabic_map = &#123;<span class="string">'零'</span>: <span class="number">0</span>, <span class="string">'一'</span>: <span class="number">1</span>, <span class="string">'二'</span>: <span class="number">2</span>, <span class="string">'三'</span>: <span class="number">3</span>, <span class="string">'四'</span>: <span class="number">4</span>, <span class="string">'五'</span>: <span class="number">5</span>, <span class="string">'六'</span>: <span class="number">6</span>, <span class="string">'七'</span>: <span class="number">7</span>, <span class="string">'八'</span>: <span class="number">8</span>, <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">                  <span class="string">'十'</span>: <span class="number">10</span>, <span class="string">'百'</span>: <span class="number">100</span>, <span class="string">'千'</span>: <span class="number">1000</span>, <span class="string">'万'</span>: <span class="number">10000</span>, <span class="string">'亿'</span>: <span class="number">10</span> ** <span class="number">8</span>,</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertChineseDigitsToArabic</span><span class="params">(chinese_digits, encoding=<span class="string">"utf-8"</span>)</span>:</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    res_before_yi = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> chinese_digits:</span><br><span class="line">        val = chs_arabic_map.get(char, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> val == <span class="number">10</span>**<span class="number">8</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            res_before_yi = res_before_yi * <span class="number">10</span> ** <span class="number">8</span> + res</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val == <span class="number">10000</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val &gt;=<span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">                tmp = <span class="number">1</span></span><br><span class="line">            res = res + tmp*val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = tmp * <span class="number">10</span> + val</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"不合法的字符"</span>)</span><br><span class="line">    res += res_before_yi</span><br><span class="line">    res += tmp</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_map = &#123;</span><br><span class="line">        <span class="comment"># '三千五百二十三': 3523,</span></span><br><span class="line">        <span class="string">'九万五千零七十五亿八百零七万九千二百零八'</span>: <span class="number">9507508079208</span>,</span><br><span class="line">        <span class="string">'四万三千五百二十一'</span>: <span class="number">43521</span>,</span><br><span class="line">        <span class="string">'三千五百二十一'</span>: <span class="number">3521</span>,</span><br><span class="line">        <span class="string">'三千五百零八'</span>: <span class="number">3508</span>,</span><br><span class="line">        <span class="string">'三五六零'</span>: <span class="number">3560</span>,</span><br><span class="line">        <span class="string">'一万零三十'</span>: <span class="number">10030</span>,</span><br><span class="line">        <span class="string">''</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment"># 1 digit 个</span></span><br><span class="line">        <span class="string">'零'</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">'一'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'二'</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">'三'</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="string">'四'</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="string">'五'</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="string">'六'</span>: <span class="number">6</span>,</span><br><span class="line">        <span class="string">'七'</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="string">'八'</span>: <span class="number">8</span>,</span><br><span class="line">        <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">        <span class="comment"># 2 digits 十</span></span><br><span class="line">        <span class="string">'十'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'十一'</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="string">'二十'</span>: <span class="number">20</span>,</span><br><span class="line">        <span class="string">'二十一'</span>: <span class="number">21</span>,</span><br><span class="line">        <span class="comment"># 3 digits 百</span></span><br><span class="line">        <span class="string">'一百'</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="string">'一百零一'</span>: <span class="number">101</span>,</span><br><span class="line">        <span class="string">'一百一十'</span>: <span class="number">110</span>,</span><br><span class="line">        <span class="string">'一百二十三'</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="comment"># 4 digits 千</span></span><br><span class="line">        <span class="string">'一千'</span>: <span class="number">1000</span>,</span><br><span class="line">        <span class="string">'一千零一'</span>: <span class="number">1001</span>,</span><br><span class="line">        <span class="string">'一千零一十'</span>: <span class="number">1010</span>,</span><br><span class="line">        <span class="string">'一千一百'</span>: <span class="number">1100</span>,</span><br><span class="line">        <span class="string">'一千零二十三'</span>: <span class="number">1023</span>,</span><br><span class="line">        <span class="string">'一千二百零三'</span>: <span class="number">1203</span>,</span><br><span class="line">        <span class="string">'一千二百三十'</span>: <span class="number">1230</span>,</span><br><span class="line">        <span class="comment"># 5 digits 万</span></span><br><span class="line">        <span class="string">'一万'</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">'一万零一'</span>: <span class="number">10001</span>,</span><br><span class="line">        <span class="string">'一万零一十'</span>: <span class="number">10010</span>,</span><br><span class="line">        <span class="string">'一万零一百'</span>: <span class="number">10100</span>,</span><br><span class="line">        <span class="string">'一万一千'</span>: <span class="number">11000</span>,</span><br><span class="line">        <span class="string">'一万零一十一'</span>: <span class="number">10011</span>,</span><br><span class="line">        <span class="string">'一万零一百零一'</span>: <span class="number">10101</span>,</span><br><span class="line">        <span class="string">'一万一千零一'</span>: <span class="number">11001</span>,</span><br><span class="line">        <span class="string">'一万零一百一十'</span>: <span class="number">10110</span>,</span><br><span class="line">        <span class="string">'一万一千零一十'</span>: <span class="number">11010</span>,</span><br><span class="line">        <span class="string">'一万一千一百'</span>: <span class="number">11100</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十'</span>: <span class="number">11110</span>,</span><br><span class="line">        <span class="string">'一万一千一百零一'</span>: <span class="number">11101</span>,</span><br><span class="line">        <span class="string">'一万一千零一十一'</span>: <span class="number">11011</span>,</span><br><span class="line">        <span class="string">'一万零一百一十一'</span>: <span class="number">10111</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十一'</span>: <span class="number">11111</span>,</span><br><span class="line">        <span class="comment"># 6 digits 十万</span></span><br><span class="line">        <span class="string">'十万零二千三百四十五'</span>: <span class="number">102345</span>,</span><br><span class="line">        <span class="string">'十二万三千四百五十六'</span>: <span class="number">123456</span>,</span><br><span class="line">        <span class="string">'十万零三百五十六'</span>: <span class="number">100356</span>,</span><br><span class="line">        <span class="string">'十万零三千六百零九'</span>: <span class="number">103609</span>,</span><br><span class="line">        <span class="comment"># 7 digits 百万</span></span><br><span class="line">        <span class="string">'一百二十三万四千五百六十七'</span>: <span class="number">1234567</span>,</span><br><span class="line">        <span class="string">'一百零一万零一百零一'</span>: <span class="number">1010101</span>,</span><br><span class="line">        <span class="string">'一百万零一'</span>: <span class="number">1000001</span>,</span><br><span class="line">        <span class="comment"># 8 digits 千万</span></span><br><span class="line">        <span class="string">'一千一百二十三万四千五百六十七'</span>: <span class="number">11234567</span>,</span><br><span class="line">        <span class="string">'一千零一十一万零一百零一'</span>: <span class="number">10110101</span>,</span><br><span class="line">        <span class="string">'一千万零一'</span>: <span class="number">10000001</span>,</span><br><span class="line">        <span class="comment"># 9 digits 亿</span></span><br><span class="line">        <span class="string">'一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111234567</span>,</span><br><span class="line">        <span class="string">'一亿零一百零一万零一百零一'</span>: <span class="number">101010101</span>,</span><br><span class="line">        <span class="string">'一亿零一'</span>: <span class="number">100000001</span>,</span><br><span class="line">        <span class="comment"># 10 digits 十亿</span></span><br><span class="line">        <span class="string">'十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111234567</span>,</span><br><span class="line">        <span class="comment"># 11 digits 百亿</span></span><br><span class="line">        <span class="string">'一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111234567</span>,</span><br><span class="line">        <span class="comment"># 12 digits 千亿</span></span><br><span class="line">        <span class="string">'一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111111234567</span>,</span><br><span class="line">        <span class="comment"># 13 digits 万亿</span></span><br><span class="line">        <span class="string">'一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111111234567</span>,</span><br><span class="line">        <span class="comment"># 14 digits 十万亿</span></span><br><span class="line">        <span class="string">'十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111234567</span>,</span><br><span class="line">        <span class="comment"># 17 digits 亿亿</span></span><br><span class="line">        <span class="string">'一亿一千一百一十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111111234567</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> test_map:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">assert</span> (test_map[each] == convertChineseDigitsToArabic(each))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(each, test_map[each], convertChineseDigitsToArabic(each))</span><br></pre></td></tr></table></figure>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
 ]]></content>
       <categories>
-        <category>code</category>
+        <category>vps</category>
       </categories>
       <tags>
-        <tag>code</tag>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
       </tags>
   </entry>
   <entry>
@@ -44,6 +48,23 @@
 <a id="more"></a>
 <p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>中文数字转换成阿拉伯数字</title>
+    <url>/2020/07/11/chinese-num-to-arbic-num/</url>
+    <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
+<p><strong>解题思路：</strong> 以亿为分界点，将亿之前的数字作为一部分，其余的部分再做处理。</p>
+<p><a href="https://github.com/fuhailin/show-me-python-code/blob/master/leetcode/%E4%B8%AD%E6%96%87%E6%95%B0%E5%AD%972%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97.py" target="_blank" rel="noopener">参考链接</a></p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chs_arabic_map = &#123;<span class="string">'零'</span>: <span class="number">0</span>, <span class="string">'一'</span>: <span class="number">1</span>, <span class="string">'二'</span>: <span class="number">2</span>, <span class="string">'三'</span>: <span class="number">3</span>, <span class="string">'四'</span>: <span class="number">4</span>, <span class="string">'五'</span>: <span class="number">5</span>, <span class="string">'六'</span>: <span class="number">6</span>, <span class="string">'七'</span>: <span class="number">7</span>, <span class="string">'八'</span>: <span class="number">8</span>, <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">                  <span class="string">'十'</span>: <span class="number">10</span>, <span class="string">'百'</span>: <span class="number">100</span>, <span class="string">'千'</span>: <span class="number">1000</span>, <span class="string">'万'</span>: <span class="number">10000</span>, <span class="string">'亿'</span>: <span class="number">10</span> ** <span class="number">8</span>,</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertChineseDigitsToArabic</span><span class="params">(chinese_digits, encoding=<span class="string">"utf-8"</span>)</span>:</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    res_before_yi = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> chinese_digits:</span><br><span class="line">        val = chs_arabic_map.get(char, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> val == <span class="number">10</span>**<span class="number">8</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            res_before_yi = res_before_yi * <span class="number">10</span> ** <span class="number">8</span> + res</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val == <span class="number">10000</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val &gt;=<span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">                tmp = <span class="number">1</span></span><br><span class="line">            res = res + tmp*val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = tmp * <span class="number">10</span> + val</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"不合法的字符"</span>)</span><br><span class="line">    res += res_before_yi</span><br><span class="line">    res += tmp</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_map = &#123;</span><br><span class="line">        <span class="comment"># '三千五百二十三': 3523,</span></span><br><span class="line">        <span class="string">'九万五千零七十五亿八百零七万九千二百零八'</span>: <span class="number">9507508079208</span>,</span><br><span class="line">        <span class="string">'四万三千五百二十一'</span>: <span class="number">43521</span>,</span><br><span class="line">        <span class="string">'三千五百二十一'</span>: <span class="number">3521</span>,</span><br><span class="line">        <span class="string">'三千五百零八'</span>: <span class="number">3508</span>,</span><br><span class="line">        <span class="string">'三五六零'</span>: <span class="number">3560</span>,</span><br><span class="line">        <span class="string">'一万零三十'</span>: <span class="number">10030</span>,</span><br><span class="line">        <span class="string">''</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment"># 1 digit 个</span></span><br><span class="line">        <span class="string">'零'</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">'一'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'二'</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">'三'</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="string">'四'</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="string">'五'</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="string">'六'</span>: <span class="number">6</span>,</span><br><span class="line">        <span class="string">'七'</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="string">'八'</span>: <span class="number">8</span>,</span><br><span class="line">        <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">        <span class="comment"># 2 digits 十</span></span><br><span class="line">        <span class="string">'十'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'十一'</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="string">'二十'</span>: <span class="number">20</span>,</span><br><span class="line">        <span class="string">'二十一'</span>: <span class="number">21</span>,</span><br><span class="line">        <span class="comment"># 3 digits 百</span></span><br><span class="line">        <span class="string">'一百'</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="string">'一百零一'</span>: <span class="number">101</span>,</span><br><span class="line">        <span class="string">'一百一十'</span>: <span class="number">110</span>,</span><br><span class="line">        <span class="string">'一百二十三'</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="comment"># 4 digits 千</span></span><br><span class="line">        <span class="string">'一千'</span>: <span class="number">1000</span>,</span><br><span class="line">        <span class="string">'一千零一'</span>: <span class="number">1001</span>,</span><br><span class="line">        <span class="string">'一千零一十'</span>: <span class="number">1010</span>,</span><br><span class="line">        <span class="string">'一千一百'</span>: <span class="number">1100</span>,</span><br><span class="line">        <span class="string">'一千零二十三'</span>: <span class="number">1023</span>,</span><br><span class="line">        <span class="string">'一千二百零三'</span>: <span class="number">1203</span>,</span><br><span class="line">        <span class="string">'一千二百三十'</span>: <span class="number">1230</span>,</span><br><span class="line">        <span class="comment"># 5 digits 万</span></span><br><span class="line">        <span class="string">'一万'</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">'一万零一'</span>: <span class="number">10001</span>,</span><br><span class="line">        <span class="string">'一万零一十'</span>: <span class="number">10010</span>,</span><br><span class="line">        <span class="string">'一万零一百'</span>: <span class="number">10100</span>,</span><br><span class="line">        <span class="string">'一万一千'</span>: <span class="number">11000</span>,</span><br><span class="line">        <span class="string">'一万零一十一'</span>: <span class="number">10011</span>,</span><br><span class="line">        <span class="string">'一万零一百零一'</span>: <span class="number">10101</span>,</span><br><span class="line">        <span class="string">'一万一千零一'</span>: <span class="number">11001</span>,</span><br><span class="line">        <span class="string">'一万零一百一十'</span>: <span class="number">10110</span>,</span><br><span class="line">        <span class="string">'一万一千零一十'</span>: <span class="number">11010</span>,</span><br><span class="line">        <span class="string">'一万一千一百'</span>: <span class="number">11100</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十'</span>: <span class="number">11110</span>,</span><br><span class="line">        <span class="string">'一万一千一百零一'</span>: <span class="number">11101</span>,</span><br><span class="line">        <span class="string">'一万一千零一十一'</span>: <span class="number">11011</span>,</span><br><span class="line">        <span class="string">'一万零一百一十一'</span>: <span class="number">10111</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十一'</span>: <span class="number">11111</span>,</span><br><span class="line">        <span class="comment"># 6 digits 十万</span></span><br><span class="line">        <span class="string">'十万零二千三百四十五'</span>: <span class="number">102345</span>,</span><br><span class="line">        <span class="string">'十二万三千四百五十六'</span>: <span class="number">123456</span>,</span><br><span class="line">        <span class="string">'十万零三百五十六'</span>: <span class="number">100356</span>,</span><br><span class="line">        <span class="string">'十万零三千六百零九'</span>: <span class="number">103609</span>,</span><br><span class="line">        <span class="comment"># 7 digits 百万</span></span><br><span class="line">        <span class="string">'一百二十三万四千五百六十七'</span>: <span class="number">1234567</span>,</span><br><span class="line">        <span class="string">'一百零一万零一百零一'</span>: <span class="number">1010101</span>,</span><br><span class="line">        <span class="string">'一百万零一'</span>: <span class="number">1000001</span>,</span><br><span class="line">        <span class="comment"># 8 digits 千万</span></span><br><span class="line">        <span class="string">'一千一百二十三万四千五百六十七'</span>: <span class="number">11234567</span>,</span><br><span class="line">        <span class="string">'一千零一十一万零一百零一'</span>: <span class="number">10110101</span>,</span><br><span class="line">        <span class="string">'一千万零一'</span>: <span class="number">10000001</span>,</span><br><span class="line">        <span class="comment"># 9 digits 亿</span></span><br><span class="line">        <span class="string">'一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111234567</span>,</span><br><span class="line">        <span class="string">'一亿零一百零一万零一百零一'</span>: <span class="number">101010101</span>,</span><br><span class="line">        <span class="string">'一亿零一'</span>: <span class="number">100000001</span>,</span><br><span class="line">        <span class="comment"># 10 digits 十亿</span></span><br><span class="line">        <span class="string">'十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111234567</span>,</span><br><span class="line">        <span class="comment"># 11 digits 百亿</span></span><br><span class="line">        <span class="string">'一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111234567</span>,</span><br><span class="line">        <span class="comment"># 12 digits 千亿</span></span><br><span class="line">        <span class="string">'一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111111234567</span>,</span><br><span class="line">        <span class="comment"># 13 digits 万亿</span></span><br><span class="line">        <span class="string">'一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111111234567</span>,</span><br><span class="line">        <span class="comment"># 14 digits 十万亿</span></span><br><span class="line">        <span class="string">'十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111234567</span>,</span><br><span class="line">        <span class="comment"># 17 digits 亿亿</span></span><br><span class="line">        <span class="string">'一亿一千一百一十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111111234567</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> test_map:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">assert</span> (test_map[each] == convertChineseDigitsToArabic(each))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(each, test_map[each], convertChineseDigitsToArabic(each))</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>code</category>
+      </categories>
+      <tags>
+        <tag>code</tag>
+      </tags>
   </entry>
   <entry>
     <title>使用shell脚本实现图像序列到视频的批量转换</title>
@@ -111,26 +132,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git移除历史提交中的敏感信息文件</title>
-    <url>/2023/08/31/git-remove-sensetive-files/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git 代理</title>
     <url>/2019/10/26/git_proxy/</url>
     <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
@@ -170,28 +171,6 @@
       </tags>
   </entry>
   <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>IPv6</tag>
-        <tag>nginx</tag>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第120题：</title>
     <url>/2020/07/14/leecode-120/</url>
     <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
@@ -213,24 +192,25 @@
       </tags>
   </entry>
   <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>vps</category>
+        <category>nginx</category>
       </categories>
       <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
+        <tag>IPv6</tag>
+        <tag>nginx</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -259,30 +239,6 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hysteria 2 配置</title>
-    <url>/2023/10/21/hysteria-2/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -346,6 +302,35 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第213题：打家劫舍II</title>
+    <url>/2020/01/15/leecode-213/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
+<ul>
+<li>去除起始位置，能抢到的最大金额</li>
+<li>去除结束位置，能抢到的最大金额</li>
+<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
+</ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第337题：打家劫舍III</title>
     <url>/2020/01/15/leecode-337/</url>
     <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
@@ -384,35 +369,6 @@
         <tag>leecode</tag>
         <tag>动态规划</tag>
         <tag>二叉树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第213题：打家劫舍II</title>
-    <url>/2020/01/15/leecode-213/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
-<ul>
-<li>去除起始位置，能抢到的最大金额</li>
-<li>去除结束位置，能抢到的最大金额</li>
-<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
-</ul>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -463,6 +419,26 @@
       </categories>
       <tags>
         <tag>leecode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git移除历史提交中的敏感信息文件</title>
+    <url>/2023/08/31/git-remove-sensetive-files/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -549,6 +525,30 @@
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hysteria 2 配置</title>
+    <url>/2023/10/21/hysteria-2/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -648,24 +648,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
-    <url>/2020/01/04/offer-13/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>排序</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第10题：矩形覆盖</title>
     <url>/2020/01/04/offer-10/</url>
     <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
@@ -738,6 +720,24 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
+    <url>/2020/01/04/offer-13/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -1077,6 +1077,20 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>多系统引导工具：refind</title>
+    <url>/2021/08/01/refind/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>系统引导</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重新分配服务器的ip地址</title>
     <url>/2019/12/27/server-network/</url>
     <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
@@ -1126,112 +1140,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>多系统引导工具：refind</title>
-    <url>/2021/08/01/refind/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>系统引导</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu挂载硬盘不输入密码及开机自动挂载</title>
-    <url>/2020/01/03/ubuntu-mount-disk/</url>
-    <content><![CDATA[<h1 id="挂载无需输入密码"><a href="#挂载无需输入密码" class="headerlink" title="挂载无需输入密码"></a>挂载无需输入密码</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /usr/share/polkit-1/actions/org.freedesktop.udisks2.policy</span><br></pre></td></tr></table></figure>
-<p>修改<strong>filesystem-mount-system</strong>下的<strong>allow_active</strong>为<strong>yes</strong></p>
-<h1 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h1><h2 id="查看所有磁盘的UUID"><a href="#查看所有磁盘的UUID" class="headerlink" title="查看所有磁盘的UUID"></a>查看所有磁盘的UUID</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo blkid</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>例如其中一条信息</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/dev/sda3: LABEL=<span class="string">"Data"</span> UUID=<span class="string">"EABF0039BEFFFFB5"</span> TYPE=<span class="string">"ntfs"</span> PARTLABEL=<span class="string">"Basic data partition"</span> PARTUUID=<span class="string">"6ac186e7-924a-437e-8a96-e8f5a850b3d1"</span></span><br></pre></td></tr></table></figure>
-<h2 id="使用LABEL或者UUID指定需要自动挂载的分区"><a href="#使用LABEL或者UUID指定需要自动挂载的分区" class="headerlink" title="使用LABEL或者UUID指定需要自动挂载的分区"></a>使用LABEL或者UUID指定需要自动挂载的分区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
-<p>添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LABEL=Data /media/hzs/D ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
-<p>或者</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">UUID=EABF0039BEFFFFB5 /media/hzs/D ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
-<p>其中/media/hzs/D 是挂载的位置，需要事先创建好；ntfs是分区的格式，defaults是文件系统的参数，0是指不做dump备份，最后一个0是指不检验扇区。</p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>修改完成后要先测试能否使用，否则开机会出现问题</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
-<p>没有提示错误则成功。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>gnome-terminal 启动错误</title>
-    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>gnome-terminal</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux系统swap分区配置</title>
-    <url>/2023/12/06/swap/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
-<ol>
-<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
-<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
-<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
-<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
-<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
-<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
-    <url>/2020/01/03/ubuntu-reboot-slow/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
-<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
-<a id="more"></a>
-<p><strong>解决方法：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
-
-
-<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用ssh反向代理+shadowsocks实现内网穿透</title>
     <url>/2020/01/03/ssh-shadowsocks/</url>
     <content><![CDATA[<p>在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有<strong>公网ip</strong>的服务器。下文命令行中用到的地址定义如下：<br><strong>公网服务器ip地址：</strong>server_ip<br><strong>内网机器ip地址：</strong>local_ip</p>
@@ -1267,13 +1175,89 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu server 16.04 安装中文字体</title>
-    <url>/2020/01/03/ubuntu-server-font/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>安装Ubuntu Server系统时选择英文，导致系统中没有中文字体，nautilus文件夹显示的中文以及gedit中显示的中文都出现如图的情况：</p>
-<p><img src="/2020/01/03/ubuntu-server-font/charactor.png" alt></p>
+    <title>Linux系统swap分区配置</title>
+    <url>/2023/12/06/swap/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
+<ol>
+<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
+<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
+<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
+<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
+<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
+<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gnome-terminal 启动错误</title>
+    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p><strong>解决方法：</strong>安装文泉驿字体</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei</span><br></pre></td></tr></table></figure>
+<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>gnome-terminal</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
+    <url>/2020/01/03/ubuntu-reboot-slow/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
+<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
+<a id="more"></a>
+<p><strong>解决方法：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
+
+
+<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu挂载硬盘不输入密码及开机自动挂载</title>
+    <url>/2020/01/03/ubuntu-mount-disk/</url>
+    <content><![CDATA[<h1 id="挂载无需输入密码"><a href="#挂载无需输入密码" class="headerlink" title="挂载无需输入密码"></a>挂载无需输入密码</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /usr/share/polkit-1/actions/org.freedesktop.udisks2.policy</span><br></pre></td></tr></table></figure>
+<p>修改<strong>filesystem-mount-system</strong>下的<strong>allow_active</strong>为<strong>yes</strong></p>
+<h1 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h1><h2 id="查看所有磁盘的UUID"><a href="#查看所有磁盘的UUID" class="headerlink" title="查看所有磁盘的UUID"></a>查看所有磁盘的UUID</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo blkid</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>例如其中一条信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/dev/sda3: LABEL=<span class="string">"Data"</span> UUID=<span class="string">"EABF0039BEFFFFB5"</span> TYPE=<span class="string">"ntfs"</span> PARTLABEL=<span class="string">"Basic data partition"</span> PARTUUID=<span class="string">"6ac186e7-924a-437e-8a96-e8f5a850b3d1"</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用LABEL或者UUID指定需要自动挂载的分区"><a href="#使用LABEL或者UUID指定需要自动挂载的分区" class="headerlink" title="使用LABEL或者UUID指定需要自动挂载的分区"></a>使用LABEL或者UUID指定需要自动挂载的分区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
+<p>添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LABEL=Data /media/hzs/D ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">UUID=EABF0039BEFFFFB5 /media/hzs/D ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
+<p>其中/media/hzs/D 是挂载的位置，需要事先创建好；ntfs是分区的格式，defaults是文件系统的参数，0是指不做dump备份，最后一个0是指不检验扇区。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>修改完成后要先测试能否使用，否则开机会出现问题</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
+<p>没有提示错误则成功。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
@@ -1336,11 +1320,49 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>ubuntu server 16.04 安装中文字体</title>
+    <url>/2020/01/03/ubuntu-server-font/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>安装Ubuntu Server系统时选择英文，导致系统中没有中文字体，nautilus文件夹显示的中文以及gedit中显示的中文都出现如图的情况：</p>
+<p><img src="/2020/01/03/ubuntu-server-font/charactor.png" alt></p>
+<a id="more"></a>
+<p><strong>解决方法：</strong>安装文泉驿字体</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ubuntu server 安装sogou输入法</title>
     <url>/2020/01/03/ubuntu-server-sougou/</url>
     <content><![CDATA[<p><strong>问题描述：</strong>ubuntu的状态栏没有fctix的状态图标<br><strong>解决方法：</strong></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fcitx-config-gtk3</span><br></pre></td></tr></table></figure>
 <a id="more"></a>]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu server 16.04 添加开机启动脚本</title>
+    <url>/2020/01/03/ubuntu-startup-scripts/</url>
+    <content><![CDATA[<p><strong>失败方案：</strong><br>1、rc.local等一系列方法，包括在/etc/init.d/rc.local里面添加PATH的环境变量等<br><strong>原因：</strong> ubuntu 15.04之后，开机脚本采用systemd管理</p>
+<p><strong>方法步骤：</strong><br>1、在/lib/systemd/system/下添加启动文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /lib/systemd/system/</span><br><span class="line">sudo vim sslocal.service</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>输入内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks Client Start <span class="comment">#文件描述</span></span><br><span class="line">After=network.target <span class="comment">#启动顺序</span></span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=hzs</span><br><span class="line">ExecStart=/home/hzs/.<span class="built_in">local</span>/bin/sslocal -s 69.12.82.153 -p 4396 -k password -m rc4-md5 -l 8980 <span class="comment">#启动命令</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target <span class="comment">#启动模式</span></span><br></pre></td></tr></table></figure>
+<p>2、将sslocal.service链接至/etc/systemd/system/multi-user.target.wants/</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ln -s /lib/systemd/system/sslocal.service /etc/systemd/system/multi-user.target.wants/</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>软链接的路径要填写绝对地址<br>3、检查</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls -l /etc/systemd/system/multi-user.target.wants/sslocal.service</span><br></pre></td></tr></table></figure>
+<p>链接为蓝色则正常，红色为错误的软链接。</p>
+]]></content>
       <categories>
         <category>ubuntu</category>
       </categories>
@@ -1371,28 +1393,6 @@ table {
     <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu server 16.04 添加开机启动脚本</title>
-    <url>/2020/01/03/ubuntu-startup-scripts/</url>
-    <content><![CDATA[<p><strong>失败方案：</strong><br>1、rc.local等一系列方法，包括在/etc/init.d/rc.local里面添加PATH的环境变量等<br><strong>原因：</strong> ubuntu 15.04之后，开机脚本采用systemd管理</p>
-<p><strong>方法步骤：</strong><br>1、在/lib/systemd/system/下添加启动文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /lib/systemd/system/</span><br><span class="line">sudo vim sslocal.service</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>输入内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks Client Start <span class="comment">#文件描述</span></span><br><span class="line">After=network.target <span class="comment">#启动顺序</span></span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=hzs</span><br><span class="line">ExecStart=/home/hzs/.<span class="built_in">local</span>/bin/sslocal -s 69.12.82.153 -p 4396 -k password -m rc4-md5 -l 8980 <span class="comment">#启动命令</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target <span class="comment">#启动模式</span></span><br></pre></td></tr></table></figure>
-<p>2、将sslocal.service链接至/etc/systemd/system/multi-user.target.wants/</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ln -s /lib/systemd/system/sslocal.service /etc/systemd/system/multi-user.target.wants/</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>软链接的路径要填写绝对地址<br>3、检查</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls -l /etc/systemd/system/multi-user.target.wants/sslocal.service</span><br></pre></td></tr></table></figure>
-<p>链接为蓝色则正常，红色为错误的软链接。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
