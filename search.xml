@@ -18,6 +18,16 @@
       </tags>
   </entry>
   <entry>
+    <title>欧式距离与余弦距离的区别与联系</title>
+    <url>/2019/10/26/euclidean-cosine-distance/</url>
+    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
+<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
+<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
+<a id="more"></a>
+<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
+]]></content>
+  </entry>
+  <entry>
     <title>在纯IPv6环境添加Cloudflare Tunnel</title>
     <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
@@ -34,16 +44,6 @@
         <tag>Cloudflare</tag>
         <tag>IPv6</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>欧式距离与余弦距离的区别与联系</title>
-    <url>/2019/10/26/euclidean-cosine-distance/</url>
-    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
-<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
-<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
-<a id="more"></a>
-<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
-]]></content>
   </entry>
   <entry>
     <title>使用shell脚本实现图像序列到视频的批量转换</title>
@@ -89,6 +89,66 @@
       </categories>
       <tags>
         <tag>ffmpeg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git移除历史提交中的敏感信息文件</title>
+    <url>/2023/08/31/git-remove-sensetive-files/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git使用socks5代理</title>
+    <url>/2023/08/31/git-ssh-proxy/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
       </tags>
   </entry>
   <entry>
@@ -150,47 +210,6 @@
         <tag>IPv6</tag>
         <tag>nginx</tag>
         <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git移除历史提交中的敏感信息文件</title>
-    <url>/2023/08/31/git-remove-sensetive-files/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -301,35 +320,6 @@
       </tags>
   </entry>
   <entry>
-    <title>leecode第213题：打家劫舍II</title>
-    <url>/2020/01/15/leecode-213/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
-<ul>
-<li>去除起始位置，能抢到的最大金额</li>
-<li>去除结束位置，能抢到的最大金额</li>
-<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
-</ul>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第198题：打家劫舍</title>
     <url>/2020/01/15/leecode-198/</url>
     <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong><br>给定一个代表每个房屋存放金额的非负整数数组，计算你在<strong>不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">原题链接</a></p>
@@ -356,22 +346,32 @@
       </tags>
   </entry>
   <entry>
-    <title>git使用socks5代理</title>
-    <url>/2023/08/31/git-ssh-proxy/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
+    <title>leecode第213题：打家劫舍II</title>
+    <url>/2020/01/15/leecode-213/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
 
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
+<ul>
+<li>去除起始位置，能抢到的最大金额</li>
+<li>去除结束位置，能抢到的最大金额</li>
+<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
 </ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>leecode</category>
       </categories>
       <tags>
-        <tag>git</tag>
-        <tag>网络代理</tag>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -466,6 +466,22 @@
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第1题：二维数组中的查找</title>
+    <url>/2019/12/27/offer-01/</url>
+    <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">leecode 74</a>相同，可以参照leecode的矩阵示例。<br>解题思路：数组为排序过的数组，左上角的元素最小，右下角的元素最大。我们可以选取一个位于中间值的位置作为搜索的起始点，因此这个位置可以是左下角或者是右上角，本次选取左下角作为搜索起始点。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="built_in">array</span>.size();</span><br><span class="line">    <span class="keyword">int</span> c = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">    <span class="keyword">int</span> i = r<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&gt;=<span class="number">0</span> &amp;&amp; j&lt;c) &#123; </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target) i -= <span class="number">1</span>; <span class="comment">//从左下角开始搜索，如果此处的值大于目标值，因此需要往上搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &lt; target) j += <span class="number">1</span>; <span class="comment">//如果小于目标值，因此需要往右边搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 如果等于目标值，就返回true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//否则返回false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>音乐文件添加封面与歌词</title>
     <url>/2023/10/12/music-tag/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
@@ -536,22 +552,6 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第1题：二维数组中的查找</title>
-    <url>/2019/12/27/offer-01/</url>
-    <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">leecode 74</a>相同，可以参照leecode的矩阵示例。<br>解题思路：数组为排序过的数组，左上角的元素最小，右下角的元素最大。我们可以选取一个位于中间值的位置作为搜索的起始点，因此这个位置可以是左下角或者是右上角，本次选取左下角作为搜索起始点。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="built_in">array</span>.size();</span><br><span class="line">    <span class="keyword">int</span> c = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">    <span class="keyword">int</span> i = r<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&gt;=<span class="number">0</span> &amp;&amp; j&lt;c) &#123; </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target) i -= <span class="number">1</span>; <span class="comment">//从左下角开始搜索，如果此处的值大于目标值，因此需要往上搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &lt; target) j += <span class="number">1</span>; <span class="comment">//如果小于目标值，因此需要往右边搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 如果等于目标值，就返回true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//否则返回false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第6题：旋转数组的最小数字</title>
     <url>/2020/01/02/offer-06/</url>
     <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
@@ -591,41 +591,6 @@
         <tag>动态规划</tag>
         <tag>剑指Offer</tag>
         <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第11题：二进制中1的个数</title>
-    <url>/2020/01/04/offer-11/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
-<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>进制转化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -683,21 +648,38 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
-    <url>/2020/01/04/offer-13/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第11题：二进制中1的个数</title>
+    <url>/2020/01/04/offer-11/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
 <a id="more"></a>
 <p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>剑指Offer</category>
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>排序</tag>
+        <tag>进制转化</tag>
       </tags>
   </entry>
   <entry>
@@ -738,6 +720,24 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
+    <url>/2020/01/04/offer-13/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -1049,6 +1049,34 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>VPS使用rclone挂载Google Drive</title>
+    <url>/2023/09/23/rclone/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;VPS自带磁盘空间较小，存储空间紧张，可考虑通过挂载网盘的方式来扩容</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;通过<a href="#ref-1">参考链接[1]</a>，使用rclone完成。为了防止链接之后无法访问，这里记录一些主要步骤：</p>
+<ol>
+<li><p>安装rclone</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://rclone.org/install.sh | sudo bash</span><br></pre></td></tr></table></figure></li>
+<li><p>安装完毕后，执行<code>rclone config</code>进行配置，选择n创建配置，之后选择google drive</p>
+</li>
+<li><p>创建google api，保存您的应用时出错，可以更改应用的名字</p>
+</li>
+<li><p>挂载时，根据<a href="#ref-2">参考链接[2]</a>，–vfs-cache-mode可以选择本地磁盘缓存模式，经过测试，off模式无法使用qbt下，其他模式会先缓存在.cache/rclone目录下</p>
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://pickstar.today/2022/05/vps%E4%BD%BF%E7%94%A8rclone%E6%8C%82%E8%BD%BDgoogle-drive%E8%AF%A6%E7%BB%86%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">vps使用rclone挂载Google Drive详细记录</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rclone.org/commands/rclone_mount/" target="_blank" rel="noopener">rclone mount</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>rclone</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>多系统引导工具：refind</title>
     <url>/2021/08/01/refind/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
@@ -1088,34 +1116,6 @@ table {
       </categories>
       <tags>
         <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VPS使用rclone挂载Google Drive</title>
-    <url>/2023/09/23/rclone/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;VPS自带磁盘空间较小，存储空间紧张，可考虑通过挂载网盘的方式来扩容</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;通过<a href="#ref-1">参考链接[1]</a>，使用rclone完成。为了防止链接之后无法访问，这里记录一些主要步骤：</p>
-<ol>
-<li><p>安装rclone</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://rclone.org/install.sh | sudo bash</span><br></pre></td></tr></table></figure></li>
-<li><p>安装完毕后，执行<code>rclone config</code>进行配置，选择n创建配置，之后选择google drive</p>
-</li>
-<li><p>创建google api，保存您的应用时出错，可以更改应用的名字</p>
-</li>
-<li><p>挂载时，根据<a href="#ref-2">参考链接[2]</a>，–vfs-cache-mode可以选择本地磁盘缓存模式，经过测试，off模式无法使用qbt下，其他模式会先缓存在.cache/rclone目录下</p>
-</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://pickstar.today/2022/05/vps%E4%BD%BF%E7%94%A8rclone%E6%8C%82%E8%BD%BDgoogle-drive%E8%AF%A6%E7%BB%86%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">vps使用rclone挂载Google Drive详细记录</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://rclone.org/commands/rclone_mount/" target="_blank" rel="noopener">rclone mount</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>rclone</tag>
       </tags>
   </entry>
   <entry>
@@ -1175,58 +1175,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>Scaleway修改默认磁盘大小</title>
-    <url>/2024/08/18/scaleway-resize-disk-size/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; Swaleway创建STARDUST1-S型机器时，最低只能选择10G硬盘，对于部分使用场景而言，10G的硬盘空间太大，造成了不少的浪费。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>实例启动后，按照以下步骤操作</p>
-<h4 id="一、新增磁盘并从救援模式进入系统"><a href="#一、新增磁盘并从救援模式进入系统" class="headerlink" title="一、新增磁盘并从救援模式进入系统"></a>一、新增磁盘并从救援模式进入系统</h4><ol>
-<li>从控制台关机（注意，不能从ssh关机，ssh关机在后，无法在控制台移除磁盘）；</li>
-<li>关机后在<a href="https://console.scaleway.com/instance/volumes" target="_blank" rel="noopener">volumes</a>页面新增vps所在区域的磁盘，磁盘的类型选择Local storage；</li>
-<li>创建好磁盘后，添加到对应的实例上；</li>
-<li>进入相应的实例，Attached volumes部分，将默认的10G硬盘删除；</li>
-<li>进入Advanced settings，选择Boot mode为Use rescue image，保存；</li>
-<li>从控制台开机，可以在网页上的Console查看开机进度，此次开机耗时可能比较久，大概需要5分钟甚至更多；</li>
-<li>开机成功后，可以使用ssh连接上服务器，还是使用原先的账户和密钥登录即可；</li>
-</ol>
-<h4 id="二、安装Alpine操作系统"><a href="#二、安装Alpine操作系统" class="headerlink" title="二、安装Alpine操作系统"></a>二、安装Alpine操作系统</h4><ol start="8">
-<li><p>根据<a href="#ref-1">参考链接[1]</a>，注意，</p>
-<p> 1） 最新的Alpine版本可以从<a href="https://alpinelinux.org/downloads/" target="_blank" rel="noopener">官网</a>下载，选择VIRTUAL版本即可<br> 2） 安装系统的磁盘需要修改，例如在Scaleway中，磁盘的路径为/dev/vda</p>
-</li>
-<li><p>在setup-alpine过程中，默认会调用setup-disk，但是默认会创建三个分区，分别是boot分区，swap分区以及系统分区。对于小硬盘来说，如果使用默认配置，boot分区和swap分区会占用掉太多空间，最终系统分区的大小只会有700多M，为了最大限度使用磁盘空间，需要手动执行setup-disk。setup-alpine执行到选择磁盘安装位置时，先不选择磁盘，配置存放位置选择默认即可；</p>
-<p> 1） 根据<a href="#ref-2">参考链接[2]</a>，可以通过设置环境变量BOOT_SIZE来指定boot分区的大小<br> 2） 查看setup-disk –help可知，根据传入-s参数的值可以设置swap分区的大小</p>
-</li>
-<li><p>执行<code>export BOOT_SIZE=40; setup-disk -s 0</code>，进行安装系统操作</p>
-<p>1） 如果出现错误</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ERROR: unable to select packages:</span><br><span class="line">dosfstools (no such package):</span><br><span class="line">    required by: world[dosfstools]</span><br><span class="line">grub-efi (no such package):</span><br><span class="line">    required by: world[grub-efi]</span><br></pre></td></tr></table></figure>
-<p>说明对应的安装包无法成功安装，可以使用命令<code>echo &#39;nameserver 2a01:4f8:c2c:123f::1&#39; &gt;&gt; /etc/resolv.conf</code>修改dns为dns64，之后运行<code>apk update</code>，再重新执行即可。如果/dev/vda已被挂载，需要先umount对应的分区。</p>
-</li>
-<li><p>安装完成后，可以挂在系统分区，将ssh公钥写入到authorized_keys文件（注意.ssh目录的权限以及authorized_keys文件的权限，.ssh目录文件权限为700，authorized_keys的权限为600），重启后即可使用原先的私钥登录</p>
-</li>
-<li><p>从控制台关机机器，之后进入Scaleway实例控制台，选择Advanced settings页，修改Boot mode为Use Local Boot，保存，之后启动机器。如无意外的话，可以成功进入Alpine系统，也可以通过ssh连接。</p>
-</li>
-</ol>
-<h4 id="三、Alpine其他使用方式记录"><a href="#三、Alpine其他使用方式记录" class="headerlink" title="三、Alpine其他使用方式记录"></a>三、Alpine其他使用方式记录</h4><ol>
-<li>添加社区repositories，取消<code>/etc/apk/repositories</code>中community的注释即可（安装docker需要社区repositories）</li>
-<li>使用命令<code>rc-update add docker default</code>可以添加docker自启动，<code>rc-status</code>可以查看自启动状态</li>
-<li>使用命令<code>modprobe tun</code>可以启动tun功能，使用<code>echo &#39;tun&#39; &gt;&gt; /etc/modules</code>添加到开机自启动</li>
-<li>服务自启动，需要手动编写rc-service启动脚本<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3></li>
-</ol>
-<ul>
-<li><span id="ref-1"></span> [1] <a href="https://wiki.alpinelinux.org/wiki/Replacing_non-Alpine_Linux_with_Alpine_remotely" target="_blank" rel="noopener">Replacing non-Alpine Linux with Alpine remotely</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://wiki.alpinelinux.org/wiki/Setting_up_disks_manually" target="_blank" rel="noopener">Setting up disks manually</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://www.nodeseek.com/post-129349-1" target="_blank" rel="noopener">已dd成功scaleway星尘1c1g1g 小小鸡</a></li>
-<li><span id="ref-4"></span> [4] <a href="https://github.com/cloudflare/cloudflared/issues/821" target="_blank" rel="noopener">How to install cloudflared on Alpine linux?</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>Scaleway</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>gnome-terminal 启动错误</title>
     <url>/2020/01/03/ubuntu-gnome-terminal/</url>
     <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
@@ -1241,35 +1189,6 @@ table {
       <tags>
         <tag>ubuntu</tag>
         <tag>gnome-terminal</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux系统swap分区配置</title>
-    <url>/2023/12/06/swap/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
-<ol>
-<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
-<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
-<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
-<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
-<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
-<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1319,6 +1238,35 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>Linux系统swap分区配置</title>
+    <url>/2023/12/06/swap/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
+<ol>
+<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
+<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
+<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
+<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
+<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
+<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ubuntu server 16.04 安装中文字体</title>
     <url>/2020/01/03/ubuntu-server-font/</url>
     <content><![CDATA[<p><strong>问题描述：</strong>安装Ubuntu Server系统时选择英文，导致系统中没有中文字体，nautilus文件夹显示的中文以及gedit中显示的中文都出现如图的情况：</p>
@@ -1332,6 +1280,58 @@ table {
       </categories>
       <tags>
         <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scaleway修改默认磁盘大小</title>
+    <url>/2024/08/18/scaleway-resize-disk-size/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; Swaleway创建STARDUST1-S型机器时，最低只能选择10G硬盘，对于部分使用场景而言，10G的硬盘空间太大，造成了不少的浪费。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>实例启动后，按照以下步骤操作</p>
+<h4 id="一、新增磁盘并从救援模式进入系统"><a href="#一、新增磁盘并从救援模式进入系统" class="headerlink" title="一、新增磁盘并从救援模式进入系统"></a>一、新增磁盘并从救援模式进入系统</h4><ol>
+<li>从控制台关机（注意，不能从ssh关机，ssh关机在后，无法在控制台移除磁盘）；</li>
+<li>关机后在<a href="https://console.scaleway.com/instance/volumes" target="_blank" rel="noopener">volumes</a>页面新增vps所在区域的磁盘，磁盘的类型选择Local storage；</li>
+<li>创建好磁盘后，添加到对应的实例上；</li>
+<li>进入相应的实例，Attached volumes部分，将默认的10G硬盘删除；</li>
+<li>进入Advanced settings，选择Boot mode为Use rescue image，保存；</li>
+<li>从控制台开机，可以在网页上的Console查看开机进度，此次开机耗时可能比较久，大概需要5分钟甚至更多；</li>
+<li>开机成功后，可以使用ssh连接上服务器，还是使用原先的账户和密钥登录即可；</li>
+</ol>
+<h4 id="二、安装Alpine操作系统"><a href="#二、安装Alpine操作系统" class="headerlink" title="二、安装Alpine操作系统"></a>二、安装Alpine操作系统</h4><ol start="8">
+<li><p>根据<a href="#ref-1">参考链接[1]</a>，注意，</p>
+<p> 1） 最新的Alpine版本可以从<a href="https://alpinelinux.org/downloads/" target="_blank" rel="noopener">官网</a>下载，选择VIRTUAL版本即可<br> 2） 安装系统的磁盘需要修改，例如在Scaleway中，磁盘的路径为/dev/vda</p>
+</li>
+<li><p>在setup-alpine过程中，默认会调用setup-disk，但是默认会创建三个分区，分别是boot分区，swap分区以及系统分区。对于小硬盘来说，如果使用默认配置，boot分区和swap分区会占用掉太多空间，最终系统分区的大小只会有700多M，为了最大限度使用磁盘空间，需要手动执行setup-disk。setup-alpine执行到选择磁盘安装位置时，先不选择磁盘，配置存放位置选择默认即可；</p>
+<p> 1） 根据<a href="#ref-2">参考链接[2]</a>，可以通过设置环境变量BOOT_SIZE来指定boot分区的大小<br> 2） 查看setup-disk –help可知，根据传入-s参数的值可以设置swap分区的大小</p>
+</li>
+<li><p>执行<code>export BOOT_SIZE=40; setup-disk -s 0</code>，进行安装系统操作</p>
+<p>1） 如果出现错误</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ERROR: unable to select packages:</span><br><span class="line">dosfstools (no such package):</span><br><span class="line">    required by: world[dosfstools]</span><br><span class="line">grub-efi (no such package):</span><br><span class="line">    required by: world[grub-efi]</span><br></pre></td></tr></table></figure>
+<p>说明对应的安装包无法成功安装，可以使用命令<code>echo &#39;nameserver 2a01:4f8:c2c:123f::1&#39; &gt;&gt; /etc/resolv.conf</code>修改dns为dns64，之后运行<code>apk update</code>，再重新执行即可。如果/dev/vda已被挂载，需要先umount对应的分区。</p>
+</li>
+<li><p>安装完成后，可以挂在系统分区，将ssh公钥写入到authorized_keys文件（注意.ssh目录的权限以及authorized_keys文件的权限，.ssh目录文件权限为700，authorized_keys的权限为600），重启后即可使用原先的私钥登录</p>
+</li>
+<li><p>从控制台关机机器，之后进入Scaleway实例控制台，选择Advanced settings页，修改Boot mode为Use Local Boot，保存，之后启动机器。如无意外的话，可以成功进入Alpine系统，也可以通过ssh连接。</p>
+</li>
+</ol>
+<h4 id="三、Alpine其他使用方式记录"><a href="#三、Alpine其他使用方式记录" class="headerlink" title="三、Alpine其他使用方式记录"></a>三、Alpine其他使用方式记录</h4><ol>
+<li>添加社区repositories，取消<code>/etc/apk/repositories</code>中community的注释即可（安装docker需要社区repositories）</li>
+<li>使用命令<code>rc-update add docker default</code>可以添加docker自启动，<code>rc-status</code>可以查看自启动状态</li>
+<li>使用命令<code>modprobe tun</code>可以启动tun功能，使用<code>echo &#39;tun&#39; &gt;&gt; /etc/modules</code>添加到开机自启动</li>
+<li>服务自启动，需要手动编写rc-service启动脚本<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3></li>
+</ol>
+<ul>
+<li><span id="ref-1"></span> [1] <a href="https://wiki.alpinelinux.org/wiki/Replacing_non-Alpine_Linux_with_Alpine_remotely" target="_blank" rel="noopener">Replacing non-Alpine Linux with Alpine remotely</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://wiki.alpinelinux.org/wiki/Setting_up_disks_manually" target="_blank" rel="noopener">Setting up disks manually</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://www.nodeseek.com/post-129349-1" target="_blank" rel="noopener">已dd成功scaleway星尘1c1g1g 小小鸡</a></li>
+<li><span id="ref-4"></span> [4] <a href="https://github.com/cloudflare/cloudflared/issues/821" target="_blank" rel="noopener">How to install cloudflared on Alpine linux?</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>Scaleway</tag>
       </tags>
   </entry>
   <entry>
