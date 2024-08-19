@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>中文数字转换成阿拉伯数字</title>
+    <url>/2020/07/11/chinese-num-to-arbic-num/</url>
+    <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
+<p><strong>解题思路：</strong> 以亿为分界点，将亿之前的数字作为一部分，其余的部分再做处理。</p>
+<p><a href="https://github.com/fuhailin/show-me-python-code/blob/master/leetcode/%E4%B8%AD%E6%96%87%E6%95%B0%E5%AD%972%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97.py" target="_blank" rel="noopener">参考链接</a></p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chs_arabic_map = &#123;<span class="string">'零'</span>: <span class="number">0</span>, <span class="string">'一'</span>: <span class="number">1</span>, <span class="string">'二'</span>: <span class="number">2</span>, <span class="string">'三'</span>: <span class="number">3</span>, <span class="string">'四'</span>: <span class="number">4</span>, <span class="string">'五'</span>: <span class="number">5</span>, <span class="string">'六'</span>: <span class="number">6</span>, <span class="string">'七'</span>: <span class="number">7</span>, <span class="string">'八'</span>: <span class="number">8</span>, <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">                  <span class="string">'十'</span>: <span class="number">10</span>, <span class="string">'百'</span>: <span class="number">100</span>, <span class="string">'千'</span>: <span class="number">1000</span>, <span class="string">'万'</span>: <span class="number">10000</span>, <span class="string">'亿'</span>: <span class="number">10</span> ** <span class="number">8</span>,</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertChineseDigitsToArabic</span><span class="params">(chinese_digits, encoding=<span class="string">"utf-8"</span>)</span>:</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    res_before_yi = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> chinese_digits:</span><br><span class="line">        val = chs_arabic_map.get(char, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> val == <span class="number">10</span>**<span class="number">8</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            res_before_yi = res_before_yi * <span class="number">10</span> ** <span class="number">8</span> + res</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val == <span class="number">10000</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val &gt;=<span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">                tmp = <span class="number">1</span></span><br><span class="line">            res = res + tmp*val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = tmp * <span class="number">10</span> + val</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"不合法的字符"</span>)</span><br><span class="line">    res += res_before_yi</span><br><span class="line">    res += tmp</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_map = &#123;</span><br><span class="line">        <span class="comment"># '三千五百二十三': 3523,</span></span><br><span class="line">        <span class="string">'九万五千零七十五亿八百零七万九千二百零八'</span>: <span class="number">9507508079208</span>,</span><br><span class="line">        <span class="string">'四万三千五百二十一'</span>: <span class="number">43521</span>,</span><br><span class="line">        <span class="string">'三千五百二十一'</span>: <span class="number">3521</span>,</span><br><span class="line">        <span class="string">'三千五百零八'</span>: <span class="number">3508</span>,</span><br><span class="line">        <span class="string">'三五六零'</span>: <span class="number">3560</span>,</span><br><span class="line">        <span class="string">'一万零三十'</span>: <span class="number">10030</span>,</span><br><span class="line">        <span class="string">''</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment"># 1 digit 个</span></span><br><span class="line">        <span class="string">'零'</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">'一'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'二'</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">'三'</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="string">'四'</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="string">'五'</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="string">'六'</span>: <span class="number">6</span>,</span><br><span class="line">        <span class="string">'七'</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="string">'八'</span>: <span class="number">8</span>,</span><br><span class="line">        <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">        <span class="comment"># 2 digits 十</span></span><br><span class="line">        <span class="string">'十'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'十一'</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="string">'二十'</span>: <span class="number">20</span>,</span><br><span class="line">        <span class="string">'二十一'</span>: <span class="number">21</span>,</span><br><span class="line">        <span class="comment"># 3 digits 百</span></span><br><span class="line">        <span class="string">'一百'</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="string">'一百零一'</span>: <span class="number">101</span>,</span><br><span class="line">        <span class="string">'一百一十'</span>: <span class="number">110</span>,</span><br><span class="line">        <span class="string">'一百二十三'</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="comment"># 4 digits 千</span></span><br><span class="line">        <span class="string">'一千'</span>: <span class="number">1000</span>,</span><br><span class="line">        <span class="string">'一千零一'</span>: <span class="number">1001</span>,</span><br><span class="line">        <span class="string">'一千零一十'</span>: <span class="number">1010</span>,</span><br><span class="line">        <span class="string">'一千一百'</span>: <span class="number">1100</span>,</span><br><span class="line">        <span class="string">'一千零二十三'</span>: <span class="number">1023</span>,</span><br><span class="line">        <span class="string">'一千二百零三'</span>: <span class="number">1203</span>,</span><br><span class="line">        <span class="string">'一千二百三十'</span>: <span class="number">1230</span>,</span><br><span class="line">        <span class="comment"># 5 digits 万</span></span><br><span class="line">        <span class="string">'一万'</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">'一万零一'</span>: <span class="number">10001</span>,</span><br><span class="line">        <span class="string">'一万零一十'</span>: <span class="number">10010</span>,</span><br><span class="line">        <span class="string">'一万零一百'</span>: <span class="number">10100</span>,</span><br><span class="line">        <span class="string">'一万一千'</span>: <span class="number">11000</span>,</span><br><span class="line">        <span class="string">'一万零一十一'</span>: <span class="number">10011</span>,</span><br><span class="line">        <span class="string">'一万零一百零一'</span>: <span class="number">10101</span>,</span><br><span class="line">        <span class="string">'一万一千零一'</span>: <span class="number">11001</span>,</span><br><span class="line">        <span class="string">'一万零一百一十'</span>: <span class="number">10110</span>,</span><br><span class="line">        <span class="string">'一万一千零一十'</span>: <span class="number">11010</span>,</span><br><span class="line">        <span class="string">'一万一千一百'</span>: <span class="number">11100</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十'</span>: <span class="number">11110</span>,</span><br><span class="line">        <span class="string">'一万一千一百零一'</span>: <span class="number">11101</span>,</span><br><span class="line">        <span class="string">'一万一千零一十一'</span>: <span class="number">11011</span>,</span><br><span class="line">        <span class="string">'一万零一百一十一'</span>: <span class="number">10111</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十一'</span>: <span class="number">11111</span>,</span><br><span class="line">        <span class="comment"># 6 digits 十万</span></span><br><span class="line">        <span class="string">'十万零二千三百四十五'</span>: <span class="number">102345</span>,</span><br><span class="line">        <span class="string">'十二万三千四百五十六'</span>: <span class="number">123456</span>,</span><br><span class="line">        <span class="string">'十万零三百五十六'</span>: <span class="number">100356</span>,</span><br><span class="line">        <span class="string">'十万零三千六百零九'</span>: <span class="number">103609</span>,</span><br><span class="line">        <span class="comment"># 7 digits 百万</span></span><br><span class="line">        <span class="string">'一百二十三万四千五百六十七'</span>: <span class="number">1234567</span>,</span><br><span class="line">        <span class="string">'一百零一万零一百零一'</span>: <span class="number">1010101</span>,</span><br><span class="line">        <span class="string">'一百万零一'</span>: <span class="number">1000001</span>,</span><br><span class="line">        <span class="comment"># 8 digits 千万</span></span><br><span class="line">        <span class="string">'一千一百二十三万四千五百六十七'</span>: <span class="number">11234567</span>,</span><br><span class="line">        <span class="string">'一千零一十一万零一百零一'</span>: <span class="number">10110101</span>,</span><br><span class="line">        <span class="string">'一千万零一'</span>: <span class="number">10000001</span>,</span><br><span class="line">        <span class="comment"># 9 digits 亿</span></span><br><span class="line">        <span class="string">'一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111234567</span>,</span><br><span class="line">        <span class="string">'一亿零一百零一万零一百零一'</span>: <span class="number">101010101</span>,</span><br><span class="line">        <span class="string">'一亿零一'</span>: <span class="number">100000001</span>,</span><br><span class="line">        <span class="comment"># 10 digits 十亿</span></span><br><span class="line">        <span class="string">'十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111234567</span>,</span><br><span class="line">        <span class="comment"># 11 digits 百亿</span></span><br><span class="line">        <span class="string">'一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111234567</span>,</span><br><span class="line">        <span class="comment"># 12 digits 千亿</span></span><br><span class="line">        <span class="string">'一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111111234567</span>,</span><br><span class="line">        <span class="comment"># 13 digits 万亿</span></span><br><span class="line">        <span class="string">'一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111111234567</span>,</span><br><span class="line">        <span class="comment"># 14 digits 十万亿</span></span><br><span class="line">        <span class="string">'十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111234567</span>,</span><br><span class="line">        <span class="comment"># 17 digits 亿亿</span></span><br><span class="line">        <span class="string">'一亿一千一百一十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111111234567</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> test_map:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">assert</span> (test_map[each] == convertChineseDigitsToArabic(each))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(each, test_map[each], convertChineseDigitsToArabic(each))</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>code</category>
+      </categories>
+      <tags>
+        <tag>code</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在纯IPv6环境添加Cloudflare Tunnel</title>
     <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
@@ -19,20 +36,48 @@
       </tags>
   </entry>
   <entry>
-    <title>中文数字转换成阿拉伯数字</title>
-    <url>/2020/07/11/chinese-num-to-arbic-num/</url>
-    <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
-<p><strong>解题思路：</strong> 以亿为分界点，将亿之前的数字作为一部分，其余的部分再做处理。</p>
-<p><a href="https://github.com/fuhailin/show-me-python-code/blob/master/leetcode/%E4%B8%AD%E6%96%87%E6%95%B0%E5%AD%972%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97.py" target="_blank" rel="noopener">参考链接</a></p>
+    <title>欧式距离与余弦距离的区别与联系</title>
+    <url>/2019/10/26/euclidean-cosine-distance/</url>
+    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
+<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
+<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
 <a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chs_arabic_map = &#123;<span class="string">'零'</span>: <span class="number">0</span>, <span class="string">'一'</span>: <span class="number">1</span>, <span class="string">'二'</span>: <span class="number">2</span>, <span class="string">'三'</span>: <span class="number">3</span>, <span class="string">'四'</span>: <span class="number">4</span>, <span class="string">'五'</span>: <span class="number">5</span>, <span class="string">'六'</span>: <span class="number">6</span>, <span class="string">'七'</span>: <span class="number">7</span>, <span class="string">'八'</span>: <span class="number">8</span>, <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">                  <span class="string">'十'</span>: <span class="number">10</span>, <span class="string">'百'</span>: <span class="number">100</span>, <span class="string">'千'</span>: <span class="number">1000</span>, <span class="string">'万'</span>: <span class="number">10000</span>, <span class="string">'亿'</span>: <span class="number">10</span> ** <span class="number">8</span>,</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertChineseDigitsToArabic</span><span class="params">(chinese_digits, encoding=<span class="string">"utf-8"</span>)</span>:</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    res_before_yi = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> chinese_digits:</span><br><span class="line">        val = chs_arabic_map.get(char, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> val == <span class="number">10</span>**<span class="number">8</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            res_before_yi = res_before_yi * <span class="number">10</span> ** <span class="number">8</span> + res</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val == <span class="number">10000</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val &gt;=<span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">                tmp = <span class="number">1</span></span><br><span class="line">            res = res + tmp*val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = tmp * <span class="number">10</span> + val</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"不合法的字符"</span>)</span><br><span class="line">    res += res_before_yi</span><br><span class="line">    res += tmp</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_map = &#123;</span><br><span class="line">        <span class="comment"># '三千五百二十三': 3523,</span></span><br><span class="line">        <span class="string">'九万五千零七十五亿八百零七万九千二百零八'</span>: <span class="number">9507508079208</span>,</span><br><span class="line">        <span class="string">'四万三千五百二十一'</span>: <span class="number">43521</span>,</span><br><span class="line">        <span class="string">'三千五百二十一'</span>: <span class="number">3521</span>,</span><br><span class="line">        <span class="string">'三千五百零八'</span>: <span class="number">3508</span>,</span><br><span class="line">        <span class="string">'三五六零'</span>: <span class="number">3560</span>,</span><br><span class="line">        <span class="string">'一万零三十'</span>: <span class="number">10030</span>,</span><br><span class="line">        <span class="string">''</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment"># 1 digit 个</span></span><br><span class="line">        <span class="string">'零'</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">'一'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'二'</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">'三'</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="string">'四'</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="string">'五'</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="string">'六'</span>: <span class="number">6</span>,</span><br><span class="line">        <span class="string">'七'</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="string">'八'</span>: <span class="number">8</span>,</span><br><span class="line">        <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">        <span class="comment"># 2 digits 十</span></span><br><span class="line">        <span class="string">'十'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'十一'</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="string">'二十'</span>: <span class="number">20</span>,</span><br><span class="line">        <span class="string">'二十一'</span>: <span class="number">21</span>,</span><br><span class="line">        <span class="comment"># 3 digits 百</span></span><br><span class="line">        <span class="string">'一百'</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="string">'一百零一'</span>: <span class="number">101</span>,</span><br><span class="line">        <span class="string">'一百一十'</span>: <span class="number">110</span>,</span><br><span class="line">        <span class="string">'一百二十三'</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="comment"># 4 digits 千</span></span><br><span class="line">        <span class="string">'一千'</span>: <span class="number">1000</span>,</span><br><span class="line">        <span class="string">'一千零一'</span>: <span class="number">1001</span>,</span><br><span class="line">        <span class="string">'一千零一十'</span>: <span class="number">1010</span>,</span><br><span class="line">        <span class="string">'一千一百'</span>: <span class="number">1100</span>,</span><br><span class="line">        <span class="string">'一千零二十三'</span>: <span class="number">1023</span>,</span><br><span class="line">        <span class="string">'一千二百零三'</span>: <span class="number">1203</span>,</span><br><span class="line">        <span class="string">'一千二百三十'</span>: <span class="number">1230</span>,</span><br><span class="line">        <span class="comment"># 5 digits 万</span></span><br><span class="line">        <span class="string">'一万'</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">'一万零一'</span>: <span class="number">10001</span>,</span><br><span class="line">        <span class="string">'一万零一十'</span>: <span class="number">10010</span>,</span><br><span class="line">        <span class="string">'一万零一百'</span>: <span class="number">10100</span>,</span><br><span class="line">        <span class="string">'一万一千'</span>: <span class="number">11000</span>,</span><br><span class="line">        <span class="string">'一万零一十一'</span>: <span class="number">10011</span>,</span><br><span class="line">        <span class="string">'一万零一百零一'</span>: <span class="number">10101</span>,</span><br><span class="line">        <span class="string">'一万一千零一'</span>: <span class="number">11001</span>,</span><br><span class="line">        <span class="string">'一万零一百一十'</span>: <span class="number">10110</span>,</span><br><span class="line">        <span class="string">'一万一千零一十'</span>: <span class="number">11010</span>,</span><br><span class="line">        <span class="string">'一万一千一百'</span>: <span class="number">11100</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十'</span>: <span class="number">11110</span>,</span><br><span class="line">        <span class="string">'一万一千一百零一'</span>: <span class="number">11101</span>,</span><br><span class="line">        <span class="string">'一万一千零一十一'</span>: <span class="number">11011</span>,</span><br><span class="line">        <span class="string">'一万零一百一十一'</span>: <span class="number">10111</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十一'</span>: <span class="number">11111</span>,</span><br><span class="line">        <span class="comment"># 6 digits 十万</span></span><br><span class="line">        <span class="string">'十万零二千三百四十五'</span>: <span class="number">102345</span>,</span><br><span class="line">        <span class="string">'十二万三千四百五十六'</span>: <span class="number">123456</span>,</span><br><span class="line">        <span class="string">'十万零三百五十六'</span>: <span class="number">100356</span>,</span><br><span class="line">        <span class="string">'十万零三千六百零九'</span>: <span class="number">103609</span>,</span><br><span class="line">        <span class="comment"># 7 digits 百万</span></span><br><span class="line">        <span class="string">'一百二十三万四千五百六十七'</span>: <span class="number">1234567</span>,</span><br><span class="line">        <span class="string">'一百零一万零一百零一'</span>: <span class="number">1010101</span>,</span><br><span class="line">        <span class="string">'一百万零一'</span>: <span class="number">1000001</span>,</span><br><span class="line">        <span class="comment"># 8 digits 千万</span></span><br><span class="line">        <span class="string">'一千一百二十三万四千五百六十七'</span>: <span class="number">11234567</span>,</span><br><span class="line">        <span class="string">'一千零一十一万零一百零一'</span>: <span class="number">10110101</span>,</span><br><span class="line">        <span class="string">'一千万零一'</span>: <span class="number">10000001</span>,</span><br><span class="line">        <span class="comment"># 9 digits 亿</span></span><br><span class="line">        <span class="string">'一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111234567</span>,</span><br><span class="line">        <span class="string">'一亿零一百零一万零一百零一'</span>: <span class="number">101010101</span>,</span><br><span class="line">        <span class="string">'一亿零一'</span>: <span class="number">100000001</span>,</span><br><span class="line">        <span class="comment"># 10 digits 十亿</span></span><br><span class="line">        <span class="string">'十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111234567</span>,</span><br><span class="line">        <span class="comment"># 11 digits 百亿</span></span><br><span class="line">        <span class="string">'一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111234567</span>,</span><br><span class="line">        <span class="comment"># 12 digits 千亿</span></span><br><span class="line">        <span class="string">'一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111111234567</span>,</span><br><span class="line">        <span class="comment"># 13 digits 万亿</span></span><br><span class="line">        <span class="string">'一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111111234567</span>,</span><br><span class="line">        <span class="comment"># 14 digits 十万亿</span></span><br><span class="line">        <span class="string">'十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111234567</span>,</span><br><span class="line">        <span class="comment"># 17 digits 亿亿</span></span><br><span class="line">        <span class="string">'一亿一千一百一十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111111234567</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> test_map:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">assert</span> (test_map[each] == convertChineseDigitsToArabic(each))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(each, test_map[each], convertChineseDigitsToArabic(each))</span><br></pre></td></tr></table></figure>
+<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>使用shell脚本实现图像序列到视频的批量转换</title>
+    <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
+    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 ]]></content>
       <categories>
-        <category>code</category>
+        <category>ffmpeg</category>
       </categories>
       <tags>
-        <tag>code</tag>
+        <tag>ffmpeg</tag>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
       </tags>
   </entry>
   <entry>
@@ -52,20 +97,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用shell脚本实现图像序列到视频的批量转换</title>
-    <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
-    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-]]></content>
-      <categories>
-        <category>ffmpeg</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用ffmpeg分离视频中的音频</title>
     <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
     <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
@@ -82,14 +113,23 @@
       </tags>
   </entry>
   <entry>
-    <title>欧式距离与余弦距离的区别与联系</title>
-    <url>/2019/10/26/euclidean-cosine-distance/</url>
-    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
-<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
-<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
-<a id="more"></a>
-<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
+    <title>git使用socks5代理</title>
+    <url>/2023/08/31/git-ssh-proxy/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
+</ul>
 ]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>网络代理</tag>
+      </tags>
   </entry>
   <entry>
     <title>git移除历史提交中的敏感信息文件</title>
@@ -125,25 +165,6 @@
       <tags>
         <tag>git</tag>
         <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git使用socks5代理</title>
-    <url>/2023/08/31/git-ssh-proxy/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>网络代理</tag>
       </tags>
   </entry>
   <entry>
@@ -189,27 +210,6 @@
         <tag>IPv6</tag>
         <tag>nginx</tag>
         <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
       </tags>
   </entry>
   <entry>
@@ -466,22 +466,6 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第1题：二维数组中的查找</title>
-    <url>/2019/12/27/offer-01/</url>
-    <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">leecode 74</a>相同，可以参照leecode的矩阵示例。<br>解题思路：数组为排序过的数组，左上角的元素最小，右下角的元素最大。我们可以选取一个位于中间值的位置作为搜索的起始点，因此这个位置可以是左下角或者是右上角，本次选取左下角作为搜索起始点。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="built_in">array</span>.size();</span><br><span class="line">    <span class="keyword">int</span> c = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">    <span class="keyword">int</span> i = r<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&gt;=<span class="number">0</span> &amp;&amp; j&lt;c) &#123; </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target) i -= <span class="number">1</span>; <span class="comment">//从左下角开始搜索，如果此处的值大于目标值，因此需要往上搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &lt; target) j += <span class="number">1</span>; <span class="comment">//如果小于目标值，因此需要往右边搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 如果等于目标值，就返回true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//否则返回false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>音乐文件添加封面与歌词</title>
     <url>/2023/10/12/music-tag/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
@@ -526,6 +510,22 @@
       </categories>
       <tags>
         <tag>music</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第1题：二维数组中的查找</title>
+    <url>/2019/12/27/offer-01/</url>
+    <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">leecode 74</a>相同，可以参照leecode的矩阵示例。<br>解题思路：数组为排序过的数组，左上角的元素最小，右下角的元素最大。我们可以选取一个位于中间值的位置作为搜索的起始点，因此这个位置可以是左下角或者是右上角，本次选取左下角作为搜索起始点。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="built_in">array</span>.size();</span><br><span class="line">    <span class="keyword">int</span> c = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">    <span class="keyword">int</span> i = r<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&gt;=<span class="number">0</span> &amp;&amp; j&lt;c) &#123; </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target) i -= <span class="number">1</span>; <span class="comment">//从左下角开始搜索，如果此处的值大于目标值，因此需要往上搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &lt; target) j += <span class="number">1</span>; <span class="comment">//如果小于目标值，因此需要往右边搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 如果等于目标值，就返回true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//否则返回false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
       </tags>
   </entry>
   <entry>
@@ -1120,6 +1120,26 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>Scaleway</title>
+    <url>/2023/10/11/scaleway/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
+<ol>
+<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
+<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用ssh反向代理+shadowsocks实现内网穿透</title>
     <url>/2020/01/03/ssh-shadowsocks/</url>
     <content><![CDATA[<p>在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有<strong>公网ip</strong>的服务器。下文命令行中用到的地址定义如下：<br><strong>公网服务器ip地址：</strong>server_ip<br><strong>内网机器ip地址：</strong>local_ip</p>
@@ -1155,26 +1175,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>Scaleway</title>
-    <url>/2023/10/11/scaleway/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
-<ol>
-<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
-<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>gnome-terminal 启动错误</title>
     <url>/2020/01/03/ubuntu-gnome-terminal/</url>
     <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
@@ -1189,6 +1189,35 @@ table {
       <tags>
         <tag>ubuntu</tag>
         <tag>gnome-terminal</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux系统swap分区配置</title>
+    <url>/2023/12/06/swap/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
+<ol>
+<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
+<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
+<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
+<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
+<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
+<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1235,35 +1264,6 @@ table {
       </categories>
       <tags>
         <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux系统swap分区配置</title>
-    <url>/2023/12/06/swap/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
-<ol>
-<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
-<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
-<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
-<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
-<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
-<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1370,11 +1370,14 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>vmware tools doesn&#39;t work in ubuntu server</title>
-    <url>/2020/01/03/ubuntu-vmware/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
+    <title>ubuntu 16.04配置静态ip</title>
+    <url>/2020/01/03/ubuntu-static-ip/</url>
+    <content><![CDATA[<p><strong>步骤：</strong><br>1、修改网络配置文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
+<p>2、注释掉dhcp，添加静态ip</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#The primary network interface</span></span><br><span class="line">auto enp9s0</span><br><span class="line"><span class="comment">#iface enp9s0 inet dhcp </span></span><br><span class="line">iface enp9s0 inet static</span><br><span class="line">address 192.168.2.105</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.2.1</span><br><span class="line">dns-nameservers 8.8.8.8</span><br></pre></td></tr></table></figure>
+<p>若是配置完静态ip后无法解析服务器，则需要添加最后的dns-nameserver，此地址控制/etc/resov.conf中nameserver的地址，重启后生效。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
@@ -1384,14 +1387,11 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu 16.04配置静态ip</title>
-    <url>/2020/01/03/ubuntu-static-ip/</url>
-    <content><![CDATA[<p><strong>步骤：</strong><br>1、修改网络配置文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+    <title>vmware tools doesn&#39;t work in ubuntu server</title>
+    <url>/2020/01/03/ubuntu-vmware/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 安装ubuntu server 16.04之后再安装ubuntu-desktop桌面，此时安装vmware tools没有效果<br><strong>解决方法：</strong>输入如下命令后重启</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install open-vm-tools-desktop</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>2、注释掉dhcp，添加静态ip</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#The primary network interface</span></span><br><span class="line">auto enp9s0</span><br><span class="line"><span class="comment">#iface enp9s0 inet dhcp </span></span><br><span class="line">iface enp9s0 inet static</span><br><span class="line">address 192.168.2.105</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.2.1</span><br><span class="line">dns-nameservers 8.8.8.8</span><br></pre></td></tr></table></figure>
-<p>若是配置完静态ip后无法解析服务器，则需要添加最后的dns-nameserver，此地址控制/etc/resov.conf中nameserver的地址，重启后生效。</p>
 ]]></content>
       <categories>
         <category>ubuntu</category>
