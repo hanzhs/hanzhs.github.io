@@ -18,16 +18,6 @@
       </tags>
   </entry>
   <entry>
-    <title>欧式距离与余弦距离的区别与联系</title>
-    <url>/2019/10/26/euclidean-cosine-distance/</url>
-    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
-<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
-<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
-<a id="more"></a>
-<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
-]]></content>
-  </entry>
-  <entry>
     <title>在纯IPv6环境添加Cloudflare Tunnel</title>
     <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
@@ -44,6 +34,16 @@
         <tag>Cloudflare</tag>
         <tag>IPv6</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>欧式距离与余弦距离的区别与联系</title>
+    <url>/2019/10/26/euclidean-cosine-distance/</url>
+    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
+<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
+<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
+<a id="more"></a>
+<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
+]]></content>
   </entry>
   <entry>
     <title>使用shell脚本实现图像序列到视频的批量转换</title>
@@ -92,6 +92,26 @@
       </tags>
   </entry>
   <entry>
+    <title>git移除历史提交中的敏感信息文件</title>
+    <url>/2023/08/31/git-remove-sensetive-files/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git使用socks5代理</title>
     <url>/2023/08/31/git-ssh-proxy/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
@@ -111,23 +131,24 @@
       </tags>
   </entry>
   <entry>
-    <title>git移除历史提交中的敏感信息文件</title>
-    <url>/2023/08/31/git-remove-sensetive-files/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
-
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>vps</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
       </tags>
   </entry>
   <entry>
@@ -189,27 +210,6 @@
         <tag>IPv6</tag>
         <tag>nginx</tag>
         <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
       </tags>
   </entry>
   <entry>
@@ -529,6 +529,60 @@
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第9题：变态跳台阶</title>
+    <url>/2020/01/03/offer-09/</url>
+    <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</strong></p>
+<p>解题思路：跳上n级台阶的跳法，等于跳上前n-1级台阶的所有跳法之和，即：f(n) = f(n-1) + f(n-2) + … + f(0)。可以这样考虑问题，因为青蛙可以跳的台阶数是任意的，因此，跳上n级台阶可由台阶0、台阶1、台阶2、……、台阶n-1起跳。</p>
+<a id="more"></a>
+<p>写出n在4以内的跳法</p>
+<style>
+table {
+    width: 15%;
+    margin: auto;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th align="center">idx</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>2</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>4</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>8</td>
+</tr>
+</tbody></table>
+<p>可以发现规律，即：$f(n) = 2^{(n-1)}$</p>
+<p><strong>代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloorII</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">pow</span>(<span class="number">2</span>, number<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>乘方可用移位优化</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloorII</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;(number<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>贪心</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第4题：重建二叉树</title>
     <url>/2020/01/02/offer-04/</url>
     <content><![CDATA[<p><strong>题目：输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</strong></p>
@@ -594,60 +648,6 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第9题：变态跳台阶</title>
-    <url>/2020/01/03/offer-09/</url>
-    <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</strong></p>
-<p>解题思路：跳上n级台阶的跳法，等于跳上前n-1级台阶的所有跳法之和，即：f(n) = f(n-1) + f(n-2) + … + f(0)。可以这样考虑问题，因为青蛙可以跳的台阶数是任意的，因此，跳上n级台阶可由台阶0、台阶1、台阶2、……、台阶n-1起跳。</p>
-<a id="more"></a>
-<p>写出n在4以内的跳法</p>
-<style>
-table {
-    width: 15%;
-    margin: auto;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th align="center">idx</th>
-<th>n</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">0</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td>2</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td>4</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td>8</td>
-</tr>
-</tbody></table>
-<p>可以发现规律，即：$f(n) = 2^{(n-1)}$</p>
-<p><strong>代码</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloorII</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">pow</span>(<span class="number">2</span>, number<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>乘方可用移位优化</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">jumpFloorII</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (number==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;(number<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>贪心</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第10题：矩形覆盖</title>
     <url>/2020/01/04/offer-10/</url>
     <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
@@ -680,24 +680,6 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
-    <url>/2020/01/04/offer-13/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -738,6 +720,24 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
+    <url>/2020/01/04/offer-13/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
+<p><strong>解题思路：</strong>使用冒泡排序的思想，碰到前偶数后奇数，就交换二者的位置。内循环每完成一次，就有一个偶数被放到最末尾，下次内循环的结束位置就可以往前移动一位。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reOrderArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">array</span>.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">array</span>.size()<span class="number">-1</span>-i; j++) &#123; <span class="comment">//内循环完成一次，终止位置往前移动一位</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[j]%<span class="number">2</span>==<span class="number">0</span> &amp;&amp; <span class="built_in">array</span>[j+<span class="number">1</span>]%<span class="number">2</span>==<span class="number">1</span>) <span class="comment">//交换奇偶</span></span><br><span class="line">                swap(<span class="built_in">array</span>[j], <span class="built_in">array</span>[j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -1091,6 +1091,26 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>Scaleway</title>
+    <url>/2023/10/11/scaleway/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
+<ol>
+<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
+<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重新分配服务器的ip地址</title>
     <url>/2019/12/27/server-network/</url>
     <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
@@ -1117,26 +1137,6 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scaleway</title>
-    <url>/2023/10/11/scaleway/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
-<ol>
-<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
-<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -1283,58 +1283,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu server 安装sogou输入法</title>
-    <url>/2020/01/03/ubuntu-server-sougou/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>ubuntu的状态栏没有fctix的状态图标<br><strong>解决方法：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fcitx-config-gtk3</span><br></pre></td></tr></table></figure>
-<a id="more"></a>]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu server 16.04 添加开机启动脚本</title>
-    <url>/2020/01/03/ubuntu-startup-scripts/</url>
-    <content><![CDATA[<p><strong>失败方案：</strong><br>1、rc.local等一系列方法，包括在/etc/init.d/rc.local里面添加PATH的环境变量等<br><strong>原因：</strong> ubuntu 15.04之后，开机脚本采用systemd管理</p>
-<p><strong>方法步骤：</strong><br>1、在/lib/systemd/system/下添加启动文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /lib/systemd/system/</span><br><span class="line">sudo vim sslocal.service</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>输入内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks Client Start <span class="comment">#文件描述</span></span><br><span class="line">After=network.target <span class="comment">#启动顺序</span></span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=hzs</span><br><span class="line">ExecStart=/home/hzs/.<span class="built_in">local</span>/bin/sslocal -s 69.12.82.153 -p 4396 -k password -m rc4-md5 -l 8980 <span class="comment">#启动命令</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target <span class="comment">#启动模式</span></span><br></pre></td></tr></table></figure>
-<p>2、将sslocal.service链接至/etc/systemd/system/multi-user.target.wants/</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ln -s /lib/systemd/system/sslocal.service /etc/systemd/system/multi-user.target.wants/</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>软链接的路径要填写绝对地址<br>3、检查</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls -l /etc/systemd/system/multi-user.target.wants/sslocal.service</span><br></pre></td></tr></table></figure>
-<p>链接为蓝色则正常，红色为错误的软链接。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu 16.04配置静态ip</title>
-    <url>/2020/01/03/ubuntu-static-ip/</url>
-    <content><![CDATA[<p><strong>步骤：</strong><br>1、修改网络配置文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>2、注释掉dhcp，添加静态ip</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#The primary network interface</span></span><br><span class="line">auto enp9s0</span><br><span class="line"><span class="comment">#iface enp9s0 inet dhcp </span></span><br><span class="line">iface enp9s0 inet static</span><br><span class="line">address 192.168.2.105</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.2.1</span><br><span class="line">dns-nameservers 8.8.8.8</span><br></pre></td></tr></table></figure>
-<p>若是配置完静态ip后无法解析服务器，则需要添加最后的dns-nameserver，此地址控制/etc/resov.conf中nameserver的地址，重启后生效。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Scaleway修改默认磁盘大小</title>
     <url>/2024/08/18/scaleway-resize-disk-size/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; Swaleway创建STARDUST1-S型机器时，最低只能选择10G硬盘，对于部分使用场景而言，10G的硬盘空间太大，造成了不少的浪费。</p>
@@ -1384,6 +1332,58 @@ table {
       <tags>
         <tag>vps</tag>
         <tag>Scaleway</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu server 安装sogou输入法</title>
+    <url>/2020/01/03/ubuntu-server-sougou/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>ubuntu的状态栏没有fctix的状态图标<br><strong>解决方法：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fcitx-config-gtk3</span><br></pre></td></tr></table></figure>
+<a id="more"></a>]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu server 16.04 添加开机启动脚本</title>
+    <url>/2020/01/03/ubuntu-startup-scripts/</url>
+    <content><![CDATA[<p><strong>失败方案：</strong><br>1、rc.local等一系列方法，包括在/etc/init.d/rc.local里面添加PATH的环境变量等<br><strong>原因：</strong> ubuntu 15.04之后，开机脚本采用systemd管理</p>
+<p><strong>方法步骤：</strong><br>1、在/lib/systemd/system/下添加启动文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /lib/systemd/system/</span><br><span class="line">sudo vim sslocal.service</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>输入内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks Client Start <span class="comment">#文件描述</span></span><br><span class="line">After=network.target <span class="comment">#启动顺序</span></span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=hzs</span><br><span class="line">ExecStart=/home/hzs/.<span class="built_in">local</span>/bin/sslocal -s 69.12.82.153 -p 4396 -k password -m rc4-md5 -l 8980 <span class="comment">#启动命令</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target <span class="comment">#启动模式</span></span><br></pre></td></tr></table></figure>
+<p>2、将sslocal.service链接至/etc/systemd/system/multi-user.target.wants/</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ln -s /lib/systemd/system/sslocal.service /etc/systemd/system/multi-user.target.wants/</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>软链接的路径要填写绝对地址<br>3、检查</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls -l /etc/systemd/system/multi-user.target.wants/sslocal.service</span><br></pre></td></tr></table></figure>
+<p>链接为蓝色则正常，红色为错误的软链接。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu 16.04配置静态ip</title>
+    <url>/2020/01/03/ubuntu-static-ip/</url>
+    <content><![CDATA[<p><strong>步骤：</strong><br>1、修改网络配置文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>2、注释掉dhcp，添加静态ip</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#The primary network interface</span></span><br><span class="line">auto enp9s0</span><br><span class="line"><span class="comment">#iface enp9s0 inet dhcp </span></span><br><span class="line">iface enp9s0 inet static</span><br><span class="line">address 192.168.2.105</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.2.1</span><br><span class="line">dns-nameservers 8.8.8.8</span><br></pre></td></tr></table></figure>
+<p>若是配置完静态ip后无法解析服务器，则需要添加最后的dns-nameserver，此地址控制/etc/resov.conf中nameserver的地址，重启后生效。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
