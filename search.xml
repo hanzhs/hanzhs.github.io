@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>中文数字转换成阿拉伯数字</title>
     <url>/2020/07/11/chinese-num-to-arbic-num/</url>
     <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
@@ -37,16 +16,6 @@
       <tags>
         <tag>code</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>欧式距离与余弦距离的区别与联系</title>
-    <url>/2019/10/26/euclidean-cosine-distance/</url>
-    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
-<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
-<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
-<a id="more"></a>
-<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
-]]></content>
   </entry>
   <entry>
     <title>在纯IPv6环境添加Cloudflare Tunnel</title>
@@ -65,6 +34,16 @@
         <tag>Cloudflare</tag>
         <tag>IPv6</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>欧式距离与余弦距离的区别与联系</title>
+    <url>/2019/10/26/euclidean-cosine-distance/</url>
+    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
+<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
+<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
+<a id="more"></a>
+<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
+]]></content>
   </entry>
   <entry>
     <title>使用shell脚本实现图像序列到视频的批量转换</title>
@@ -113,6 +92,25 @@
       </tags>
   </entry>
   <entry>
+    <title>git使用socks5代理</title>
+    <url>/2023/08/31/git-ssh-proxy/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git移除历史提交中的敏感信息文件</title>
     <url>/2023/08/31/git-remove-sensetive-files/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
@@ -149,25 +147,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git使用socks5代理</title>
-    <url>/2023/08/31/git-ssh-proxy/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo博客部署使用</title>
     <url>/2023/08/31/hexo-blog/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
@@ -188,6 +167,70 @@
       <tags>
         <tag>hexo</tag>
         <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>IPv6</tag>
+        <tag>nginx</tag>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leecode第120题：</title>
+    <url>/2020/07/14/leecode-120/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
+<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -216,49 +259,6 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第120题：</title>
-    <url>/2020/07/14/leecode-120/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
-<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>IPv6</tag>
-        <tag>nginx</tag>
-        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -723,23 +723,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第14题：链表中倒数第k个结点</title>
-    <url>/2020/01/04/offer-14/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
-<p><strong>解题思路：</strong>最直接的思路是，先遍历一遍链表，得出链表的长度，然后计算出倒数第k个结点的正数位置，之后二次遍历链表并输出结果。更好的解法是：设置快慢两个指针，快指针先走k步，然后慢指针开始走，当快指针遍历完链表的时候，慢指针所在的位置即为倒数第k个结点</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">FindKthToTail</span><span class="params">(ListNode* pListHead, <span class="keyword">unsigned</span> <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pListHead == <span class="literal">NULL</span> || k&lt;=<span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//排除空链表和k&lt;=0的情况</span></span><br><span class="line">    ListNode* fast = pListHead;</span><br><span class="line">    ListNode* slow = pListHead;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        fast = fast -&gt; next;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cnt &lt; k) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 当快指针走完链表时，此时cnt即为链表的长度，cnt小于k说明超出链表的范围</span></span><br><span class="line">            <span class="keyword">return</span> slow; <span class="comment">//不超出则返回慢指针所指的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt;= k) slow = slow -&gt; next; <span class="comment">//当快指针走了k步，慢指针开始走</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第13题：调整数组顺序使奇数位于偶数前面</title>
     <url>/2020/01/04/offer-13/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
@@ -758,11 +741,13 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第16题：合并两个排序的链表</title>
-    <url>/2020/01/04/offer-16/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。<br><strong>解题思路：</strong>创建一个新的链表头结点，比较两个链表的头结点值的大小，并将res-&gt;next指向值小的结点，直至有一个链表为空。之后合并剩下的非空链表即可。<br><strong>代码：</strong></p>
+    <title>剑指Offer第14题：链表中倒数第k个结点</title>
+    <url>/2020/01/04/offer-14/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个链表，输出该链表中倒数第k个结点。</p>
+<p><strong>解题思路：</strong>最直接的思路是，先遍历一遍链表，得出链表的长度，然后计算出倒数第k个结点的正数位置，之后二次遍历链表并输出结果。更好的解法是：设置快慢两个指针，快指针先走k步，然后慢指针开始走，当快指针遍历完链表的时候，慢指针所在的位置即为倒数第k个结点</p>
 <a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">Merge</span><span class="params">(ListNode* pHead1, ListNode* pHead2)</span></span>&#123;</span><br><span class="line">    ListNode* res = <span class="keyword">new</span> ListNode(<span class="number">-1</span>); <span class="comment">//创建一个dummy head，防止两个链表中存在空链表</span></span><br><span class="line">    ListNode* p = res;</span><br><span class="line">    <span class="keyword">while</span> (pHead1 &amp;&amp; pHead2) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pHead1-&gt;val &lt;= pHead2-&gt;val) &#123; <span class="comment">//比较两个链表头结点值的大小，将p指向值小的那个结点，之后该结点后移一位</span></span><br><span class="line">            p-&gt;next = pHead1;</span><br><span class="line">            pHead1 = pHead1-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            p-&gt;next = pHead2;</span><br><span class="line">            pHead2 = pHead2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next; <span class="comment">// p后移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pHead1) p-&gt;next = pHead1; <span class="comment">// 合并其中一个空链表</span></span><br><span class="line">    <span class="keyword">if</span> (pHead2) p-&gt;next = pHead2;</span><br><span class="line">    <span class="keyword">return</span> res-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">FindKthToTail</span><span class="params">(ListNode* pListHead, <span class="keyword">unsigned</span> <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pListHead == <span class="literal">NULL</span> || k&lt;=<span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//排除空链表和k&lt;=0的情况</span></span><br><span class="line">    ListNode* fast = pListHead;</span><br><span class="line">    ListNode* slow = pListHead;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        fast = fast -&gt; next;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cnt &lt; k) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 当快指针走完链表时，此时cnt即为链表的长度，cnt小于k说明超出链表的范围</span></span><br><span class="line">            <span class="keyword">return</span> slow; <span class="comment">//不超出则返回慢指针所指的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt;= k) slow = slow -&gt; next; <span class="comment">//当快指针走了k步，慢指针开始走</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -779,6 +764,21 @@ table {
 <a id="more"></a>
 <p><strong>代码：</strong></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">ReverseList</span><span class="params">(ListNode* pHead)</span> </span>&#123;</span><br><span class="line">    ListNode* rev = <span class="literal">NULL</span>; <span class="comment">//初始时为空</span></span><br><span class="line">    ListNode* p = pHead; <span class="comment">//初始时，所有的结点都未被反转</span></span><br><span class="line">    ListNode* tmp; </span><br><span class="line">    <span class="keyword">while</span> (p) &#123;</span><br><span class="line">        tmp = p -&gt; next; <span class="comment">//先存储p的下一结点，因为下一步要改变p的下一结点的指向</span></span><br><span class="line">        p -&gt; next = rev; <span class="comment">//p的下一结点指向已经反转好的头结点</span></span><br><span class="line">        rev = p; <span class="comment">//rev的结点移向最新的反转过的结点p</span></span><br><span class="line">        p = tmp; <span class="comment">//p移向下一未反转的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第16题：合并两个排序的链表</title>
+    <url>/2020/01/04/offer-16/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。<br><strong>解题思路：</strong>创建一个新的链表头结点，比较两个链表的头结点值的大小，并将res-&gt;next指向值小的结点，直至有一个链表为空。之后合并剩下的非空链表即可。<br><strong>代码：</strong></p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">Merge</span><span class="params">(ListNode* pHead1, ListNode* pHead2)</span></span>&#123;</span><br><span class="line">    ListNode* res = <span class="keyword">new</span> ListNode(<span class="number">-1</span>); <span class="comment">//创建一个dummy head，防止两个链表中存在空链表</span></span><br><span class="line">    ListNode* p = res;</span><br><span class="line">    <span class="keyword">while</span> (pHead1 &amp;&amp; pHead2) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pHead1-&gt;val &lt;= pHead2-&gt;val) &#123; <span class="comment">//比较两个链表头结点值的大小，将p指向值小的那个结点，之后该结点后移一位</span></span><br><span class="line">            p-&gt;next = pHead1;</span><br><span class="line">            pHead1 = pHead1-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            p-&gt;next = pHead2;</span><br><span class="line">            pHead2 = pHead2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next; <span class="comment">// p后移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pHead1) p-&gt;next = pHead1; <span class="comment">// 合并其中一个空链表</span></span><br><span class="line">    <span class="keyword">if</span> (pHead2) p-&gt;next = pHead2;</span><br><span class="line">    <span class="keyword">return</span> res-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -841,6 +841,40 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第20题：包含min函数的栈</title>
+    <url>/2020/01/06/offer-20/</url>
+    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第21题：栈的压入、弹出序列</title>
+    <url>/2020/01/06/offer-21/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
+<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第22题：从上往下打印二叉树</title>
     <url>/2020/01/06/offer-22/</url>
     <content><![CDATA[<p><strong>题目：</strong>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
@@ -875,40 +909,6 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第21题：栈的压入、弹出序列</title>
-    <url>/2020/01/06/offer-21/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，对按照pushV的顺序进栈，直至栈顶元素和popV中的第0个元素相等，之后弹出该元素，并将popV的指针右移一位，再判断此时辅助栈的元素和popV中的下一个元素是否相等，循环直至辅助栈为空，或者元素不相等为止。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPopOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pushV,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; popV)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v:pushV) &#123;</span><br><span class="line">        tmp.push_back(v);</span><br><span class="line">        <span class="keyword">while</span> (i &lt; popV.size() &amp;&amp; tmp.back() == popV[i]) &#123; <span class="comment">//注意：要限定i的范围</span></span><br><span class="line">            tmp.pop_back();</span><br><span class="line">            i += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第20题：包含min函数的栈</title>
-    <url>/2020/01/06/offer-20/</url>
-    <content><![CDATA[<p><strong>题目：</strong>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
-<p><strong>解题思路：</strong>定义一个辅助栈，用于存放当前堆栈中的最小值。当堆栈弹出的时候，若弹出的值与辅助栈顶的元素相等，则辅助栈也弹出栈顶元素。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">stack</span>; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; min_stack; <span class="comment">//定义辅助栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>.push_back(value); <span class="comment">//将元素推入栈中</span></span><br><span class="line">    <span class="keyword">if</span> (min_stack.empty()) <span class="comment">//如果此时辅助栈为空，直接推入当前元素作为最小值</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= min_stack.back()) <span class="comment">//否则需要当前元素小于等于辅助栈的栈顶元素才能推入。注意：等于的情况也要推入。</span></span><br><span class="line">        min_stack.push_back(value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pop_value = <span class="built_in">stack</span>.back();</span><br><span class="line">    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">    <span class="keyword">if</span> (pop_value == min_stack.back()) <span class="comment">//若弹出的元素等于辅助栈的栈顶元素，则辅助栈也弹出栈顶元素</span></span><br><span class="line">        min_stack.pop_back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">stack</span>.back();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> min_stack.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -1049,20 +1049,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>多系统引导工具：refind</title>
-    <url>/2021/08/01/refind/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>系统引导</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>VPS使用rclone挂载Google Drive</title>
     <url>/2023/09/23/rclone/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;VPS自带磁盘空间较小，存储空间紧张，可考虑通过挂载网盘的方式来扩容</p>
@@ -1091,64 +1077,26 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>多系统引导工具：refind</title>
+    <url>/2021/08/01/refind/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>系统引导</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重新分配服务器的ip地址</title>
     <url>/2019/12/27/server-network/</url>
     <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>]]></content>
-  </entry>
-  <entry>
-    <title>Scaleway修改默认磁盘大小</title>
-    <url>/2024/08/18/scaleway-resize-disk-size/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; Swaleway创建STARDUST1-S型机器时，最低只能选择10G硬盘，对于部分使用场景而言，10G的硬盘空间太大，造成了不少的浪费。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>实例启动后，按照以下步骤操作</p>
-<h4 id="一、新增磁盘并从救援模式进入系统"><a href="#一、新增磁盘并从救援模式进入系统" class="headerlink" title="一、新增磁盘并从救援模式进入系统"></a>一、新增磁盘并从救援模式进入系统</h4><ol>
-<li>从控制台关机（注意，不能从ssh关机，ssh关机在后，无法在控制台移除磁盘）；</li>
-<li>关机后在<a href="https://console.scaleway.com/instance/volumes" target="_blank" rel="noopener">volumes</a>页面新增vps所在区域的磁盘，磁盘的类型选择Local storage；</li>
-<li>创建好磁盘后，添加到对应的实例上；</li>
-<li>进入相应的实例，Attached volumes部分，将默认的10G硬盘删除；</li>
-<li>进入Advanced settings，选择Boot mode为Use rescue image，保存；</li>
-<li>从控制台开机，可以在网页上的Console查看开机进度，此次开机耗时可能比较久，大概需要5分钟甚至更多；</li>
-<li>开机成功后，可以使用ssh连接上服务器，还是使用原先的账户和密钥登录即可；</li>
-</ol>
-<h4 id="二、安装Alpine操作系统"><a href="#二、安装Alpine操作系统" class="headerlink" title="二、安装Alpine操作系统"></a>二、安装Alpine操作系统</h4><ol start="8">
-<li><p>根据<a href="#ref-1">参考链接[1]</a>，注意，</p>
-<p> 1） 最新的Alpine版本可以从<a href="https://alpinelinux.org/downloads/" target="_blank" rel="noopener">官网</a>下载，选择VIRTUAL版本即可<br> 2） 安装系统的磁盘需要修改，例如在Scaleway中，磁盘的路径为/dev/vda</p>
-</li>
-<li><p>在setup-alpine过程中，默认会调用setup-disk，但是默认会创建三个分区，分别是boot分区，swap分区以及系统分区。对于小硬盘来说，如果使用默认配置，boot分区和swap分区会占用掉太多空间，最终系统分区的大小只会有700多M，为了最大限度使用磁盘空间，需要手动执行setup-disk。setup-alpine执行到选择磁盘安装位置时，先不选择磁盘，配置存放位置选择默认即可；</p>
-<p> 1） 根据<a href="#ref-2">参考链接[2]</a>，可以通过设置环境变量BOOT_SIZE来指定boot分区的大小<br> 2） 查看setup-disk –help可知，根据传入-s参数的值可以设置swap分区的大小</p>
-</li>
-<li><p>执行<code>export BOOT_SIZE=40; setup-disk -s 0</code>，进行安装系统操作</p>
-<p>1） 如果出现错误</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ERROR: unable to select packages:</span><br><span class="line">dosfstools (no such package):</span><br><span class="line">    required by: world[dosfstools]</span><br><span class="line">grub-efi (no such package):</span><br><span class="line">    required by: world[grub-efi]</span><br></pre></td></tr></table></figure>
-<p>说明对应的安装包无法成功安装，可以使用命令<code>echo &#39;nameserver 2a01:4f8:c2c:123f::1&#39; &gt;&gt; /etc/resolv.conf</code>修改dns为dns64，之后运行<code>apk update</code>，再重新执行即可。如果/dev/vda已被挂载，需要先umount对应的分区。</p>
-</li>
-<li><p>安装完成后，可以挂在系统分区，将ssh公钥写入到authorized_keys文件（注意.ssh目录的权限以及authorized_keys文件的权限，.ssh目录文件权限为700，authorized_keys的权限为600），重启后即可使用原先的私钥登录</p>
-</li>
-<li><p>从控制台关机机器，之后进入Scaleway实例控制台，选择Advanced settings页，修改Boot mode为Use Local Boot，保存，之后启动机器。如无意外的话，可以成功进入Alpine系统，也可以通过ssh连接。</p>
-</li>
-</ol>
-<h4 id="三、Alpine其他使用方式记录"><a href="#三、Alpine其他使用方式记录" class="headerlink" title="三、Alpine其他使用方式记录"></a>三、Alpine其他使用方式记录</h4><ol>
-<li>添加社区repositories，取消<code>/etc/apk/repositories</code>中community的注释即可（安装docker需要社区repositories）</li>
-<li>使用命令<code>rc-update add docker default</code>可以添加docker自启动，<code>rc-status</code>可以查看自启动状态</li>
-<li>使用命令<code>modprobe tun</code>可以启动tun功能，使用<code>echo &#39;tun&#39; &gt;&gt; /etc/modules</code>添加到开机自启动</li>
-<li>服务自启动，需要手动编写rc-service启动脚本<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3></li>
-</ol>
-<ul>
-<li><span id="ref-1"></span> [1] <a href="https://wiki.alpinelinux.org/wiki/Replacing_non-Alpine_Linux_with_Alpine_remotely" target="_blank" rel="noopener">Replacing non-Alpine Linux with Alpine remotely</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://wiki.alpinelinux.org/wiki/Setting_up_disks_manually" target="_blank" rel="noopener">Setting up disks manually</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://www.nodeseek.com/post-129349-1" target="_blank" rel="noopener">已dd成功scaleway星尘1c1g1g 小小鸡</a></li>
-<li><span id="ref-4"></span> [4] <a href="https://github.com/cloudflare/cloudflared/issues/821" target="_blank" rel="noopener">How to install cloudflared on Alpine linux?</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>Scaleway</tag>
-      </tags>
   </entry>
   <entry>
     <title>shadowsocks中转</title>
@@ -1192,23 +1140,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>gnome-terminal 启动错误</title>
-    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>gnome-terminal</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用ssh反向代理+shadowsocks实现内网穿透</title>
     <url>/2020/01/03/ssh-shadowsocks/</url>
     <content><![CDATA[<p>在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有<strong>公网ip</strong>的服务器。下文命令行中用到的地址定义如下：<br><strong>公网服务器ip地址：</strong>server_ip<br><strong>内网机器ip地址：</strong>local_ip</p>
@@ -1241,6 +1172,23 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gnome-terminal 启动错误</title>
+    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>gnome-terminal</tag>
       </tags>
   </entry>
   <entry>
@@ -1332,6 +1280,58 @@ table {
       </categories>
       <tags>
         <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scaleway修改默认磁盘大小</title>
+    <url>/2024/08/18/scaleway-resize-disk-size/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; Swaleway创建STARDUST1-S型机器时，最低只能选择10G硬盘，对于部分使用场景而言，10G的硬盘空间太大，造成了不少的浪费。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>实例启动后，按照以下步骤操作</p>
+<h4 id="一、新增磁盘并从救援模式进入系统"><a href="#一、新增磁盘并从救援模式进入系统" class="headerlink" title="一、新增磁盘并从救援模式进入系统"></a>一、新增磁盘并从救援模式进入系统</h4><ol>
+<li>从控制台关机（注意，不能从ssh关机，ssh关机在后，无法在控制台移除磁盘）；</li>
+<li>关机后在<a href="https://console.scaleway.com/instance/volumes" target="_blank" rel="noopener">volumes</a>页面新增vps所在区域的磁盘，磁盘的类型选择Local storage；</li>
+<li>创建好磁盘后，添加到对应的实例上；</li>
+<li>进入相应的实例，Attached volumes部分，将默认的10G硬盘删除；</li>
+<li>进入Advanced settings，选择Boot mode为Use rescue image，保存；</li>
+<li>从控制台开机，可以在网页上的Console查看开机进度，此次开机耗时可能比较久，大概需要5分钟甚至更多；</li>
+<li>开机成功后，可以使用ssh连接上服务器，还是使用原先的账户和密钥登录即可；</li>
+</ol>
+<h4 id="二、安装Alpine操作系统"><a href="#二、安装Alpine操作系统" class="headerlink" title="二、安装Alpine操作系统"></a>二、安装Alpine操作系统</h4><ol start="8">
+<li><p>根据<a href="#ref-1">参考链接[1]</a>，注意，</p>
+<p> 1） 最新的Alpine版本可以从<a href="https://alpinelinux.org/downloads/" target="_blank" rel="noopener">官网</a>下载，选择VIRTUAL版本即可<br> 2） 安装系统的磁盘需要修改，例如在Scaleway中，磁盘的路径为/dev/vda</p>
+</li>
+<li><p>在setup-alpine过程中，默认会调用setup-disk，但是默认会创建三个分区，分别是boot分区，swap分区以及系统分区。对于小硬盘来说，如果使用默认配置，boot分区和swap分区会占用掉太多空间，最终系统分区的大小只会有700多M，为了最大限度使用磁盘空间，需要手动执行setup-disk。setup-alpine执行到选择磁盘安装位置时，先不选择磁盘，配置存放位置选择默认即可；</p>
+<p> 1） 根据<a href="#ref-2">参考链接[2]</a>，可以通过设置环境变量BOOT_SIZE来指定boot分区的大小<br> 2） 查看setup-disk –help可知，根据传入-s参数的值可以设置swap分区的大小</p>
+</li>
+<li><p>执行<code>export BOOT_SIZE=40; setup-disk -s 0</code>，进行安装系统操作</p>
+<p>1） 如果出现错误</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ERROR: unable to select packages:</span><br><span class="line">dosfstools (no such package):</span><br><span class="line">    required by: world[dosfstools]</span><br><span class="line">grub-efi (no such package):</span><br><span class="line">    required by: world[grub-efi]</span><br></pre></td></tr></table></figure>
+<p>说明对应的安装包无法成功安装，可以使用命令<code>echo &#39;nameserver 2a01:4f8:c2c:123f::1&#39; &gt;&gt; /etc/resolv.conf</code>修改dns为dns64，之后运行<code>apk update</code>，再重新执行即可。如果/dev/vda已被挂载，需要先umount对应的分区。</p>
+</li>
+<li><p>安装完成后，可以挂在系统分区，将ssh公钥写入到authorized_keys文件（注意.ssh目录的权限以及authorized_keys文件的权限，.ssh目录文件权限为700，authorized_keys的权限为600），重启后即可使用原先的私钥登录</p>
+</li>
+<li><p>从控制台关机机器，之后进入Scaleway实例控制台，选择Advanced settings页，修改Boot mode为Use Local Boot，保存，之后启动机器。如无意外的话，可以成功进入Alpine系统，也可以通过ssh连接。</p>
+</li>
+</ol>
+<h4 id="三、Alpine其他使用方式记录"><a href="#三、Alpine其他使用方式记录" class="headerlink" title="三、Alpine其他使用方式记录"></a>三、Alpine其他使用方式记录</h4><ol>
+<li>添加社区repositories，取消<code>/etc/apk/repositories</code>中community的注释即可（安装docker需要社区repositories）</li>
+<li>使用命令<code>rc-update add docker default</code>可以添加docker自启动，<code>rc-status</code>可以查看自启动状态</li>
+<li>使用命令<code>modprobe tun</code>可以启动tun功能，使用<code>echo &#39;tun&#39; &gt;&gt; /etc/modules</code>添加到开机自启动</li>
+<li>服务自启动，需要手动编写rc-service启动脚本<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3></li>
+</ol>
+<ul>
+<li><span id="ref-1"></span> [1] <a href="https://wiki.alpinelinux.org/wiki/Replacing_non-Alpine_Linux_with_Alpine_remotely" target="_blank" rel="noopener">Replacing non-Alpine Linux with Alpine remotely</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://wiki.alpinelinux.org/wiki/Setting_up_disks_manually" target="_blank" rel="noopener">Setting up disks manually</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://www.nodeseek.com/post-129349-1" target="_blank" rel="noopener">已dd成功scaleway星尘1c1g1g 小小鸡</a></li>
+<li><span id="ref-4"></span> [4] <a href="https://github.com/cloudflare/cloudflared/issues/821" target="_blank" rel="noopener">How to install cloudflared on Alpine linux?</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>Scaleway</tag>
       </tags>
   </entry>
   <entry>
