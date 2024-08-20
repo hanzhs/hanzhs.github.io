@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>中文数字转换成阿拉伯数字</title>
+    <url>/2020/07/11/chinese-num-to-arbic-num/</url>
+    <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
+<p><strong>解题思路：</strong> 以亿为分界点，将亿之前的数字作为一部分，其余的部分再做处理。</p>
+<p><a href="https://github.com/fuhailin/show-me-python-code/blob/master/leetcode/%E4%B8%AD%E6%96%87%E6%95%B0%E5%AD%972%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97.py" target="_blank" rel="noopener">参考链接</a></p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chs_arabic_map = &#123;<span class="string">'零'</span>: <span class="number">0</span>, <span class="string">'一'</span>: <span class="number">1</span>, <span class="string">'二'</span>: <span class="number">2</span>, <span class="string">'三'</span>: <span class="number">3</span>, <span class="string">'四'</span>: <span class="number">4</span>, <span class="string">'五'</span>: <span class="number">5</span>, <span class="string">'六'</span>: <span class="number">6</span>, <span class="string">'七'</span>: <span class="number">7</span>, <span class="string">'八'</span>: <span class="number">8</span>, <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">                  <span class="string">'十'</span>: <span class="number">10</span>, <span class="string">'百'</span>: <span class="number">100</span>, <span class="string">'千'</span>: <span class="number">1000</span>, <span class="string">'万'</span>: <span class="number">10000</span>, <span class="string">'亿'</span>: <span class="number">10</span> ** <span class="number">8</span>,</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertChineseDigitsToArabic</span><span class="params">(chinese_digits, encoding=<span class="string">"utf-8"</span>)</span>:</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    res_before_yi = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> chinese_digits:</span><br><span class="line">        val = chs_arabic_map.get(char, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> val == <span class="number">10</span>**<span class="number">8</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            res_before_yi = res_before_yi * <span class="number">10</span> ** <span class="number">8</span> + res</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val == <span class="number">10000</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val &gt;=<span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">                tmp = <span class="number">1</span></span><br><span class="line">            res = res + tmp*val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = tmp * <span class="number">10</span> + val</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"不合法的字符"</span>)</span><br><span class="line">    res += res_before_yi</span><br><span class="line">    res += tmp</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_map = &#123;</span><br><span class="line">        <span class="comment"># '三千五百二十三': 3523,</span></span><br><span class="line">        <span class="string">'九万五千零七十五亿八百零七万九千二百零八'</span>: <span class="number">9507508079208</span>,</span><br><span class="line">        <span class="string">'四万三千五百二十一'</span>: <span class="number">43521</span>,</span><br><span class="line">        <span class="string">'三千五百二十一'</span>: <span class="number">3521</span>,</span><br><span class="line">        <span class="string">'三千五百零八'</span>: <span class="number">3508</span>,</span><br><span class="line">        <span class="string">'三五六零'</span>: <span class="number">3560</span>,</span><br><span class="line">        <span class="string">'一万零三十'</span>: <span class="number">10030</span>,</span><br><span class="line">        <span class="string">''</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment"># 1 digit 个</span></span><br><span class="line">        <span class="string">'零'</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">'一'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'二'</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">'三'</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="string">'四'</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="string">'五'</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="string">'六'</span>: <span class="number">6</span>,</span><br><span class="line">        <span class="string">'七'</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="string">'八'</span>: <span class="number">8</span>,</span><br><span class="line">        <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">        <span class="comment"># 2 digits 十</span></span><br><span class="line">        <span class="string">'十'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'十一'</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="string">'二十'</span>: <span class="number">20</span>,</span><br><span class="line">        <span class="string">'二十一'</span>: <span class="number">21</span>,</span><br><span class="line">        <span class="comment"># 3 digits 百</span></span><br><span class="line">        <span class="string">'一百'</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="string">'一百零一'</span>: <span class="number">101</span>,</span><br><span class="line">        <span class="string">'一百一十'</span>: <span class="number">110</span>,</span><br><span class="line">        <span class="string">'一百二十三'</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="comment"># 4 digits 千</span></span><br><span class="line">        <span class="string">'一千'</span>: <span class="number">1000</span>,</span><br><span class="line">        <span class="string">'一千零一'</span>: <span class="number">1001</span>,</span><br><span class="line">        <span class="string">'一千零一十'</span>: <span class="number">1010</span>,</span><br><span class="line">        <span class="string">'一千一百'</span>: <span class="number">1100</span>,</span><br><span class="line">        <span class="string">'一千零二十三'</span>: <span class="number">1023</span>,</span><br><span class="line">        <span class="string">'一千二百零三'</span>: <span class="number">1203</span>,</span><br><span class="line">        <span class="string">'一千二百三十'</span>: <span class="number">1230</span>,</span><br><span class="line">        <span class="comment"># 5 digits 万</span></span><br><span class="line">        <span class="string">'一万'</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">'一万零一'</span>: <span class="number">10001</span>,</span><br><span class="line">        <span class="string">'一万零一十'</span>: <span class="number">10010</span>,</span><br><span class="line">        <span class="string">'一万零一百'</span>: <span class="number">10100</span>,</span><br><span class="line">        <span class="string">'一万一千'</span>: <span class="number">11000</span>,</span><br><span class="line">        <span class="string">'一万零一十一'</span>: <span class="number">10011</span>,</span><br><span class="line">        <span class="string">'一万零一百零一'</span>: <span class="number">10101</span>,</span><br><span class="line">        <span class="string">'一万一千零一'</span>: <span class="number">11001</span>,</span><br><span class="line">        <span class="string">'一万零一百一十'</span>: <span class="number">10110</span>,</span><br><span class="line">        <span class="string">'一万一千零一十'</span>: <span class="number">11010</span>,</span><br><span class="line">        <span class="string">'一万一千一百'</span>: <span class="number">11100</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十'</span>: <span class="number">11110</span>,</span><br><span class="line">        <span class="string">'一万一千一百零一'</span>: <span class="number">11101</span>,</span><br><span class="line">        <span class="string">'一万一千零一十一'</span>: <span class="number">11011</span>,</span><br><span class="line">        <span class="string">'一万零一百一十一'</span>: <span class="number">10111</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十一'</span>: <span class="number">11111</span>,</span><br><span class="line">        <span class="comment"># 6 digits 十万</span></span><br><span class="line">        <span class="string">'十万零二千三百四十五'</span>: <span class="number">102345</span>,</span><br><span class="line">        <span class="string">'十二万三千四百五十六'</span>: <span class="number">123456</span>,</span><br><span class="line">        <span class="string">'十万零三百五十六'</span>: <span class="number">100356</span>,</span><br><span class="line">        <span class="string">'十万零三千六百零九'</span>: <span class="number">103609</span>,</span><br><span class="line">        <span class="comment"># 7 digits 百万</span></span><br><span class="line">        <span class="string">'一百二十三万四千五百六十七'</span>: <span class="number">1234567</span>,</span><br><span class="line">        <span class="string">'一百零一万零一百零一'</span>: <span class="number">1010101</span>,</span><br><span class="line">        <span class="string">'一百万零一'</span>: <span class="number">1000001</span>,</span><br><span class="line">        <span class="comment"># 8 digits 千万</span></span><br><span class="line">        <span class="string">'一千一百二十三万四千五百六十七'</span>: <span class="number">11234567</span>,</span><br><span class="line">        <span class="string">'一千零一十一万零一百零一'</span>: <span class="number">10110101</span>,</span><br><span class="line">        <span class="string">'一千万零一'</span>: <span class="number">10000001</span>,</span><br><span class="line">        <span class="comment"># 9 digits 亿</span></span><br><span class="line">        <span class="string">'一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111234567</span>,</span><br><span class="line">        <span class="string">'一亿零一百零一万零一百零一'</span>: <span class="number">101010101</span>,</span><br><span class="line">        <span class="string">'一亿零一'</span>: <span class="number">100000001</span>,</span><br><span class="line">        <span class="comment"># 10 digits 十亿</span></span><br><span class="line">        <span class="string">'十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111234567</span>,</span><br><span class="line">        <span class="comment"># 11 digits 百亿</span></span><br><span class="line">        <span class="string">'一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111234567</span>,</span><br><span class="line">        <span class="comment"># 12 digits 千亿</span></span><br><span class="line">        <span class="string">'一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111111234567</span>,</span><br><span class="line">        <span class="comment"># 13 digits 万亿</span></span><br><span class="line">        <span class="string">'一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111111234567</span>,</span><br><span class="line">        <span class="comment"># 14 digits 十万亿</span></span><br><span class="line">        <span class="string">'十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111234567</span>,</span><br><span class="line">        <span class="comment"># 17 digits 亿亿</span></span><br><span class="line">        <span class="string">'一亿一千一百一十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111111234567</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> test_map:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">assert</span> (test_map[each] == convertChineseDigitsToArabic(each))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(each, test_map[each], convertChineseDigitsToArabic(each))</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>code</category>
+      </categories>
+      <tags>
+        <tag>code</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>欧式距离与余弦距离的区别与联系</title>
+    <url>/2019/10/26/euclidean-cosine-distance/</url>
+    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
+<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
+<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
+<a id="more"></a>
+<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
+]]></content>
+  </entry>
+  <entry>
     <title>在纯IPv6环境添加Cloudflare Tunnel</title>
     <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
@@ -16,6 +43,36 @@
       <tags>
         <tag>Cloudflare</tag>
         <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用shell脚本实现图像序列到视频的批量转换</title>
+    <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
+    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>ffmpeg</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用ffmpeg将图像转换成视频</title>
+    <url>/2020/01/03/ffmpeg-imgs2vid/</url>
+    <content><![CDATA[<p><strong>需求</strong>：按照制定的码率将一系列图像转换成视频<br>1、图像名字连续：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i image%d.jpg -vcodec mpeg4 -b 800k video.avi</span><br></pre></td></tr></table></figure>
+<p>2、图像名字不连续</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i %*.png out.avi</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>ffmpeg</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
       </tags>
   </entry>
   <entry>
@@ -40,69 +97,12 @@
       </tags>
   </entry>
   <entry>
-    <title>使用shell脚本实现图像序列到视频的批量转换</title>
-    <url>/2020/01/03/ffmpeg-batch-imgs2vid/</url>
-    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">ori_path=/media/pci/4T/hzs/dataset/prid2011/prid_2011/multi_shot <span class="comment">#文件夹路径，里面有子目录cam_a，cam_b等</span></span><br><span class="line">folders=$(ls <span class="variable">$ori_path</span>) <span class="comment">#列出子文件夹的名字</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> <span class="variable">$folders</span> <span class="comment">#分别对每个子文件夹操作</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    path=<span class="variable">$ori_path</span>/<span class="variable">$d</span> <span class="comment">#更新path，变成子文件夹的完整路径</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$path</span> <span class="comment">#进入子文件夹</span></span><br><span class="line">    new_dir_name=<span class="variable">$d</span><span class="string">"_"</span>video <span class="comment">#存放转换后视频的文件夹名</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">"../<span class="variable">$new_dir_name</span>"</span> ];<span class="keyword">then</span> <span class="comment">#判断文件夹是否存在，否则创建文件夹，</span></span><br><span class="line">        mkdir ../<span class="variable">$new_dir_name</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    folders=$(ls <span class="variable">$path</span>)</span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> <span class="variable">$folders</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        ffmpeg -f image2 -i <span class="variable">$dir</span>/%*.png ../<span class="variable">$&#123;path##*/&#125;</span>_video/<span class="variable">$dir</span>.mp4</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-]]></content>
-      <categories>
-        <category>ffmpeg</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>欧式距离与余弦距离的区别与联系</title>
-    <url>/2019/10/26/euclidean-cosine-distance/</url>
-    <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
-<p>给定两个n维向量X, Y，二者之间的欧式距离为：<br>$$d_{euc} = \|X-Y\|$$</p>
-<p>二者之间的余弦距离为：<br>$$<br>d_{cos} = 1-\frac {X\cdot Y}{\|X|\cdot \|Y\|}<br>$$</p>
-<a id="more"></a>
-<p>归一化之后欧式距离为：<br>$$<br>d_{n\_euc} = \Bigg \| {X\over \|X\|}-{Y\over \|Y\|}\Bigg \|<br>            = \sqrt{\sum_{i=1}^n\Big({x_i\over\|X\|}-{y_i\over\|Y\|}\Big)^2} \\<br>            = \sqrt{\sum_{i=1}^n({x_i^2\over |X|^2} + {y_i^2\over |Y|^2} - {2x_iy_i\over|X||Y|})} \\<br>            = \sqrt{\frac{\sum x_i^2}{\|X\|^2} + \frac{\sum y_i^2}{\|Y\|^2}  - \frac{2\sum x_iy_i}{\|X\|\cdot \|Y\|} } \\<br>            = \sqrt{2-\frac{2X\cdot Y}{\|X\|\cdot \|Y\|}} = \sqrt{2\cdot d_{cos}}<br>$$</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>中文数字转换成阿拉伯数字</title>
-    <url>/2020/07/11/chinese-num-to-arbic-num/</url>
-    <content><![CDATA[<p><strong>题目：</strong> 中文数字转换成阿拉伯数字</p>
-<p><strong>解题思路：</strong> 以亿为分界点，将亿之前的数字作为一部分，其余的部分再做处理。</p>
-<p><a href="https://github.com/fuhailin/show-me-python-code/blob/master/leetcode/%E4%B8%AD%E6%96%87%E6%95%B0%E5%AD%972%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97.py" target="_blank" rel="noopener">参考链接</a></p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chs_arabic_map = &#123;<span class="string">'零'</span>: <span class="number">0</span>, <span class="string">'一'</span>: <span class="number">1</span>, <span class="string">'二'</span>: <span class="number">2</span>, <span class="string">'三'</span>: <span class="number">3</span>, <span class="string">'四'</span>: <span class="number">4</span>, <span class="string">'五'</span>: <span class="number">5</span>, <span class="string">'六'</span>: <span class="number">6</span>, <span class="string">'七'</span>: <span class="number">7</span>, <span class="string">'八'</span>: <span class="number">8</span>, <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">                  <span class="string">'十'</span>: <span class="number">10</span>, <span class="string">'百'</span>: <span class="number">100</span>, <span class="string">'千'</span>: <span class="number">1000</span>, <span class="string">'万'</span>: <span class="number">10000</span>, <span class="string">'亿'</span>: <span class="number">10</span> ** <span class="number">8</span>,</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertChineseDigitsToArabic</span><span class="params">(chinese_digits, encoding=<span class="string">"utf-8"</span>)</span>:</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    res_before_yi = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> chinese_digits:</span><br><span class="line">        val = chs_arabic_map.get(char, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> val == <span class="number">10</span>**<span class="number">8</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            res_before_yi = res_before_yi * <span class="number">10</span> ** <span class="number">8</span> + res</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val == <span class="number">10000</span>:</span><br><span class="line">            res += tmp</span><br><span class="line">            res *= val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val &gt;=<span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> tmp == <span class="number">0</span>:</span><br><span class="line">                tmp = <span class="number">1</span></span><br><span class="line">            res = res + tmp*val</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            tmp = tmp * <span class="number">10</span> + val</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"不合法的字符"</span>)</span><br><span class="line">    res += res_before_yi</span><br><span class="line">    res += tmp</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_map = &#123;</span><br><span class="line">        <span class="comment"># '三千五百二十三': 3523,</span></span><br><span class="line">        <span class="string">'九万五千零七十五亿八百零七万九千二百零八'</span>: <span class="number">9507508079208</span>,</span><br><span class="line">        <span class="string">'四万三千五百二十一'</span>: <span class="number">43521</span>,</span><br><span class="line">        <span class="string">'三千五百二十一'</span>: <span class="number">3521</span>,</span><br><span class="line">        <span class="string">'三千五百零八'</span>: <span class="number">3508</span>,</span><br><span class="line">        <span class="string">'三五六零'</span>: <span class="number">3560</span>,</span><br><span class="line">        <span class="string">'一万零三十'</span>: <span class="number">10030</span>,</span><br><span class="line">        <span class="string">''</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment"># 1 digit 个</span></span><br><span class="line">        <span class="string">'零'</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">'一'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'二'</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">'三'</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="string">'四'</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="string">'五'</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="string">'六'</span>: <span class="number">6</span>,</span><br><span class="line">        <span class="string">'七'</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="string">'八'</span>: <span class="number">8</span>,</span><br><span class="line">        <span class="string">'九'</span>: <span class="number">9</span>,</span><br><span class="line">        <span class="comment"># 2 digits 十</span></span><br><span class="line">        <span class="string">'十'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'十一'</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="string">'二十'</span>: <span class="number">20</span>,</span><br><span class="line">        <span class="string">'二十一'</span>: <span class="number">21</span>,</span><br><span class="line">        <span class="comment"># 3 digits 百</span></span><br><span class="line">        <span class="string">'一百'</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="string">'一百零一'</span>: <span class="number">101</span>,</span><br><span class="line">        <span class="string">'一百一十'</span>: <span class="number">110</span>,</span><br><span class="line">        <span class="string">'一百二十三'</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="comment"># 4 digits 千</span></span><br><span class="line">        <span class="string">'一千'</span>: <span class="number">1000</span>,</span><br><span class="line">        <span class="string">'一千零一'</span>: <span class="number">1001</span>,</span><br><span class="line">        <span class="string">'一千零一十'</span>: <span class="number">1010</span>,</span><br><span class="line">        <span class="string">'一千一百'</span>: <span class="number">1100</span>,</span><br><span class="line">        <span class="string">'一千零二十三'</span>: <span class="number">1023</span>,</span><br><span class="line">        <span class="string">'一千二百零三'</span>: <span class="number">1203</span>,</span><br><span class="line">        <span class="string">'一千二百三十'</span>: <span class="number">1230</span>,</span><br><span class="line">        <span class="comment"># 5 digits 万</span></span><br><span class="line">        <span class="string">'一万'</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">'一万零一'</span>: <span class="number">10001</span>,</span><br><span class="line">        <span class="string">'一万零一十'</span>: <span class="number">10010</span>,</span><br><span class="line">        <span class="string">'一万零一百'</span>: <span class="number">10100</span>,</span><br><span class="line">        <span class="string">'一万一千'</span>: <span class="number">11000</span>,</span><br><span class="line">        <span class="string">'一万零一十一'</span>: <span class="number">10011</span>,</span><br><span class="line">        <span class="string">'一万零一百零一'</span>: <span class="number">10101</span>,</span><br><span class="line">        <span class="string">'一万一千零一'</span>: <span class="number">11001</span>,</span><br><span class="line">        <span class="string">'一万零一百一十'</span>: <span class="number">10110</span>,</span><br><span class="line">        <span class="string">'一万一千零一十'</span>: <span class="number">11010</span>,</span><br><span class="line">        <span class="string">'一万一千一百'</span>: <span class="number">11100</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十'</span>: <span class="number">11110</span>,</span><br><span class="line">        <span class="string">'一万一千一百零一'</span>: <span class="number">11101</span>,</span><br><span class="line">        <span class="string">'一万一千零一十一'</span>: <span class="number">11011</span>,</span><br><span class="line">        <span class="string">'一万零一百一十一'</span>: <span class="number">10111</span>,</span><br><span class="line">        <span class="string">'一万一千一百一十一'</span>: <span class="number">11111</span>,</span><br><span class="line">        <span class="comment"># 6 digits 十万</span></span><br><span class="line">        <span class="string">'十万零二千三百四十五'</span>: <span class="number">102345</span>,</span><br><span class="line">        <span class="string">'十二万三千四百五十六'</span>: <span class="number">123456</span>,</span><br><span class="line">        <span class="string">'十万零三百五十六'</span>: <span class="number">100356</span>,</span><br><span class="line">        <span class="string">'十万零三千六百零九'</span>: <span class="number">103609</span>,</span><br><span class="line">        <span class="comment"># 7 digits 百万</span></span><br><span class="line">        <span class="string">'一百二十三万四千五百六十七'</span>: <span class="number">1234567</span>,</span><br><span class="line">        <span class="string">'一百零一万零一百零一'</span>: <span class="number">1010101</span>,</span><br><span class="line">        <span class="string">'一百万零一'</span>: <span class="number">1000001</span>,</span><br><span class="line">        <span class="comment"># 8 digits 千万</span></span><br><span class="line">        <span class="string">'一千一百二十三万四千五百六十七'</span>: <span class="number">11234567</span>,</span><br><span class="line">        <span class="string">'一千零一十一万零一百零一'</span>: <span class="number">10110101</span>,</span><br><span class="line">        <span class="string">'一千万零一'</span>: <span class="number">10000001</span>,</span><br><span class="line">        <span class="comment"># 9 digits 亿</span></span><br><span class="line">        <span class="string">'一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111234567</span>,</span><br><span class="line">        <span class="string">'一亿零一百零一万零一百零一'</span>: <span class="number">101010101</span>,</span><br><span class="line">        <span class="string">'一亿零一'</span>: <span class="number">100000001</span>,</span><br><span class="line">        <span class="comment"># 10 digits 十亿</span></span><br><span class="line">        <span class="string">'十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111234567</span>,</span><br><span class="line">        <span class="comment"># 11 digits 百亿</span></span><br><span class="line">        <span class="string">'一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111234567</span>,</span><br><span class="line">        <span class="comment"># 12 digits 千亿</span></span><br><span class="line">        <span class="string">'一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">111111234567</span>,</span><br><span class="line">        <span class="comment"># 13 digits 万亿</span></span><br><span class="line">        <span class="string">'一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">1111111234567</span>,</span><br><span class="line">        <span class="comment"># 14 digits 十万亿</span></span><br><span class="line">        <span class="string">'十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111234567</span>,</span><br><span class="line">        <span class="comment"># 17 digits 亿亿</span></span><br><span class="line">        <span class="string">'一亿一千一百一十一万一千一百一十一亿一千一百二十三万四千五百六十七'</span>: <span class="number">11111111111234567</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> test_map:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">assert</span> (test_map[each] == convertChineseDigitsToArabic(each))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(each, test_map[each], convertChineseDigitsToArabic(each))</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>code</category>
-      </categories>
-      <tags>
-        <tag>code</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用ffmpeg分离视频中的音频</title>
     <url>/2020/01/03/ffmpeg-split_vid_aud/</url>
     <content><![CDATA[<p><strong>需求：</strong>分离出给定视频中的视频轨迹和音频轨迹<br>1、提取音频</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vn -y -acodec copy 1.m4a</span><br></pre></td></tr></table></figure>
 <p>2、提取视频</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 1.MP4 -vcodec copy -an output.mp4</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-]]></content>
-      <categories>
-        <category>ffmpeg</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用ffmpeg将图像转换成视频</title>
-    <url>/2020/01/03/ffmpeg-imgs2vid/</url>
-    <content><![CDATA[<p><strong>需求</strong>：按照制定的码率将一系列图像转换成视频<br>1、图像名字连续：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i image%d.jpg -vcodec mpeg4 -b 800k video.avi</span><br></pre></td></tr></table></figure>
-<p>2、图像名字不连续</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -f image2 -i %*.png out.avi</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 ]]></content>
       <categories>
@@ -132,44 +132,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git 代理</title>
-    <url>/2019/10/26/git_proxy/</url>
-    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>如果不想使用代理，运行下面两条命令取消代理：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>git</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>IPv6</tag>
-        <tag>nginx</tag>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git移除历史提交中的敏感信息文件</title>
     <url>/2023/08/31/git-remove-sensetive-files/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
@@ -187,6 +149,22 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 代理</title>
+    <url>/2019/10/26/git_proxy/</url>
+    <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果不想使用代理，运行下面两条命令取消代理：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>git</tag>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -213,6 +191,28 @@
       </tags>
   </entry>
   <entry>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>IPv6</tag>
+        <tag>nginx</tag>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode第120题：</title>
     <url>/2020/07/14/leecode-120/</url>
     <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
@@ -231,6 +231,30 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hysteria 2 配置</title>
+    <url>/2023/10/21/hysteria-2/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -351,118 +375,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hysteria 2 配置</title>
-    <url>/2023/10/21/hysteria-2/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>音乐文件添加封面与歌词</title>
-    <url>/2023/10/12/music-tag/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
-<ol>
-<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
-</li>
-<li><p>移除comment和genre；</p>
-</li>
-<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
-</li>
-<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
-</li>
-<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
-</li>
-<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
-<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
-<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
-<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
-<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
-</li>
-<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
-</li>
-<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
-</li>
-<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
-</li>
-</ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></li>
-<li><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>music</category>
-      </categories>
-      <tags>
-        <tag>music</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第337题：打家劫舍III</title>
-    <url>/2020/01/15/leecode-337/</url>
-    <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
-<p>计算在不触动警报的情况下，小偷一晚能够盗取的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-iii/" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,2,3,null,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   2   3</span><br><span class="line">    \   \ </span><br><span class="line">     3   1</span><br><span class="line"></span><br><span class="line">输出: 7 </span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 3 + 3 + 1 = 7.</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,4,5,1,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   4   5</span><br><span class="line">  / \   \ </span><br><span class="line"> 1   3   1</span><br><span class="line"></span><br><span class="line">输出: 9</span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 4 + 5 = 9.</span><br></pre></td></tr></table></figure>
-<p><strong>解题思路：</strong></p>
-<ol>
-<li><strong>法一</strong>：类似先前的打家劫舍，对于当前位置root，可以选择，或者不选择。</li>
-</ol>
-<ul>
-<li>若选择root，就不能选择root-&gt;left和root-&gt;right，可以选择root-&gt;left-&gt;left，root-&gt;left-&gt;right，root-&gt;right-&gt;left，root-&gt;right-&gt;right。</li>
-<li>若不选择root，就能选择root-&gt;left，root-&gt;right。</li>
-<li>以上两种的最大值，就是当前位置所能抢劫到的最大金额。</li>
-</ul>
-<ol start="2">
-<li><strong>法二</strong>：法一中，在计算root-&gt;left处所能抢劫到的最大金额时，需要计算root-&gt;left-&gt;left处，root-&gt;left-&gt;right处所能抢劫的最大值；而之后计算root-&gt;left-&gt;left位置所能抢劫的最大值时，又需要重新计算一遍，从而造成重复计算。因此，可用一个哈希表记录结点位置所能抢劫的最大金额，计算过的结点就无需重复计算。</li>
-<li><strong>法三</strong>：对于每个结点，都维护一个长度为2的数组，第0个位置记录的是不选择该结点所能取得的最大值，第1个位置记录的是选择该结点所能取得的最大值。</li>
-</ol>
-<p><a href="https://leetcode.com/problems/house-robber-iii/discuss/79330/Step-by-step-tackling-of-the-problem" target="_blank" rel="noopener">参考链接</a></p>
-<p><strong>代码：</strong></p>
-<ol>
-<li><strong>法一</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><strong>法二</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unordered_map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt; <span class="built_in">map</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">map</span>[root]) <span class="keyword">return</span> <span class="built_in">map</span>[root]; <span class="comment">//判断哈希表中是否有该结点的记录</span></span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    res = max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">    <span class="built_in">map</span>[root] = res;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><strong>法三</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; helper(TreeNode* root) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> &#123;<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left = helper(root-&gt;left);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right = helper(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> &#123;max(left[<span class="number">0</span>], left[<span class="number">1</span>])+max(right[<span class="number">0</span>], right[<span class="number">1</span>]), root-&gt;val+left[<span class="number">0</span>]+right[<span class="number">0</span>]&#125;;</span><br><span class="line">    <span class="comment">// 当前结点不选择，则左右两子结点选择与否都无所谓，只要选择最大值即可；</span></span><br><span class="line">    <span class="comment">// 当前结点选择，则左右两子结点均不能选择，因此需要取0位置的值。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res = helper(root);</span><br><span class="line">    <span class="keyword">return</span> max(res[<span class="number">0</span>], res[<span class="number">1</span>]); <span class="comment">//返回的是选择或者不选择根结点两种结果中的最大值。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
-        <tag>二叉树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode专题：买卖股票的最佳时机</title>
     <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
     <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
@@ -513,6 +425,94 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第337题：打家劫舍III</title>
+    <url>/2020/01/15/leecode-337/</url>
+    <content><![CDATA[<p><strong>题目：</strong>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
+<p>计算在不触动警报的情况下，小偷一晚能够盗取的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-iii/" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,2,3,null,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   2   3</span><br><span class="line">    \   \ </span><br><span class="line">     3   1</span><br><span class="line"></span><br><span class="line">输出: 7 </span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 3 + 3 + 1 = 7.</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [3,4,5,1,3,null,1]</span><br><span class="line"></span><br><span class="line">     3</span><br><span class="line">    / \</span><br><span class="line">   4   5</span><br><span class="line">  / \   \ </span><br><span class="line"> 1   3   1</span><br><span class="line"></span><br><span class="line">输出: 9</span><br><span class="line">解释: 小偷一晚能够盗取的最高金额 = 4 + 5 = 9.</span><br></pre></td></tr></table></figure>
+<p><strong>解题思路：</strong></p>
+<ol>
+<li><strong>法一</strong>：类似先前的打家劫舍，对于当前位置root，可以选择，或者不选择。</li>
+</ol>
+<ul>
+<li>若选择root，就不能选择root-&gt;left和root-&gt;right，可以选择root-&gt;left-&gt;left，root-&gt;left-&gt;right，root-&gt;right-&gt;left，root-&gt;right-&gt;right。</li>
+<li>若不选择root，就能选择root-&gt;left，root-&gt;right。</li>
+<li>以上两种的最大值，就是当前位置所能抢劫到的最大金额。</li>
+</ul>
+<ol start="2">
+<li><strong>法二</strong>：法一中，在计算root-&gt;left处所能抢劫到的最大金额时，需要计算root-&gt;left-&gt;left处，root-&gt;left-&gt;right处所能抢劫的最大值；而之后计算root-&gt;left-&gt;left位置所能抢劫的最大值时，又需要重新计算一遍，从而造成重复计算。因此，可用一个哈希表记录结点位置所能抢劫的最大金额，计算过的结点就无需重复计算。</li>
+<li><strong>法三</strong>：对于每个结点，都维护一个长度为2的数组，第0个位置记录的是不选择该结点所能取得的最大值，第1个位置记录的是选择该结点所能取得的最大值。</li>
+</ol>
+<p><a href="https://leetcode.com/problems/house-robber-iii/discuss/79330/Step-by-step-tackling-of-the-problem" target="_blank" rel="noopener">参考链接</a></p>
+<p><strong>代码：</strong></p>
+<ol>
+<li><strong>法一</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>法二</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unordered_map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt; <span class="built_in">map</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">map</span>[root]) <span class="keyword">return</span> <span class="built_in">map</span>[root]; <span class="comment">//判断哈希表中是否有该结点的记录</span></span><br><span class="line">    <span class="keyword">int</span> res = root-&gt;val;</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;left) </span><br><span class="line">        res += rob(root-&gt;left-&gt;left) + rob(root-&gt;left-&gt;right);</span><br><span class="line">    <span class="keyword">if</span> (root-&gt;right)</span><br><span class="line">        res += rob(root-&gt;right-&gt;left) + rob(root-&gt;right-&gt;right);</span><br><span class="line">    res = max(rob(root-&gt;left)+rob(root-&gt;right), res);</span><br><span class="line">    <span class="built_in">map</span>[root] = res;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>法三</strong>：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; helper(TreeNode* root) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> &#123;<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left = helper(root-&gt;left);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right = helper(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> &#123;max(left[<span class="number">0</span>], left[<span class="number">1</span>])+max(right[<span class="number">0</span>], right[<span class="number">1</span>]), root-&gt;val+left[<span class="number">0</span>]+right[<span class="number">0</span>]&#125;;</span><br><span class="line">    <span class="comment">// 当前结点不选择，则左右两子结点选择与否都无所谓，只要选择最大值即可；</span></span><br><span class="line">    <span class="comment">// 当前结点选择，则左右两子结点均不能选择，因此需要取0位置的值。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res = helper(root);</span><br><span class="line">    <span class="keyword">return</span> max(res[<span class="number">0</span>], res[<span class="number">1</span>]); <span class="comment">//返回的是选择或者不选择根结点两种结果中的最大值。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>音乐文件添加封面与歌词</title>
+    <url>/2023/10/12/music-tag/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
+<ol>
+<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
+</li>
+<li><p>移除comment和genre；</p>
+</li>
+<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
+</li>
+<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
+</li>
+<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
+</li>
+<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
+<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
+<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
+<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
+<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
+</li>
+<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
+</li>
+<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
+</li>
+<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></li>
+<li><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>music</category>
+      </categories>
+      <tags>
+        <tag>music</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第1题：二维数组中的查找</title>
     <url>/2019/12/27/offer-01/</url>
     <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
@@ -526,27 +526,6 @@
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第6题：旋转数组的最小数字</title>
-    <url>/2020/01/02/offer-06/</url>
-    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
-<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -570,6 +549,27 @@
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第6题：旋转数组的最小数字</title>
+    <url>/2020/01/02/offer-06/</url>
+    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
+<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -648,6 +648,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第11题：二进制中1的个数</title>
+    <url>/2020/01/04/offer-11/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第10题：矩形覆盖</title>
     <url>/2020/01/04/offer-10/</url>
     <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
@@ -679,6 +697,46 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第12题：数值的整数次方</title>
+    <url>/2020/01/04/offer-12/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0。</p>
+<p><strong>解题思路：</strong>最直接的想法就是将base乘以exponent次，然而这种方法显然存在重复计算。考虑二进制数的表示形式，例如十进制下的13对应的二进制为1101，表示$13=1\times 2^0+0\times 2^1 + 1\times 2^2 + 1\times 2^3$，现在需要计算k的13次方，即$k^{13}=k^{1 + 4 + 8}=k^1\times k^4\times k^8$，为13对应二进制位上为1的$k^n$相乘，n为二进制1所在位置的十进制值。下表可表示此过程：</p>
+<a id="more"></a>
+<style>
+table {
+    width: 25%;
+    margin: auto;
+}
+</style>
+
+
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>1</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$k^8$</td>
+<td>$k^4$</td>
+<td>$k^2$</td>
+<td>$k^1$</td>
+</tr>
+</tbody></table>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Power</span><span class="params">(<span class="keyword">double</span> base, <span class="keyword">int</span> exponent)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (exponent&lt;<span class="number">0</span>) &#123; <span class="comment">//先对负指数做转换</span></span><br><span class="line">        exponent *= <span class="number">-1</span>;</span><br><span class="line">        base = <span class="number">1</span>/base;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (exponent &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (exponent % <span class="number">2</span> == <span class="number">1</span>) &#123; <span class="comment">//对应二进制位上为1时，乘上先前的结果</span></span><br><span class="line">            res *= base;</span><br><span class="line">        &#125;</span><br><span class="line">        base *= base; <span class="comment">//计算每个二进制位上的基数值</span></span><br><span class="line">        exponent &gt;&gt;= <span class="number">1</span>; <span class="comment">//计算完一次二进制位后，右移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>进制转化</tag>
       </tags>
   </entry>
   <entry>
@@ -731,64 +789,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第11题：二进制中1的个数</title>
-    <url>/2020/01/04/offer-11/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
-<p><strong>解题思路：</strong>对于一个二进制数减1，该数最右边的1变为0，最右边的1的右边若存在0，则变为1，例如：1110111000 - 1 = 1110110111。因此，一个数n与n-1做按位与运算，就能消去一个二进制1，循环直至n==0，即可得出n的二进制中1的个数。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>);</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>进制转化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第12题：数值的整数次方</title>
-    <url>/2020/01/04/offer-12/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0。</p>
-<p><strong>解题思路：</strong>最直接的想法就是将base乘以exponent次，然而这种方法显然存在重复计算。考虑二进制数的表示形式，例如十进制下的13对应的二进制为1101，表示$13=1\times 2^0+0\times 2^1 + 1\times 2^2 + 1\times 2^3$，现在需要计算k的13次方，即$k^{13}=k^{1 + 4 + 8}=k^1\times k^4\times k^8$，为13对应二进制位上为1的$k^n$相乘，n为二进制1所在位置的十进制值。下表可表示此过程：</p>
-<a id="more"></a>
-<style>
-table {
-    width: 25%;
-    margin: auto;
-}
-</style>
-
-
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>1</th>
-<th>0</th>
-<th>1</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$k^8$</td>
-<td>$k^4$</td>
-<td>$k^2$</td>
-<td>$k^1$</td>
-</tr>
-</tbody></table>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Power</span><span class="params">(<span class="keyword">double</span> base, <span class="keyword">int</span> exponent)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (exponent&lt;<span class="number">0</span>) &#123; <span class="comment">//先对负指数做转换</span></span><br><span class="line">        exponent *= <span class="number">-1</span>;</span><br><span class="line">        base = <span class="number">1</span>/base;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (exponent &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (exponent % <span class="number">2</span> == <span class="number">1</span>) &#123; <span class="comment">//对应二进制位上为1时，乘上先前的结果</span></span><br><span class="line">            res *= base;</span><br><span class="line">        &#125;</span><br><span class="line">        base *= base; <span class="comment">//计算每个二进制位上的基数值</span></span><br><span class="line">        exponent &gt;&gt;= <span class="number">1</span>; <span class="comment">//计算完一次二进制位后，右移一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>进制转化</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第17题：树的子结构</title>
     <url>/2020/01/06/offer-17/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
@@ -796,6 +796,24 @@ table {
 <a id="more"></a>
 <p><strong>代码：</strong></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtreeHelper</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">//B树先遍历至空，说明B树的每一个结点都在</span></span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1-&gt;val == pRoot2-&gt;val)</span><br><span class="line">        <span class="keyword">return</span> HasSubtreeHelper(pRoot1-&gt;left, pRoot2-&gt;left) &amp;&amp;  HasSubtreeHelper(pRoot1-&gt;right, pRoot2-&gt;right);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtree</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span> || pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//空树不是任意一个树的子结构</span></span><br><span class="line">    <span class="keyword">return</span> HasSubtreeHelper(pRoot1, pRoot2) || HasSubtree(pRoot1-&gt;left, pRoot2) || HasSubtree(pRoot1-&gt;right, pRoot2); <span class="comment">// 递归判断A树的每一个结点是否可以作为B树的子结构根结点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第18题：二叉树的镜像</title>
+    <url>/2020/01/06/offer-18/</url>
+    <content><![CDATA[<p><strong>题目：</strong>操作给定的二叉树，将其变换为源二叉树的镜像。<br>二叉树的镜像定义：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">源二叉树      8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  6   10</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	5  7 9 11</span><br><span class="line"></span><br><span class="line">镜像二叉树</span><br><span class="line">    	    8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  10   6</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	11 9 7  5</span><br></pre></td></tr></table></figure>
+<p><strong>解题思路：</strong>递归交换二叉树的左右子树，直至叶子结点</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode *pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot) &#123;</span><br><span class="line">        swap(pRoot-&gt;left, pRoot-&gt;right);</span><br><span class="line">        Mirror(pRoot-&gt;left);</span><br><span class="line">        Mirror(pRoot-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指Offer</category>
@@ -820,24 +838,6 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第18题：二叉树的镜像</title>
-    <url>/2020/01/06/offer-18/</url>
-    <content><![CDATA[<p><strong>题目：</strong>操作给定的二叉树，将其变换为源二叉树的镜像。<br>二叉树的镜像定义：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">源二叉树      8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  6   10</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	5  7 9 11</span><br><span class="line"></span><br><span class="line">镜像二叉树</span><br><span class="line">    	    8</span><br><span class="line">    	   /  \</span><br><span class="line">    	  10   6</span><br><span class="line">    	 / \  / \</span><br><span class="line">    	11 9 7  5</span><br></pre></td></tr></table></figure>
-<p><strong>解题思路：</strong>递归交换二叉树的左右子树，直至叶子结点</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode *pRoot)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot) &#123;</span><br><span class="line">        swap(pRoot-&gt;left, pRoot-&gt;right);</span><br><span class="line">        Mirror(pRoot-&gt;left);</span><br><span class="line">        Mirror(pRoot-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -872,6 +872,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第24题：二叉树中和为某一值的路径</title>
+    <url>/2020/01/06/offer-24/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)</p>
+<p><strong>解题思路：</strong>定义一个辅助函数，用于遍历二叉树，当遍历至叶子结点时，判断是否符合条件。注意：辅助函数中的res要用引用传递。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindPathHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;res, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; one_res, <span class="keyword">int</span> sum, TreeNode* root, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root) &#123; <span class="comment">//根据二叉树的遍历修改代码</span></span><br><span class="line">        sum += root-&gt;val;</span><br><span class="line">        one_res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (sum == n &amp;&amp; !root-&gt;left &amp;&amp; !root-&gt;right) &#123; <span class="comment">//达到根结点并且当前的和与目标和相等</span></span><br><span class="line">            res.push_back(one_res);</span><br><span class="line">            one_res.clear();</span><br><span class="line">            sum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;left, n);</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;right, n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compare</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b)</span></span></span><br><span class="line">    return a.size() &gt; b.size();</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindPath(TreeNode* root,<span class="keyword">int</span> expectNumber) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; res;</span><br><span class="line">    FindPathHelper(res, &#123;&#125;, <span class="number">0</span>, root, expectNumber);</span><br><span class="line">    sort(res.begin(), res.end(), compare); <span class="comment">//数组长度大的数组靠前</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -912,23 +929,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第24题：二叉树中和为某一值的路径</title>
-    <url>/2020/01/06/offer-24/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)</p>
-<p><strong>解题思路：</strong>定义一个辅助函数，用于遍历二叉树，当遍历至叶子结点时，判断是否符合条件。注意：辅助函数中的res要用引用传递。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindPathHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;res, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; one_res, <span class="keyword">int</span> sum, TreeNode* root, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root) &#123; <span class="comment">//根据二叉树的遍历修改代码</span></span><br><span class="line">        sum += root-&gt;val;</span><br><span class="line">        one_res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (sum == n &amp;&amp; !root-&gt;left &amp;&amp; !root-&gt;right) &#123; <span class="comment">//达到根结点并且当前的和与目标和相等</span></span><br><span class="line">            res.push_back(one_res);</span><br><span class="line">            one_res.clear();</span><br><span class="line">            sum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;left, n);</span><br><span class="line">        FindPathHelper(res, one_res, sum, root-&gt;right, n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compare</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b)</span></span></span><br><span class="line">    return a.size() &gt; b.size();</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; FindPath(TreeNode* root,<span class="keyword">int</span> expectNumber) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; res;</span><br><span class="line">    FindPathHelper(res, &#123;&#125;, <span class="number">0</span>, root, expectNumber);</span><br><span class="line">    sort(res.begin(), res.end(), compare); <span class="comment">//数组长度大的数组靠前</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第25题：复杂链表的复制</title>
     <url>/2020/01/06/offer-25/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）</p>
@@ -946,21 +946,17 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
-    <url>/2020/01/07/offer-26/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
-<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
+    <title>PyTorch DataParallel 指定显卡运行出错</title>
+    <url>/2020/01/03/pytorch-dataparrel/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
 ]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
       <tags>
-        <tag>剑指Offer</tag>
-        <tag>链表</tag>
-        <tag>树</tag>
+        <tag>PyTorch</tag>
       </tags>
   </entry>
   <entry>
@@ -1021,17 +1017,21 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>PyTorch DataParallel 指定显卡运行出错</title>
-    <url>/2020/01/03/pytorch-dataparrel/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>当设置的显卡ID中包含第0张显卡时，程序能够正常运行；若指定从显卡1开始，例如我想要使用显卡1和显卡2并行计算，此时会出现如下错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RuntimeError: Expected tensor <span class="keyword">for</span> argument <span class="comment">#1 'input' to have the same device as tensor for argument #2 'weight'; but device 1 does not equal 0 (while checking arguments for cudnn_batch_norm)</span></span><br></pre></td></tr></table></figure>
+    <title>剑指Offer第26题：二叉搜索树与双向链表</title>
+    <url>/2020/01/07/offer-26/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
+<p><strong>解题思路：</strong>二叉搜索树的中序遍历为有序序列，因此在二叉树的中序遍历时修改指针的指向即可。创建一个全局的指针用于记录先前的结点。</p>
 <a id="more"></a>
-<p><strong>原因：</strong>我们的数据默认存在第0张显卡，但是选用的显卡里面并不包含第0张显卡，因此就会出错。<br><strong>解决方法：</strong>在代码中加入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.cuda.set_device(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<p>即可改变默认权重默认的存储位置，程序就能够正常运行。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConvertHelper</span><span class="params">(TreeNode* root, TreeNode* &amp;pre)</span> </span>&#123; <span class="comment">// pre需要用引用传递</span></span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        ConvertHelper(root-&gt;left, pre);</span><br><span class="line">        root-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span> (pre) pre-&gt;right = root; <span class="comment">//注意需要先判断pre是否为空</span></span><br><span class="line">        pre = root;</span><br><span class="line">        ConvertHelper(root-&gt;right, pre);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">Convert</span><span class="params">(TreeNode* pRootOfTree)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!pRootOfTree) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//先判断pRootOfTree是否为空</span></span><br><span class="line">    TreeNode* pre = <span class="literal">NULL</span>; </span><br><span class="line">    ConvertHelper(pRootOfTree, pre);</span><br><span class="line">    <span class="keyword">while</span> (pRootOfTree-&gt;left) <span class="comment">//寻找树的最左下结点</span></span><br><span class="line">        pRootOfTree = pRootOfTree-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> pRootOfTree;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
       <tags>
-        <tag>PyTorch</tag>
+        <tag>剑指Offer</tag>
+        <tag>链表</tag>
+        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -1099,6 +1099,26 @@ table {
 <a id="more"></a>]]></content>
   </entry>
   <entry>
+    <title>Scaleway</title>
+    <url>/2023/10/11/scaleway/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
+<ol>
+<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
+<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shadowsocks中转</title>
     <url>/2020/01/03/shadowsocks-transit/</url>
     <content><![CDATA[<p><strong>需求：</strong>通过shadowsocks中继提升上网速度<br><strong>具体描述</strong>：Source(S)访问Destination(D)速度慢，我们需要找到一个中继位置T，此中继位置需满足S访问T速度快，且T访问D速度也要快。此时S访问D的完整路径为：S -&gt; T -&gt; D</p>
@@ -1117,26 +1137,6 @@ table {
       </categories>
       <tags>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scaleway</title>
-    <url>/2023/10/11/scaleway/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
-<ol>
-<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
-<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -1175,23 +1175,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>gnome-terminal 启动错误</title>
-    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>gnome-terminal</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux系统swap分区配置</title>
     <url>/2023/12/06/swap/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
@@ -1218,6 +1201,23 @@ table {
       <tags>
         <tag>vps</tag>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gnome-terminal 启动错误</title>
+    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>gnome-terminal</tag>
       </tags>
   </entry>
   <entry>
@@ -1319,14 +1319,11 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu server 16.04 安装中文字体</title>
-    <url>/2020/01/03/ubuntu-server-font/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>安装Ubuntu Server系统时选择英文，导致系统中没有中文字体，nautilus文件夹显示的中文以及gedit中显示的中文都出现如图的情况：</p>
-<p><img src="/2020/01/03/ubuntu-server-font/charactor.png" alt></p>
-<a id="more"></a>
-<p><strong>解决方法：</strong>安装文泉驿字体</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei</span><br></pre></td></tr></table></figure>
-]]></content>
+    <title>ubuntu server 安装sogou输入法</title>
+    <url>/2020/01/03/ubuntu-server-sougou/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>ubuntu的状态栏没有fctix的状态图标<br><strong>解决方法：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fcitx-config-gtk3</span><br></pre></td></tr></table></figure>
+<a id="more"></a>]]></content>
       <categories>
         <category>ubuntu</category>
       </categories>
@@ -1335,11 +1332,14 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>ubuntu server 安装sogou输入法</title>
-    <url>/2020/01/03/ubuntu-server-sougou/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>ubuntu的状态栏没有fctix的状态图标<br><strong>解决方法：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fcitx-config-gtk3</span><br></pre></td></tr></table></figure>
-<a id="more"></a>]]></content>
+    <title>ubuntu server 16.04 安装中文字体</title>
+    <url>/2020/01/03/ubuntu-server-font/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>安装Ubuntu Server系统时选择英文，导致系统中没有中文字体，nautilus文件夹显示的中文以及gedit中显示的中文都出现如图的情况：</p>
+<p><img src="/2020/01/03/ubuntu-server-font/charactor.png" alt></p>
+<a id="more"></a>
+<p><strong>解决方法：</strong>安装文泉驿字体</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei</span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
         <category>ubuntu</category>
       </categories>
