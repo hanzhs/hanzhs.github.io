@@ -18,6 +18,24 @@
       </tags>
   </entry>
   <entry>
+    <title>在纯IPv6环境添加Cloudflare Tunnel</title>
+    <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp; 执行Cloudflare的安装命令后，会卡住，此时ctrl+c终端执行，修改<code>/etc/systemd/system/cloudflared.service</code>文件，在<code>ExecStart</code>的命令里面添加<code>--edge-ip-version 6</code>，之后通过<code>systemctl start cloudflared</code>开启服务即可</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://github.com/cloudflare/cloudflared/issues/842" target="_blank" rel="noopener">github issue</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Cloudflare</category>
+        <category>IPv6</category>
+      </categories>
+      <tags>
+        <tag>Cloudflare</tag>
+        <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>欧式距离与余弦距离的区别与联系</title>
     <url>/2019/10/26/euclidean-cosine-distance/</url>
     <content><![CDATA[<p>在<a href="https://github.com/michuanhaohao/reid-strong-baseline" target="_blank" rel="noopener">reid-strong-baseline</a>里面看到，向量归一化，再计算欧氏距离，其效果等价于余弦距离，我在这里简单证明下。</p>
@@ -39,45 +57,6 @@
       <tags>
         <tag>ffmpeg</tag>
         <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在纯IPv6环境添加Cloudflare Tunnel</title>
-    <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp; 执行Cloudflare的安装命令后，会卡住，此时ctrl+c终端执行，修改<code>/etc/systemd/system/cloudflared.service</code>文件，在<code>ExecStart</code>的命令里面添加<code>--edge-ip-version 6</code>，之后通过<code>systemctl start cloudflared</code>开启服务即可</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://github.com/cloudflare/cloudflared/issues/842" target="_blank" rel="noopener">github issue</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Cloudflare</category>
-        <category>IPv6</category>
-      </categories>
-      <tags>
-        <tag>Cloudflare</tag>
-        <tag>IPv6</tag>
       </tags>
   </entry>
   <entry>
@@ -110,25 +89,6 @@
       </categories>
       <tags>
         <tag>ffmpeg</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git使用socks5代理</title>
-    <url>/2023/08/31/git-ssh-proxy/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>网络代理</tag>
       </tags>
   </entry>
   <entry>
@@ -168,6 +128,25 @@
       </tags>
   </entry>
   <entry>
+    <title>git使用socks5代理</title>
+    <url>/2023/08/31/git-ssh-proxy/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git直连拉取github的代码时，速度很慢，需要使用socks5代理。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;开启socks5代理后，在~/.ssh/config配置github.com使用的连接方式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://gist.github.com/bynil/2126e374db8495fe33de2cbc543149ae" target="_blank" rel="noopener">config-git-proxy</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客部署使用</title>
     <url>/2023/08/31/hexo-blog/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
@@ -191,6 +170,27 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第120题：</title>
+    <url>/2020/07/14/leecode-120/</url>
+    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
+<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>https泛域名证书申请</title>
     <url>/2023/08/30/https-cert/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
@@ -210,51 +210,6 @@
         <tag>IPv6</tag>
         <tag>nginx</tag>
         <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hysteria 2 配置</title>
-    <url>/2023/10/21/hysteria-2/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leecode第120题：</title>
-    <url>/2020/07/14/leecode-120/</url>
-    <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。<br><a href="https://leetcode-cn.com/problems/triangle" target="_blank" rel="noopener">链接</a></p>
-<p><strong>解题思路：</strong>直观上，从三角形的顶部，每次选择下一步可选的位置中较小的值，直到三角形的底部位置，该路径就为最小路径。然而这是错误的，例如：</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,1],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>最小路径应为：2+4+1+3，而不是2+3+5+1。<br>正确的思路是：从底部往上计算，选择最后一行作为dp数组，从倒数第二行开始往上计算。dp[j]的含义为改位置到底部的最小距离，因此计算结束后，dp[0]就是所求的结果。</p>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = triangle.size();</span><br><span class="line">    <span class="keyword">if</span> (h==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp = triangle.back();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=h<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;triangle[i].size(); j++) &#123;</span><br><span class="line">            dp[j] = min(dp[j], dp[j+<span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leecode</category>
-      </categories>
-      <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -416,6 +371,22 @@
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第1题：二维数组中的查找</title>
+    <url>/2019/12/27/offer-01/</url>
+    <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">leecode 74</a>相同，可以参照leecode的矩阵示例。<br>解题思路：数组为排序过的数组，左上角的元素最小，右下角的元素最大。我们可以选取一个位于中间值的位置作为搜索的起始点，因此这个位置可以是左下角或者是右上角，本次选取左下角作为搜索起始点。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="built_in">array</span>.size();</span><br><span class="line">    <span class="keyword">int</span> c = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">    <span class="keyword">int</span> i = r<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&gt;=<span class="number">0</span> &amp;&amp; j&lt;c) &#123; </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target) i -= <span class="number">1</span>; <span class="comment">//从左下角开始搜索，如果此处的值大于目标值，因此需要往上搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &lt; target) j += <span class="number">1</span>; <span class="comment">//如果小于目标值，因此需要往右边搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 如果等于目标值，就返回true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//否则返回false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leecode专题：买卖股票的最佳时机</title>
     <url>/2020/01/16/leecode-best-time-to-buy-and-sell-stocks/</url>
     <content><![CDATA[<p><strong>题目：</strong>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。注意你不能在买入股票前卖出股票。必须在再次购买前出售掉之前的股票。根据交易次数限定、交易冻结期以及交易费用等，可以有多种变形题。</p>
@@ -463,69 +434,6 @@
       </categories>
       <tags>
         <tag>leecode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第1题：二维数组中的查找</title>
-    <url>/2019/12/27/offer-01/</url>
-    <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">leecode 74</a>相同，可以参照leecode的矩阵示例。<br>解题思路：数组为排序过的数组，左上角的元素最小，右下角的元素最大。我们可以选取一个位于中间值的位置作为搜索的起始点，因此这个位置可以是左下角或者是右上角，本次选取左下角作为搜索起始点。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="built_in">array</span>.size();</span><br><span class="line">    <span class="keyword">int</span> c = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">    <span class="keyword">int</span> i = r<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&gt;=<span class="number">0</span> &amp;&amp; j&lt;c) &#123; </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target) i -= <span class="number">1</span>; <span class="comment">//从左下角开始搜索，如果此处的值大于目标值，因此需要往上搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &lt; target) j += <span class="number">1</span>; <span class="comment">//如果小于目标值，因此需要往右边搜索</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// 如果等于目标值，就返回true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//否则返回false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>音乐文件添加封面与歌词</title>
-    <url>/2023/10/12/music-tag/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
-<ol>
-<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
-</li>
-<li><p>移除comment和genre；</p>
-</li>
-<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
-</li>
-<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
-</li>
-<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
-</li>
-<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
-<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
-<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
-<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
-<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
-</li>
-<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
-</li>
-<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
-</li>
-<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
-</li>
-</ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></li>
-<li><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>music</category>
-      </categories>
-      <tags>
-        <tag>music</tag>
       </tags>
   </entry>
   <entry>
@@ -594,23 +502,6 @@
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第9题：变态跳台阶</title>
     <url>/2020/01/03/offer-09/</url>
     <content><![CDATA[<p><strong>题目：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</strong></p>
@@ -662,6 +553,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>贪心</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -824,6 +732,74 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>音乐文件添加封面与歌词</title>
+    <url>/2023/10/12/music-tag/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
+<ol>
+<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
+</li>
+<li><p>移除comment和genre；</p>
+</li>
+<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
+</li>
+<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
+</li>
+<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
+</li>
+<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
+<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
+<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
+<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
+<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
+</li>
+<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
+</li>
+<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
+</li>
+<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://github.com/KristoforMaynard/music-tag" target="_blank" rel="noopener">music-tag</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">Open Chinese Convert 開放中文轉換</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://covers.musichoarders.xyz/" target="_blank" rel="noopener">专辑封面搜索网站</a></li>
+<li><span id="ref-4"></span> [4] <a href="https://github.com/0x7d4/syncedlyrics" target="_blank" rel="noopener">syncedlyrics</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>music</category>
+      </categories>
+      <tags>
+        <tag>music</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第19题：顺时针打印矩阵</title>
     <url>/2020/01/06/offer-19/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：<br>[[1, 2, 3, 4],<br> [5, 6, 7, 8],<br> [9,10,11,12],<br> [13,14,15,16]]<br>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
@@ -838,6 +814,30 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hysteria 2 配置</title>
+    <url>/2023/10/21/hysteria-2/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -875,6 +875,24 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer第22题：从上往下打印二叉树</title>
+    <url>/2020/01/06/offer-22/</url>
+    <content><![CDATA[<p><strong>题目：</strong>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
+<p><strong>解题思路：</strong>定义一个队列，初始时存储树的根结点，之后从队列头取出结点的值，之后将该结点的左右结点（需要判断结点是否存在）放入队列中，循环直至队列为空。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; PrintFromTopToBottom(TreeNode* root) &#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeNode*&gt; que;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">NULL</span>) <span class="keyword">return</span> res; <span class="comment">//判断根结点是否为空，为空直接返回</span></span><br><span class="line">    que.push(root); <span class="comment">//初始化队列</span></span><br><span class="line">    <span class="keyword">while</span> (!que.empty()) &#123;</span><br><span class="line">        root = que.front(); <span class="comment">//是front，不是top</span></span><br><span class="line">        que.pop();</span><br><span class="line">        res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left) que.push(root-&gt;left);</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right) que.push(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>剑指Offer</tag>
+        <tag>队列</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第23题：二叉搜索树的后序遍历序列</title>
     <url>/2020/01/06/offer-23/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</p>
@@ -891,24 +909,6 @@ table {
       <tags>
         <tag>二叉树</tag>
         <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第22题：从上往下打印二叉树</title>
-    <url>/2020/01/06/offer-22/</url>
-    <content><![CDATA[<p><strong>题目：</strong>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
-<p><strong>解题思路：</strong>定义一个队列，初始时存储树的根结点，之后从队列头取出结点的值，之后将该结点的左右结点（需要判断结点是否存在）放入队列中，循环直至队列为空。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; PrintFromTopToBottom(TreeNode* root) &#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeNode*&gt; que;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">NULL</span>) <span class="keyword">return</span> res; <span class="comment">//判断根结点是否为空，为空直接返回</span></span><br><span class="line">    que.push(root); <span class="comment">//初始化队列</span></span><br><span class="line">    <span class="keyword">while</span> (!que.empty()) &#123;</span><br><span class="line">        root = que.front(); <span class="comment">//是front，不是top</span></span><br><span class="line">        que.pop();</span><br><span class="line">        res.push_back(root-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left) que.push(root-&gt;left);</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right) que.push(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
-        <tag>队列</tag>
       </tags>
   </entry>
   <entry>
@@ -1049,6 +1049,20 @@ table {
       </tags>
   </entry>
   <entry>
+    <title>多系统引导工具：refind</title>
+    <url>/2021/08/01/refind/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>系统引导</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VPS使用rclone挂载Google Drive</title>
     <url>/2023/09/23/rclone/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;VPS自带磁盘空间较小，存储空间紧张，可考虑通过挂载网盘的方式来扩容</p>
@@ -1077,17 +1091,179 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>多系统引导工具：refind</title>
-    <url>/2021/08/01/refind/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;NUC8安装了三系统，即：MacOS、Ubuntu和Win10。在Ubuntu系统下，由于软件安装出错，运行了一些指定，导致UEFI默认引导改为了Ubuntu的GRUB。使用GRUB能够正常引导Ubuntu和Win10，但却不能引导MacOS，因此需要将默认引导改回refind。</p>
-<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>&emsp;&emsp;前面说到默认引导变成了GRUB，能够引导进入Win10，因此我先进入了Win10，通过BOOTICE将默认引导改回了refind。本以为这样就完事了，可是没想到在依次进入不同的系统之后，最后一次开机的时候，系统提示无法找到任何引导。<br>&emsp;&emsp;接下来就找了一个PE的U盘，通过UEFI模式启动进入，在里面通过BOOTICE调整UEFI默认启动顺序，但是并没有用，重启还是无法找到任何引导。于是再次进入PE，使用里面的工具修复Win10引导，然后重启。重启之后能够进入Win10，所以我想就在Win10里面重新使用BOOTICE调整下引导顺序应该就可以了，可是结果还是不行。这里出现的问题其实是，修复Win10引导的时候，EFI分区里面只剩下Win10的启动项了，因此调整顺序并没有用。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;找到问题，于是就将之前备份的EFI拷贝进去，之后重启。结果Win10和MacOS能够正常运行，而Ubuntu系统则无法进入。在refind的选项卡选择Ubuntu进入之后，进入到了grub引导，通过Google查找到<a href="https://www.geeksforgeeks.org/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/" target="_blank" rel="noopener">解决方法</a>，可以看到问题是由于grub无法正确找到启动项的位置所导致的。通过手动设定root和prefix之后，成功进入到Ubuntu系统。之后将文件夹<code>/boot/grub</code>复制到<code>/boot/efi/</code>里面，能够成功进入Ubuntu，但是每次都要等待30s。最后还是通过<code>sudo grub-install /dev/sdXY</code>重新安装grub解决的，其中<code>sdXY</code>为EFI分区的位置。</p>
+    <title>重新分配服务器的ip地址</title>
+    <url>/2019/12/27/server-network/</url>
+    <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>]]></content>
+  </entry>
+  <entry>
+    <title>Scaleway</title>
+    <url>/2023/10/11/scaleway/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
+<ol>
+<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
+<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shadowsocks中转</title>
+    <url>/2020/01/03/shadowsocks-transit/</url>
+    <content><![CDATA[<p><strong>需求：</strong>通过shadowsocks中继提升上网速度<br><strong>具体描述</strong>：Source(S)访问Destination(D)速度慢，我们需要找到一个中继位置T，此中继位置需满足S访问T速度快，且T访问D速度也要快。此时S访问D的完整路径为：S -&gt; T -&gt; D</p>
+<h4 id="在T处安装haproxy"><a href="#在T处安装haproxy" class="headerlink" title="在T处安装haproxy"></a>在T处安装haproxy</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install haproxy</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/haproxy/haproxy.cfg</span><br></pre></td></tr></table></figure>
+<p>dG删除全部内容，并输入以下配置文本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">global</span><br><span class="line">    <span class="built_in">ulimit</span>-n 51200</span><br><span class="line">defaults</span><br><span class="line">    <span class="built_in">log</span> global</span><br><span class="line">    mode tcp</span><br><span class="line">    option dontlognull</span><br><span class="line">    timeout connect 1000</span><br><span class="line">    timeout client 15000</span><br><span class="line">    timeout server 15000</span><br><span class="line">frontend ss-in</span><br><span class="line">    <span class="built_in">bind</span> *:6324</span><br><span class="line">    default_backend ss-out</span><br><span class="line">backend ss-out</span><br><span class="line">    server server1 destination_ip_address:4396</span><br></pre></td></tr></table></figure>
+<p>将T处的6324端口转发到D处的4396端口，因此我们就可以将T当作中继器，从而提升连接的速度。</p>
+<h4 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">haproxy -f /etc/haproxy/haproxy.cfg</span><br></pre></td></tr></table></figure>
+<h4 id="S处shadowsocks客户端配置"><a href="#S处shadowsocks客户端配置" class="headerlink" title="S处shadowsocks客户端配置"></a>S处shadowsocks客户端配置</h4><p>服务器地址：T处ip地址<br>端口：T处的中继端口（本文中为6324）<br>加密方式、密码为D处的shadowsocks服务端配置</p>
+<p>在手机端配置发现一个问题，使用shadowsocks（4.5.7版本）时，选择全局会无效，即不能访问谷歌等外网，但是用百度查ip却是D处的ip，设置为绕过局域网地址就可以，设置为绕过局域网和中国大陆地址也能正常工作。</p>
+]]></content>
+      <categories>
+        <category>网络代理</category>
+      </categories>
+      <tags>
+        <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用ssh反向代理+shadowsocks实现内网穿透</title>
+    <url>/2020/01/03/ssh-shadowsocks/</url>
+    <content><![CDATA[<p>在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有<strong>公网ip</strong>的服务器。下文命令行中用到的地址定义如下：<br><strong>公网服务器ip地址：</strong>server_ip<br><strong>内网机器ip地址：</strong>local_ip</p>
+<a id="more"></a>
+<p>1、在本地机器上安装autossh:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install autossh</span><br></pre></td></tr></table></figure>
+<p>2、云服务器安装openssh-server:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install openssh-server</span><br></pre></td></tr></table></figure>
+<p>3、更改本地服务器的配置文件:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<p>设置<strong>PermitRootLogin</strong>为<strong>without-password</strong>，并在末尾添加：<strong>GatewayPorts yes</strong><br>4、更改云服务器的配置文件:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<p>在末尾添加：<strong>GatewayPorts yes</strong><br>5、重启本地以及云服务器的ssh服务:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">service ssh restart <span class="comment">#本地</span></span><br><span class="line">service ssh restart <span class="comment">#云服务器</span></span><br></pre></td></tr></table></figure>
+<p>6、制作免密码登录，输入命令后一直确认即可</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+<p>7、将本地生产的公匙放到远程服务器上:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-copy-id server_user@server_ip</span><br></pre></td></tr></table></figure>
+<p>确认后要输入云服务器的登录密码<br>8、开启反向代理:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">autossh -M 30000 -o <span class="string">"StrictHostKeyChecking=false"</span> -o <span class="string">"ServerAliveInterval 10"</span> -o <span class="string">"ServerAliveCountMax 3"</span> -NR 8980:local_ip:22 server_user@server_ip</span><br></pre></td></tr></table></figure>
+<p>命令行中<strong>8980</strong>是将服务器端的8980端口映射到本地的<strong>22</strong>端口，即为默认的ssh端口。若只需要ssh访问，至此就完成了。若是需要用shadowsocks代理，需要将上一步中的<strong>22</strong>端口号修改，本文修改为<strong>4396</strong>。</p>
+<p>9、在本地机器安装shadowsocks</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<p>10、启动shadowsocks</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssserver -s local_ip -p 4396 -k password --fast-open</span><br></pre></td></tr></table></figure>
+<p>上面命令中的<strong>local_ip</strong>为本地机器的ip地址，不能直接写localhost，<strong>4396</strong>对应上面映射的地址，<strong>password</strong>为设置的密码。<br>11、shadowsocks客户端连接地址<br>ip为云服务器的ip，端口为<strong>8980</strong>，加密方式默认为<strong>aes-256-cfb</strong>，可以ssh与shadowsocks二者共存，将对应的命令设置开机自启即可。</p>
+]]></content>
+      <categories>
+        <category>网络代理</category>
+      </categories>
+      <tags>
+        <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux系统swap分区配置</title>
+    <url>/2023/12/06/swap/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
+<ol>
+<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
+<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
+<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
+<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
+<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
+<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gnome-terminal 启动错误</title>
+    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>ubuntu</category>
       </categories>
       <tags>
-        <tag>系统引导</tag>
+        <tag>ubuntu</tag>
+        <tag>gnome-terminal</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu挂载硬盘不输入密码及开机自动挂载</title>
+    <url>/2020/01/03/ubuntu-mount-disk/</url>
+    <content><![CDATA[<h1 id="挂载无需输入密码"><a href="#挂载无需输入密码" class="headerlink" title="挂载无需输入密码"></a>挂载无需输入密码</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /usr/share/polkit-1/actions/org.freedesktop.udisks2.policy</span><br></pre></td></tr></table></figure>
+<p>修改<strong>filesystem-mount-system</strong>下的<strong>allow_active</strong>为<strong>yes</strong></p>
+<h1 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h1><h2 id="查看所有磁盘的UUID"><a href="#查看所有磁盘的UUID" class="headerlink" title="查看所有磁盘的UUID"></a>查看所有磁盘的UUID</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo blkid</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>例如其中一条信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/dev/sda3: LABEL=<span class="string">"Data"</span> UUID=<span class="string">"EABF0039BEFFFFB5"</span> TYPE=<span class="string">"ntfs"</span> PARTLABEL=<span class="string">"Basic data partition"</span> PARTUUID=<span class="string">"6ac186e7-924a-437e-8a96-e8f5a850b3d1"</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用LABEL或者UUID指定需要自动挂载的分区"><a href="#使用LABEL或者UUID指定需要自动挂载的分区" class="headerlink" title="使用LABEL或者UUID指定需要自动挂载的分区"></a>使用LABEL或者UUID指定需要自动挂载的分区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
+<p>添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LABEL=Data /media/hzs/D ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">UUID=EABF0039BEFFFFB5 /media/hzs/D ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
+<p>其中/media/hzs/D 是挂载的位置，需要事先创建好；ntfs是分区的格式，defaults是文件系统的参数，0是指不做dump备份，最后一个0是指不检验扇区。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>修改完成后要先测试能否使用，否则开机会出现问题</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
+<p>没有提示错误则成功。</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
+    <url>/2020/01/03/ubuntu-reboot-slow/</url>
+    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
+<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
+<a id="more"></a>
+<p><strong>解决方法：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
+
+
+<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -1140,182 +1316,6 @@ table {
       <tags>
         <tag>vps</tag>
         <tag>Scaleway</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重新分配服务器的ip地址</title>
-    <url>/2019/12/27/server-network/</url>
-    <content><![CDATA[<p>首先需要清除当前网络接口的ip地址，然后再重新申请一个ip地址。注意，如果是从远程操作的话，一定要用 “&amp;&amp;” 连接两条命令，否则执行完第一条命令之后，本机就会与服务器断开连接。执行完命令之后，用新的ip地址连接进入服务器。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ip addr flush dev eth0 &amp;&amp; sudo dhclient</span><br></pre></td></tr></table></figure>
-
-<a id="more"></a>]]></content>
-  </entry>
-  <entry>
-    <title>shadowsocks中转</title>
-    <url>/2020/01/03/shadowsocks-transit/</url>
-    <content><![CDATA[<p><strong>需求：</strong>通过shadowsocks中继提升上网速度<br><strong>具体描述</strong>：Source(S)访问Destination(D)速度慢，我们需要找到一个中继位置T，此中继位置需满足S访问T速度快，且T访问D速度也要快。此时S访问D的完整路径为：S -&gt; T -&gt; D</p>
-<h4 id="在T处安装haproxy"><a href="#在T处安装haproxy" class="headerlink" title="在T处安装haproxy"></a>在T处安装haproxy</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install haproxy</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/haproxy/haproxy.cfg</span><br></pre></td></tr></table></figure>
-<p>dG删除全部内容，并输入以下配置文本</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">global</span><br><span class="line">    <span class="built_in">ulimit</span>-n 51200</span><br><span class="line">defaults</span><br><span class="line">    <span class="built_in">log</span> global</span><br><span class="line">    mode tcp</span><br><span class="line">    option dontlognull</span><br><span class="line">    timeout connect 1000</span><br><span class="line">    timeout client 15000</span><br><span class="line">    timeout server 15000</span><br><span class="line">frontend ss-in</span><br><span class="line">    <span class="built_in">bind</span> *:6324</span><br><span class="line">    default_backend ss-out</span><br><span class="line">backend ss-out</span><br><span class="line">    server server1 destination_ip_address:4396</span><br></pre></td></tr></table></figure>
-<p>将T处的6324端口转发到D处的4396端口，因此我们就可以将T当作中继器，从而提升连接的速度。</p>
-<h4 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">haproxy -f /etc/haproxy/haproxy.cfg</span><br></pre></td></tr></table></figure>
-<h4 id="S处shadowsocks客户端配置"><a href="#S处shadowsocks客户端配置" class="headerlink" title="S处shadowsocks客户端配置"></a>S处shadowsocks客户端配置</h4><p>服务器地址：T处ip地址<br>端口：T处的中继端口（本文中为6324）<br>加密方式、密码为D处的shadowsocks服务端配置</p>
-<p>在手机端配置发现一个问题，使用shadowsocks（4.5.7版本）时，选择全局会无效，即不能访问谷歌等外网，但是用百度查ip却是D处的ip，设置为绕过局域网地址就可以，设置为绕过局域网和中国大陆地址也能正常工作。</p>
-]]></content>
-      <categories>
-        <category>网络代理</category>
-      </categories>
-      <tags>
-        <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scaleway</title>
-    <url>/2023/10/11/scaleway/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;看到有便宜的欧洲VPS，还是KVM的机子，可以安装docker和使用cloudflare warp，试着注册了下，发现一年前就已经注册过了，登上去看了看，之前应该是卡在付款阶段，搜索了下资料，发现付款的时候也可以用储蓄卡，不过我尝试了工行、建行都没成功，最后使用交通银行的卡成功开通了，本文记录下开通之后的流程。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;整体流程参考<a href="#ref-1">参考链接[1]</a>，其中比较具有误导性的是，<strong>网页开启</strong>和<strong>API开启</strong>是两种开启方式，正常直接使用网页开启即可。需要注意的点是：</p>
-<ol>
-<li>需要添加付款方式之后，取消IPv4地址的选项才可以勾选；</li>
-<li>操作系统选择Debian 11，跟Virmach和Vserver的一致，配置容易复制使用。</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://hupan.li/1442.html" target="_blank" rel="noopener">Scaleway星辰40元1年1C1G10G的IPV6小鸡</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用ssh反向代理+shadowsocks实现内网穿透</title>
-    <url>/2020/01/03/ssh-shadowsocks/</url>
-    <content><![CDATA[<p>在外网访问学校服务器以及其他资源，例如下载论文等，均可以通过此方法实现。要求有一台具有<strong>公网ip</strong>的服务器。下文命令行中用到的地址定义如下：<br><strong>公网服务器ip地址：</strong>server_ip<br><strong>内网机器ip地址：</strong>local_ip</p>
-<a id="more"></a>
-<p>1、在本地机器上安装autossh:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install autossh</span><br></pre></td></tr></table></figure>
-<p>2、云服务器安装openssh-server:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install openssh-server</span><br></pre></td></tr></table></figure>
-<p>3、更改本地服务器的配置文件:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
-<p>设置<strong>PermitRootLogin</strong>为<strong>without-password</strong>，并在末尾添加：<strong>GatewayPorts yes</strong><br>4、更改云服务器的配置文件:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
-<p>在末尾添加：<strong>GatewayPorts yes</strong><br>5、重启本地以及云服务器的ssh服务:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">service ssh restart <span class="comment">#本地</span></span><br><span class="line">service ssh restart <span class="comment">#云服务器</span></span><br></pre></td></tr></table></figure>
-<p>6、制作免密码登录，输入命令后一直确认即可</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
-<p>7、将本地生产的公匙放到远程服务器上:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-copy-id server_user@server_ip</span><br></pre></td></tr></table></figure>
-<p>确认后要输入云服务器的登录密码<br>8、开启反向代理:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">autossh -M 30000 -o <span class="string">"StrictHostKeyChecking=false"</span> -o <span class="string">"ServerAliveInterval 10"</span> -o <span class="string">"ServerAliveCountMax 3"</span> -NR 8980:local_ip:22 server_user@server_ip</span><br></pre></td></tr></table></figure>
-<p>命令行中<strong>8980</strong>是将服务器端的8980端口映射到本地的<strong>22</strong>端口，即为默认的ssh端口。若只需要ssh访问，至此就完成了。若是需要用shadowsocks代理，需要将上一步中的<strong>22</strong>端口号修改，本文修改为<strong>4396</strong>。</p>
-<p>9、在本地机器安装shadowsocks</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
-<p>10、启动shadowsocks</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssserver -s local_ip -p 4396 -k password --fast-open</span><br></pre></td></tr></table></figure>
-<p>上面命令中的<strong>local_ip</strong>为本地机器的ip地址，不能直接写localhost，<strong>4396</strong>对应上面映射的地址，<strong>password</strong>为设置的密码。<br>11、shadowsocks客户端连接地址<br>ip为云服务器的ip，端口为<strong>8980</strong>，加密方式默认为<strong>aes-256-cfb</strong>，可以ssh与shadowsocks二者共存，将对应的命令设置开机自启即可。</p>
-]]></content>
-      <categories>
-        <category>网络代理</category>
-      </categories>
-      <tags>
-        <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>gnome-terminal 启动错误</title>
-    <url>/2020/01/03/ubuntu-gnome-terminal/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong> 终端下启动gnome-terminal 出现错误：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Error constructing proxy <span class="keyword">for</span> org.gnome.Terminal:/org/gnome/Terminal/Factory0: Error spawning  </span><br><span class="line"><span class="built_in">command</span> line <span class="string">'dbus-launch --autolaunch=9fc7e31fca2ee9308708ee4b5bff7e1f --binary-syntax --close-stderr'</span>: Child process exited with code 1</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>使用命令<code>dbus-launch gnome-terminal</code>可正常启动。<br><strong>解决方法：</strong>在.bashrc文件中添加</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> $(dbus-launch)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>gnome-terminal</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux系统swap分区配置</title>
-    <url>/2023/12/06/swap/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;购买的ecs服务器中，默认不分配swap分区，当执行部分任务时，可能存在内存不足的情况。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用swap分区，增大可用内存。</p>
-<ol>
-<li>创建swap文件块<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=swapfile bs=1M count=200 &amp;&amp; chmod 600 swapfile</span><br></pre></td></tr></table></figure></li>
-<li>将swap分区格式化为swap格式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkswap swapfile</span><br></pre></td></tr></table></figure></li>
-<li>激活swap文件<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">swapon swapfile</span><br></pre></td></tr></table></figure></li>
-<li>设置开机自动挂载swap分区<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;swapfile swap swap defaults 0 0&quot; &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></li>
-<li>检查swappiness，值为0表示swap被禁止，值越大表示swap越频繁<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></li>
-<li>设定swappiness<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.swappiness=10 # 临时</span><br><span class="line">echo &quot;vm.swappiness = 10&quot; &gt;&gt; /etc/sysctl.conf # 永久</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://linuxhint.com/understanding_vm_swappiness/" target="_blank" rel="noopener">Understanding vm.swappiness</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://www.deeplearn.me/1032.html" target="_blank" rel="noopener">阿里云ecs设置swap分区</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu挂载硬盘不输入密码及开机自动挂载</title>
-    <url>/2020/01/03/ubuntu-mount-disk/</url>
-    <content><![CDATA[<h1 id="挂载无需输入密码"><a href="#挂载无需输入密码" class="headerlink" title="挂载无需输入密码"></a>挂载无需输入密码</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /usr/share/polkit-1/actions/org.freedesktop.udisks2.policy</span><br></pre></td></tr></table></figure>
-<p>修改<strong>filesystem-mount-system</strong>下的<strong>allow_active</strong>为<strong>yes</strong></p>
-<h1 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h1><h2 id="查看所有磁盘的UUID"><a href="#查看所有磁盘的UUID" class="headerlink" title="查看所有磁盘的UUID"></a>查看所有磁盘的UUID</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo blkid</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>例如其中一条信息</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/dev/sda3: LABEL=<span class="string">"Data"</span> UUID=<span class="string">"EABF0039BEFFFFB5"</span> TYPE=<span class="string">"ntfs"</span> PARTLABEL=<span class="string">"Basic data partition"</span> PARTUUID=<span class="string">"6ac186e7-924a-437e-8a96-e8f5a850b3d1"</span></span><br></pre></td></tr></table></figure>
-<h2 id="使用LABEL或者UUID指定需要自动挂载的分区"><a href="#使用LABEL或者UUID指定需要自动挂载的分区" class="headerlink" title="使用LABEL或者UUID指定需要自动挂载的分区"></a>使用LABEL或者UUID指定需要自动挂载的分区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
-<p>添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LABEL=Data /media/hzs/D ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
-<p>或者</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">UUID=EABF0039BEFFFFB5 /media/hzs/D ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
-<p>其中/media/hzs/D 是挂载的位置，需要事先创建好；ntfs是分区的格式，defaults是文件系统的参数，0是指不做dump备份，最后一个0是指不检验扇区。</p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>修改完成后要先测试能否使用，否则开机会出现问题</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
-<p>没有提示错误则成功。</p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu 16.04下使用reboot命令重启等待时间长的解决方法</title>
-    <url>/2020/01/03/ubuntu-reboot-slow/</url>
-    <content><![CDATA[<p><strong>问题描述：</strong>使用reboot命令重启，等待较长一段时间后才会关机，启动之后进入tty1会出现</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a start job is running <span class="keyword">for</span> monitor and control system power state</span><br></pre></td></tr></table></figure>
-<p>等待3分1秒之后，启动powerd.service失败，就是这个原因导致reboot变慢。</p>
-<a id="more"></a>
-<p><strong>解决方法：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> powerd.service</span><br></pre></td></tr></table></figure>
-
-
-<p>参考链接 <a href="https://askubuntu.com/questions/607579/powerd-service-takes-eternity-to-start-at-boot" target="_blank" rel="noopener">askubuntu</a></p>
-]]></content>
-      <categories>
-        <category>ubuntu</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
