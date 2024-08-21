@@ -18,6 +18,27 @@
       </tags>
   </entry>
   <entry>
+    <title>CloudFlare自选IP</title>
+    <url>/2023/10/11/cloudflare-ip/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
+<ol>
+<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
+<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>cloudflare</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在纯IPv6环境添加Cloudflare Tunnel</title>
     <url>/2023/12/06/cloudflare-zero-trust-tunnel/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; 使用Cloudflare的零信任创建隧道，可以将内网的服务暴露出去，实现公网访问，但是在纯IPv6的环境上，创建隧道时直接执行官网的命令无法成功，需要做修改。</p>
@@ -92,26 +113,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git移除历史提交中的敏感信息文件</title>
-    <url>/2023/08/31/git-remove-sensetive-files/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git 代理</title>
     <url>/2019/10/26/git_proxy/</url>
     <content><![CDATA[<p>从 github 上用git clone下载的时候，如果没有走代理的话，速度会非常的慢。git 命令自身提供一个代理配置，命令如下：</p>
@@ -147,6 +148,26 @@
       </tags>
   </entry>
   <entry>
+    <title>git移除历史提交中的敏感信息文件</title>
+    <url>/2023/08/31/git-remove-sensetive-files/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;git历史提交中，如果不小心commit了敏感信息文件，就需要从所有的历史提交中移除，以免提交到github等地方时，造成信息泄露。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用bfg命令，可以便捷的删除历史提交中的敏感信息文件。bfg在<a href="#ref-2">参考链接[2]</a>下载，需要java执行环境。本次下载的文件为<code>bfg-1.14.0.jar</code>，将文件移动到<code>/usr/local/lib</code>下，并创建软链接<code>sudo ln -s /usr/local/lib/bfg-1.14.0.jar /usr/local/lib/bfg.jar</code>，之后在<code>~/.bashrc</code>文件里添加别名<code>alias bfg=&#39;java -jar /usr/local/lib/bfg.jar&#39;</code>。<br>&emsp;&emsp;使用<a href="#ref-1">参考链接[1]</a>提供的方式<code>bfg --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</code>，移除的敏感文件会出现在最后一个commit里面，根据<a href="#ref-2">参考链接[2]</a>，需要加上<code>--no-blob-protection</code>，才能在最后一个提交中，把敏感文件也移除掉。最终完整的命令为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bfg --no-blob-protection --delete-files YOUR-FILE-WITH-SENSITIVE-DATA</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" target="_blank" rel="noopener">Removing sensitive data from a repository</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="noopener">BFG Repo-Cleaner</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://stackoverflow.com/questions/67892298/why-can-i-still-see-the-file-after-deleting-it-using-bfg" target="_blank" rel="noopener">Why can I still see the file after deleting it using BFG</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客部署使用</title>
     <url>/2023/08/31/hexo-blog/</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hexo环境安装较为复杂，如果需要在每台写博客的机器上都安装对应的环境依赖，则需要耗费较多时间精力。现在需要在任意终端编辑md文件，推送到github后，之后就能自动部署到网站上。</p>
@@ -170,49 +191,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CloudFlare自选IP</title>
-    <url>/2023/10/11/cloudflare-ip/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;CloudFlare免费提供了CDN节点，可以提升连接速度，但是IP节点是自动分配的，不支持自选IP，不同的客户端环境，对于CloudFlare自选的节点具有不同的连接速度，自选IP可以提升特定情况的网络连接性能。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;配置方式参考<a href="#ref-1">参考链接[1]</a>，经过实际测试后，发现主域名不能有CloudFlare解析，否则在更改自定义域名的A记录到CloudFlare节点IP的时候，回源域名配置的自定义主机名的主机状态就会报错。最后将主域名放到GoDaddy解析，成功通过自选IP访问。需要注意：</p>
-<ol>
-<li>通过自定义主机名回源，到达源站的时候，host是自定义的站点域名，因此，需要在源站增加对应域名的配置，否则会出现CloudFlare 521连接失败；</li>
-<li>从CloudFlare更换Nameserver到GodDaddy的时候，需要等待一段时间才可生效，大概需要半小时；</li>
-</ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://isedu.top/index.php/archives/53/" target="_blank" rel="noopener">最新Cloudflare免费自选IP教程(非Partner)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>cloudflare</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>https泛域名证书申请</title>
-    <url>/2023/08/30/https-cert/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
-<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
-<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>IPv6</tag>
-        <tag>nginx</tag>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leecode第120题：</title>
     <url>/2020/07/14/leecode-120/</url>
     <content><![CDATA[<p><strong>题目：</strong>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。<br>例如，给定三角形：</p>
@@ -231,30 +209,6 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hysteria 2 配置</title>
-    <url>/2023/10/21/hysteria-2/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -320,32 +274,25 @@
       </tags>
   </entry>
   <entry>
-    <title>leecode第213题：打家劫舍II</title>
-    <url>/2020/01/15/leecode-213/</url>
-    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
-<a id="more"></a>
-
-<p><strong>示例1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
-<p><strong>示例2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
-<ul>
-<li>去除起始位置，能抢到的最大金额</li>
-<li>去除结束位置，能抢到的最大金额</li>
-<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
+    <title>https泛域名证书申请</title>
+    <url>/2023/08/30/https-cert/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;先前<a href="https://www.shinyruo.xyz" target="_blank" rel="noopener">www.shinyruo.xyz</a>域名使用的https证书采用certbot申请，该种方式申请泛域名的证书较为复杂，且不支持纯IPv6环境的证书申请，因此需要寻找一种新的证书申请方式。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;使用<a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a>申请证书，按照参考链接[1]中官方文档给出的教程执行，可以成功在纯IPv6环境下申请单域名证书，多域名方式则使用参考链接[2]的方式。最终使用脚本方式执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 申请的域名</span></span><br><span class="line">DOMAIN=shinyruo.eu.org                                                        </span><br><span class="line"><span class="comment"># cloudflare apikey</span></span><br><span class="line"><span class="built_in">export</span> CF_Key=cloudflare_key</span><br><span class="line"><span class="comment"># cloudflare email</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=cloudflare_email</span><br><span class="line"><span class="comment"># 停止openresty</span></span><br><span class="line">systemctl stop openresty</span><br><span class="line"><span class="comment"># 在纯IPv6环境需要添加--listen-v6，--dns dns_cf指定cloudflare方式，--debug 2可输出更详细信息，用于错误调试</span></span><br><span class="line">~/.acme.sh/acme.sh --issue -d <span class="variable">$DOMAIN</span> -d *.<span class="variable">$DOMAIN</span> --listen-v6 --dns dns_cf <span class="comment">#--debug 2</span></span><br><span class="line">install_cert_path=/etc/letsencrypt/live/<span class="variable">$DOMAIN</span></span><br><span class="line">mkdir -p <span class="variable">$install_cert_path</span></span><br><span class="line"><span class="comment"># 使用--install-cert安装证书到指定路径</span></span><br><span class="line">~/.acme.sh/acme.sh --install-cert -d <span class="variable">$DOMAIN</span> \</span><br><span class="line">                   --key-file <span class="variable">$install_cert_path</span>/privkey.pem \</span><br><span class="line">                   --fullchain-file <span class="variable">$install_cert_path</span>/fullchain.pem</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;安装完成后，会在crontab添加定时任务，每天检查证书是否过期。对应的，nginx需要在检查证书后执行reload，因此，需要手动添加crontab定时任务。<br>&emsp;&emsp;对于安装在主机上的nginx，使用命令<code>crontab -e</code>打开crontab表，添加<code>45 0 * * * /usr/bin/nginx -s reload</code>；对于使用docker方式安装的nginx，则添加<code>59 0 * * * /usr/bin/docker exec openresty nginx -s reload</code>，注意<code>exec</code>后不能有<code>-it</code>。其中具体的执行时间，需要根据acme的执行时间后延10来分钟。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[1] <a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acmesh-official</a></li>
+<li>[2] <a href="https://suzuhafan.com/tutorials/acmesh-use-cloudflare-to-create-ssl.html" target="_blank" rel="noopener">acme.sh 使用 cloudflare dns 生成证书</a></li>
+<li>[3] <a href="https://maofun.com/2320.html" target="_blank" rel="noopener">IPV6用acme申请证书全过程记录</a></li>
 </ul>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>leecode</category>
+        <category>nginx</category>
       </categories>
       <tags>
-        <tag>leecode</tag>
-        <tag>动态规划</tag>
+        <tag>IPv6</tag>
+        <tag>nginx</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -372,6 +319,30 @@
       <tags>
         <tag>leecode</tag>
         <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hysteria 2 配置</title>
+    <url>/2023/10/21/hysteria-2/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;hysteria 2，通过魔改QUIC协议，可以跑满本地带宽，但是需要能够直连上VPS，不能通过Cloudflare等cdn方式连接。根据不良林的教程，能够在Windows上使用v2ray连接，但是对于Android上使用sing-box连接，存在连接错误的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;sing-box配置文件较为复杂，而且我所使用的VPS又是只有IPv6地址的，所以情况又会更为复杂些。具体的注意点已在配置文件中的解释部分标出。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"log"</span>: &#123;</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"error"</span>,</span><br><span class="line">    <span class="attr">"timestamp"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"servers"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        "tag": "dns_proxy",                       # dns标签，此处为使用代理时，所使用的dns</span><br><span class="line">        "address": "2a01:4f8:c2c:123f::1",        # dns地址，当远程VPS只有IPv6时，需要写NAT64的dns，否则域名解析会出错</span><br><span class="line">        "address_resolver": "dns_resolver",       # 如果上面填写的address是域名，则需要另一个dns将域名解析成地址</span><br><span class="line">        "strategy": "prefer_ipv6",                # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "proxy"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_direct"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"h3://dns.alidns.com/dns-query"</span>,</span><br><span class="line">        <span class="attr">"address_resolver"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",                # 不能填写ipv*_only，否则outbounds里面填写的服务器域名可能无法解析</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"rcode://refused"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"tag"</span>: <span class="string">"dns_resolver"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"223.5.5.5"</span>,</span><br><span class="line">        "strategy": "prefer_ipv4",               # 对于只有IPv6的VPS，不能填ipv*_only</span><br><span class="line">        "detour": "direct"</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"any"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_resolver"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"category-ads-all"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_block"</span>,</span><br><span class="line">        <span class="attr">"disable_cache"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span>,</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"server"</span>: <span class="string">"dns_direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  "ntp": &#123;</span><br><span class="line">    "enabled": true,</span><br><span class="line">    "interval": "30m0s",</span><br><span class="line">    "server": "time.apple.com",</span><br><span class="line">    "server_port": 123,</span><br><span class="line">    "detour": "direct"</span><br><span class="line">  &#125;,</span><br><span class="line">  "inbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "tun",                                # tunnel 模式</span><br><span class="line">      "tag": "tun-in",</span><br><span class="line">      "inet4_address": "172.19.0.1/30",</span><br><span class="line">      "inet6_address": "fdfe:dcba:9876::1/126",</span><br><span class="line">      "mtu": 1400,</span><br><span class="line">      "auto_route": true,</span><br><span class="line">      "strict_route": true,</span><br><span class="line">      "stack": "gvisor",</span><br><span class="line">      "sniff": true,</span><br><span class="line">      "sniff_override_destination": false</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "socks",                              # socks 模式</span><br><span class="line">      "tag": "socks-in",</span><br><span class="line">      "listen": "::",</span><br><span class="line">      "listen_port": 15353,</span><br><span class="line">      "udp_fragment": false,</span><br><span class="line">      "udp_timeout": 300,</span><br><span class="line">      "sniff_timeout": "300ms",</span><br><span class="line">      "domain_strategy": "prefer_ipv6"</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      "type": "hysteria2",                          # hysteria 2 模式                 </span><br><span class="line">      "tag": "proxy",                               # outbound 标签</span><br><span class="line">      "server": "www.test.com",                     # 部署 hysteria 2 服务的域名</span><br><span class="line">      "server_port": 443,</span><br><span class="line">      "up_mbps": 20,                                # 上行带宽</span><br><span class="line">      "down_mbps": 100,                             # 下行带宽</span><br><span class="line">      "password": "auth-password",                  # 密码</span><br><span class="line">      "tls": &#123;      </span><br><span class="line">        "enabled": true,</span><br><span class="line">        "server_name": "www.test.com",              </span><br><span class="line">        "insecure": true                            # 自签证书时填true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"vmess"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"proxy_vmess"</span>,</span><br><span class="line">      <span class="attr">"connect_timeout"</span>: <span class="string">"5s"</span>,</span><br><span class="line">      <span class="attr">"tcp_fast_open"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"udp_fragment"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"server"</span>: <span class="string">"www.test.com"</span>,                </span><br><span class="line">      <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">      <span class="attr">"uuid"</span>: <span class="string">"uuid"</span>,</span><br><span class="line">      <span class="attr">"security"</span>: <span class="string">"auto"</span>,</span><br><span class="line">      <span class="attr">"tls"</span>: &#123;</span><br><span class="line">        <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"insecure"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"transport"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"ws"</span>,</span><br><span class="line">        <span class="attr">"path"</span>: <span class="string">"/path"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"direct"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"block"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"block"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"dns"</span>,</span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"dns-out"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "route": &#123;</span><br><span class="line">    "geoip": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "geosite": &#123;</span><br><span class="line">      "download_url": "https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",</span><br><span class="line">      "download_detour": "proxy"</span><br><span class="line">    &#125;,</span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"dns"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"dns-out"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"protocol"</span>: <span class="string">"quic"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"block"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"geolocation-!cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span>,</span><br><span class="line">            <span class="attr">"invert"</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"proxy"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"logical"</span>,</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"and"</span>,</span><br><span class="line">        <span class="attr">"rules"</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geosite"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"geoip"</span>: <span class="string">"cn"</span></span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geosite"</span>: <span class="string">"private"</span>,</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"geoip"</span>: [</span><br><span class="line">          <span class="string">"cn"</span>,</span><br><span class="line">          <span class="string">"private"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"outbound"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    "auto_detect_interface": true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a href="https://bulianglin.com/archives/hysteria2.html" target="_blank" rel="noopener">hysteria 2</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://sing-box.sagernet.org/zh/" target="_blank" rel="noopener">sing-box</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://github.com/chika0801/sing-box-examples/tree/main" target="_blank" rel="noopener">sing-box配置示例</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
       </tags>
   </entry>
   <entry>
@@ -466,6 +437,35 @@
       </tags>
   </entry>
   <entry>
+    <title>leecode第213题：打家劫舍II</title>
+    <url>/2020/01/15/leecode-213/</url>
+    <content><![CDATA[<p><strong>题目：</strong>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>在不触动警报装置的情况下</strong>，能够偷窃到的最高金额。<br><a href="https://leetcode-cn.com/problems/house-robber-ii" target="_blank" rel="noopener">原题链接</a></p>
+<a id="more"></a>
+
+<p><strong>示例1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,2]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</span><br></pre></td></tr></table></figure>
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,1]</span><br><span class="line">输出: 4</span><br><span class="line">解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。偷窃到的最高金额 = 1 + 3 = 4 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>解题思路：</strong>跟打家劫舍I一样，只不过增加了一个限制条件，即：起始位置和结束位置不能同时抢劫。因此可以将问题拆分为：</p>
+<ul>
+<li>去除起始位置，能抢到的最大金额</li>
+<li>去除结束位置，能抢到的最大金额</li>
+<li>上面的两种情况就是打家劫舍I的做法，以上两种情况的最大值即为最终的结果。</li>
+</ul>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums, <span class="keyword">int</span> st_idx, <span class="keyword">int</span> ed_idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=st_idx+<span class="number">1</span>; i&lt;=ed_idx; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i==st_idx+<span class="number">1</span>) nums[i] = max(nums[i<span class="number">-1</span>], nums[i]);</span><br><span class="line">        <span class="keyword">else</span> nums[i] = max(nums[i<span class="number">-2</span>]+nums[i], nums[i<span class="number">-1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[ed_idx];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (nums.size()==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>]; <span class="comment">//注意：数组的长度至少需要为2，才可以使用掐头去尾方法</span></span><br><span class="line">    <span class="keyword">int</span> len = nums.size();</span><br><span class="line">    <span class="keyword">return</span> max(helper(nums, <span class="number">0</span>, len<span class="number">-2</span>), helper(nums, <span class="number">1</span>, len<span class="number">-1</span>)); <span class="comment">//len &gt;= 2， 保证len-2 &gt;= 0且st_idx &gt;= ed_idx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>leecode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指Offer第1题：二维数组中的查找</title>
     <url>/2019/12/27/offer-01/</url>
     <content><![CDATA[<p><strong>题目：在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
@@ -479,6 +479,50 @@
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第4题：重建二叉树</title>
+    <url>/2020/01/02/offer-04/</url>
+    <content><![CDATA[<p><strong>题目：输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</strong></p>
+<p>解题思路：在二叉树的前序遍历中，根节点总是最先出现；而中序遍历中，左子树的节点先出现。因此，我们可以先根据前序遍历中的第一个值k，构建根节点，接着在中序遍历中找到k, 则中序遍历中k左边的为左子树，右边的为右子树，然后递归的构建左右子树即可。</p>
+<a id="more"></a>
+<p>Python 代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reConstructBinaryTree</span><span class="params">(self, pre, tin)</span>:</span></span><br><span class="line">    <span class="comment"># write code here</span></span><br><span class="line">    <span class="keyword">if</span> len(pre) == <span class="number">0</span> <span class="keyword">or</span> len(tin) == <span class="number">0</span>: <span class="keyword">return</span> <span class="literal">None</span> <span class="comment"># 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    idx = tin.index(pre[<span class="number">0</span>]) <span class="comment"># 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    root = TreeNode(pre.pop(<span class="number">0</span>)) <span class="comment"># 创建根节点</span></span><br><span class="line">    root.left = self.reConstructBinaryTree(pre, tin[:idx]) <span class="comment"># 递归创建左子树</span></span><br><span class="line">    root.right = self.reConstructBinaryTree(pre, tin[idx+<span class="number">1</span>:]) <span class="comment"># 递归创建右子树</span></span><br><span class="line">    <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
+
+<p>使用c++实现中，由于给出的vector<int>不能pop出第0个值，因此，先反转顺序。<br>c++ 代码</int></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTreeHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pre.empty() || vin.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    TreeNode* tmp = <span class="keyword">new</span> TreeNode(pre.back()); <span class="comment">// 创建根节点</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">// 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;vin.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (vin[i] == pre.back()) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    pre.pop_back(); </span><br><span class="line">    tmp-&gt;left = reConstructBinaryTreeHelper(pre, &#123;vin.begin(), vin.begin()+i&#125;); <span class="comment">//递归创建左子树</span></span><br><span class="line">    <span class="keyword">if</span> (vin.size() == <span class="number">1</span>) tmp-&gt;right = <span class="literal">NULL</span>; <span class="comment">// 递归创建右子树， 注意，若此时中序遍历中只剩一个值，&#123;vin.begin()+i+1, vin.end()&#125; 会出错，因此要先判断。</span></span><br><span class="line">    <span class="keyword">else</span> tmp-&gt;right = reConstructBinaryTreeHelper(pre, &#123;vin.begin()+i+<span class="number">1</span>, vin.end()&#125;); </span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; revpre; <span class="comment">// 反转顺序</span></span><br><span class="line">    <span class="keyword">while</span> (!pre.empty()) &#123;</span><br><span class="line">        revpre.push_back(pre.back());</span><br><span class="line">        pre.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> reConstructBinaryTreeHelper(revpre, vin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第6题：旋转数组的最小数字</title>
+    <url>/2020/01/02/offer-06/</url>
+    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
+<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
+<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
+<a id="more"></a>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>数组</tag>
+        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -526,50 +570,6 @@
       </categories>
       <tags>
         <tag>music</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第4题：重建二叉树</title>
-    <url>/2020/01/02/offer-04/</url>
-    <content><![CDATA[<p><strong>题目：输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</strong></p>
-<p>解题思路：在二叉树的前序遍历中，根节点总是最先出现；而中序遍历中，左子树的节点先出现。因此，我们可以先根据前序遍历中的第一个值k，构建根节点，接着在中序遍历中找到k, 则中序遍历中k左边的为左子树，右边的为右子树，然后递归的构建左右子树即可。</p>
-<a id="more"></a>
-<p>Python 代码</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reConstructBinaryTree</span><span class="params">(self, pre, tin)</span>:</span></span><br><span class="line">    <span class="comment"># write code here</span></span><br><span class="line">    <span class="keyword">if</span> len(pre) == <span class="number">0</span> <span class="keyword">or</span> len(tin) == <span class="number">0</span>: <span class="keyword">return</span> <span class="literal">None</span> <span class="comment"># 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    idx = tin.index(pre[<span class="number">0</span>]) <span class="comment"># 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    root = TreeNode(pre.pop(<span class="number">0</span>)) <span class="comment"># 创建根节点</span></span><br><span class="line">    root.left = self.reConstructBinaryTree(pre, tin[:idx]) <span class="comment"># 递归创建左子树</span></span><br><span class="line">    root.right = self.reConstructBinaryTree(pre, tin[idx+<span class="number">1</span>:]) <span class="comment"># 递归创建右子树</span></span><br><span class="line">    <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
-
-<p>使用c++实现中，由于给出的vector<int>不能pop出第0个值，因此，先反转顺序。<br>c++ 代码</int></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTreeHelper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pre.empty() || vin.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">// 如果遍历的列表中为空，则此时达到叶子节点</span></span><br><span class="line">    TreeNode* tmp = <span class="keyword">new</span> TreeNode(pre.back()); <span class="comment">// 创建根节点</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">// 找到中序遍历中与前序遍历的第一个值相等的位置</span></span><br><span class="line">    <span class="keyword">for</span> (; i&lt;vin.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (vin[i] == pre.back()) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    pre.pop_back(); </span><br><span class="line">    tmp-&gt;left = reConstructBinaryTreeHelper(pre, &#123;vin.begin(), vin.begin()+i&#125;); <span class="comment">//递归创建左子树</span></span><br><span class="line">    <span class="keyword">if</span> (vin.size() == <span class="number">1</span>) tmp-&gt;right = <span class="literal">NULL</span>; <span class="comment">// 递归创建右子树， 注意，若此时中序遍历中只剩一个值，&#123;vin.begin()+i+1, vin.end()&#125; 会出错，因此要先判断。</span></span><br><span class="line">    <span class="keyword">else</span> tmp-&gt;right = reConstructBinaryTreeHelper(pre, &#123;vin.begin()+i+<span class="number">1</span>, vin.end()&#125;); </span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TreeNode* <span class="title">reConstructBinaryTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vin)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; revpre; <span class="comment">// 反转顺序</span></span><br><span class="line">    <span class="keyword">while</span> (!pre.empty()) &#123;</span><br><span class="line">        revpre.push_back(pre.back());</span><br><span class="line">        pre.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> reConstructBinaryTreeHelper(revpre, vin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer第6题：旋转数组的最小数字</title>
-    <url>/2020/01/02/offer-06/</url>
-    <content><![CDATA[<p><strong>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</strong></p>
-<p>此题与<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">leecode 153</a>类似，不同之处在于leecode-153是严格递增的数组，而此题是单调不减的数组。注意，在leecode的测试用例中，存在不旋转数组的测试用例。</p>
-<p>解题思路：最直接的想法是，遍历一遍数组，找到最小值，然而这种算法的时间复杂度为<em>O(n)</em>，没有利用到给出的旋转性质。第二种方法就是遍历数组，找到旋转点的位置，即Array[i] &gt; Array[i+1]，则Array[i+1]就是我们要找的最小值，这种算法没有利用数组是排序过的性质。对于排序过的数组，自然而然想到二分查找。</p>
-<a id="more"></a>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] == rotateArray[right]) right -= <span class="number">1</span>; <span class="comment">//存在相等的值，去掉最右边的一位</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[right]) right = mid; <span class="comment">//右边的是正常递增的，所以断点在左边</span></span><br><span class="line">        <span class="keyword">else</span> left = mid + <span class="number">1</span>; <span class="comment">// 断点在右边，但是此时 rotateArray[mid] &gt; rotateArray[right], 所以mid处的值可以抛弃，而上一中情况中mid处的值是小于其他值的，不可直接删除。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[left]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意，下面这种写法无法通过测试用例 {5,5,5,5,5,1,2,5}，会陷入死循环中。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = rotateArray.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        mid = (left+right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[left] &lt; rotateArray[right]) <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[mid+<span class="number">1</span>]) <span class="keyword">return</span> rotateArray[mid+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &lt; rotateArray[left]) right = mid;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[mid] &gt; rotateArray[right]) left = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -648,23 +648,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第10题：矩形覆盖</title>
-    <url>/2020/01/04/offer-10/</url>
-    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
-<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
-<a id="more"></a>
-
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第11题：二进制中1的个数</title>
     <url>/2020/01/04/offer-11/</url>
     <content><![CDATA[<p><strong>题目：</strong>输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
@@ -680,6 +663,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>进制转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第10题：矩形覆盖</title>
+    <url>/2020/01/04/offer-10/</url>
+    <content><![CDATA[<p><strong>题目：</strong>我们可以用2x1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2x1的小矩形无重叠地覆盖一个2xn的大矩形，总共有多少种方法？</p>
+<p><strong>解题思路：</strong>覆盖一个大小为2xn的矩形，第一步若选择横放，那么下面的也只能横放；问题退化成f(n-2)；若选择竖放，则问题退化为f(n-1) 。从而可以得到递推公式：f(n)=f(n-1)+f(n-2)</p>
+<a id="more"></a>
+
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rectCover</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (number--&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        a += b;</span><br><span class="line">        b = a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -789,23 +789,6 @@ table {
       </tags>
   </entry>
   <entry>
-    <title>剑指Offer第17题：树的子结构</title>
-    <url>/2020/01/06/offer-17/</url>
-    <content><![CDATA[<p><strong>题目：</strong>输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
-<p><strong>解题思路：</strong>遍历A树，找到一个与B树的根结点值相同的结点，开始同时遍历A、B树，判断对应结点上的值是否相同，直至遍历完B树，期间碰到A、B不同的值，则返回false。继续遍历A树，找下一个与B树根结点值相同的结点。</p>
-<a id="more"></a>
-<p><strong>代码：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtreeHelper</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">//B树先遍历至空，说明B树的每一个结点都在</span></span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1-&gt;val == pRoot2-&gt;val)</span><br><span class="line">        <span class="keyword">return</span> HasSubtreeHelper(pRoot1-&gt;left, pRoot2-&gt;left) &amp;&amp;  HasSubtreeHelper(pRoot1-&gt;right, pRoot2-&gt;right);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtree</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span> || pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//空树不是任意一个树的子结构</span></span><br><span class="line">    <span class="keyword">return</span> HasSubtreeHelper(pRoot1, pRoot2) || HasSubtree(pRoot1-&gt;left, pRoot2) || HasSubtree(pRoot1-&gt;right, pRoot2); <span class="comment">// 递归判断A树的每一个结点是否可以作为B树的子结构根结点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指Offer第18题：二叉树的镜像</title>
     <url>/2020/01/06/offer-18/</url>
     <content><![CDATA[<p><strong>题目：</strong>操作给定的二叉树，将其变换为源二叉树的镜像。<br>二叉树的镜像定义：</p>
@@ -838,6 +821,23 @@ table {
       <tags>
         <tag>剑指Offer</tag>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer第17题：树的子结构</title>
+    <url>/2020/01/06/offer-17/</url>
+    <content><![CDATA[<p><strong>题目：</strong>输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
+<p><strong>解题思路：</strong>遍历A树，找到一个与B树的根结点值相同的结点，开始同时遍历A、B树，判断对应结点上的值是否相同，直至遍历完B树，期间碰到A、B不同的值，则返回false。继续遍历A树，找下一个与B树根结点值相同的结点。</p>
+<a id="more"></a>
+<p><strong>代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtreeHelper</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">//B树先遍历至空，说明B树的每一个结点都在</span></span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1-&gt;val == pRoot2-&gt;val)</span><br><span class="line">        <span class="keyword">return</span> HasSubtreeHelper(pRoot1-&gt;left, pRoot2-&gt;left) &amp;&amp;  HasSubtreeHelper(pRoot1-&gt;right, pRoot2-&gt;right);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasSubtree</span><span class="params">(TreeNode *pRoot1, TreeNode *pRoot2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pRoot1 == <span class="literal">NULL</span> || pRoot2 == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//空树不是任意一个树的子结构</span></span><br><span class="line">    <span class="keyword">return</span> HasSubtreeHelper(pRoot1, pRoot2) || HasSubtree(pRoot1-&gt;left, pRoot2) || HasSubtree(pRoot1-&gt;right, pRoot2); <span class="comment">// 递归判断A树的每一个结点是否可以作为B树的子结构根结点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -1088,6 +1088,58 @@ table {
       <tags>
         <tag>vps</tag>
         <tag>rclone</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scaleway修改默认磁盘大小</title>
+    <url>/2024/08/18/scaleway-resize-disk-size/</url>
+    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; Swaleway创建STARDUST1-S型机器时，最低只能选择10G硬盘，对于部分使用场景而言，10G的硬盘空间太大，造成了不少的浪费。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>实例启动后，按照以下步骤操作</p>
+<h4 id="一、新增磁盘并从救援模式进入系统"><a href="#一、新增磁盘并从救援模式进入系统" class="headerlink" title="一、新增磁盘并从救援模式进入系统"></a>一、新增磁盘并从救援模式进入系统</h4><ol>
+<li>从控制台关机（注意，不能从ssh关机，ssh关机在后，无法在控制台移除磁盘）；</li>
+<li>关机后在<a href="https://console.scaleway.com/instance/volumes" target="_blank" rel="noopener">volumes</a>页面新增vps所在区域的磁盘，磁盘的类型选择Local storage；</li>
+<li>创建好磁盘后，添加到对应的实例上；</li>
+<li>进入相应的实例，Attached volumes部分，将默认的10G硬盘删除；</li>
+<li>进入Advanced settings，选择Boot mode为Use rescue image，保存；</li>
+<li>从控制台开机，可以在网页上的Console查看开机进度，此次开机耗时可能比较久，大概需要5分钟甚至更多；</li>
+<li>开机成功后，可以使用ssh连接上服务器，还是使用原先的账户和密钥登录即可；</li>
+</ol>
+<h4 id="二、安装Alpine操作系统"><a href="#二、安装Alpine操作系统" class="headerlink" title="二、安装Alpine操作系统"></a>二、安装Alpine操作系统</h4><ol start="8">
+<li><p>根据<a href="#ref-1">参考链接[1]</a>，注意，</p>
+<p> 1） 最新的Alpine版本可以从<a href="https://alpinelinux.org/downloads/" target="_blank" rel="noopener">官网</a>下载，选择VIRTUAL版本即可<br> 2） 安装系统的磁盘需要修改，例如在Scaleway中，磁盘的路径为/dev/vda</p>
+</li>
+<li><p>在setup-alpine过程中，默认会调用setup-disk，但是默认会创建三个分区，分别是boot分区，swap分区以及系统分区。对于小硬盘来说，如果使用默认配置，boot分区和swap分区会占用掉太多空间，最终系统分区的大小只会有700多M，为了最大限度使用磁盘空间，需要手动执行setup-disk。setup-alpine执行到选择磁盘安装位置时，先不选择磁盘，配置存放位置选择默认即可；</p>
+<p> 1） 根据<a href="#ref-2">参考链接[2]</a>，可以通过设置环境变量BOOT_SIZE来指定boot分区的大小<br> 2） 查看setup-disk –help可知，根据传入-s参数的值可以设置swap分区的大小</p>
+</li>
+<li><p>执行<code>export BOOT_SIZE=40; setup-disk -s 0</code>，进行安装系统操作</p>
+<p>1） 如果出现错误</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ERROR: unable to select packages:</span><br><span class="line">dosfstools (no such package):</span><br><span class="line">    required by: world[dosfstools]</span><br><span class="line">grub-efi (no such package):</span><br><span class="line">    required by: world[grub-efi]</span><br></pre></td></tr></table></figure>
+<p>说明对应的安装包无法成功安装，可以使用命令<code>echo &#39;nameserver 2a01:4f8:c2c:123f::1&#39; &gt;&gt; /etc/resolv.conf</code>修改dns为dns64，之后运行<code>apk update</code>，再重新执行即可。如果/dev/vda已被挂载，需要先umount对应的分区。</p>
+</li>
+<li><p>安装完成后，可以挂在系统分区，将ssh公钥写入到authorized_keys文件（注意.ssh目录的权限以及authorized_keys文件的权限，.ssh目录文件权限为700，authorized_keys的权限为600），重启后即可使用原先的私钥登录</p>
+</li>
+<li><p>从控制台关机机器，之后进入Scaleway实例控制台，选择Advanced settings页，修改Boot mode为Use Local Boot，保存，之后启动机器。如无意外的话，可以成功进入Alpine系统，也可以通过ssh连接。</p>
+</li>
+</ol>
+<h4 id="三、Alpine其他使用方式记录"><a href="#三、Alpine其他使用方式记录" class="headerlink" title="三、Alpine其他使用方式记录"></a>三、Alpine其他使用方式记录</h4><ol>
+<li>添加社区repositories，取消<code>/etc/apk/repositories</code>中community的注释即可（安装docker需要社区repositories）</li>
+<li>使用命令<code>rc-update add docker default</code>可以添加docker自启动，<code>rc-status</code>可以查看自启动状态</li>
+<li>使用命令<code>modprobe tun</code>可以启动tun功能，使用<code>echo &#39;tun&#39; &gt;&gt; /etc/modules</code>添加到开机自启动</li>
+<li>服务自启动，需要手动编写rc-service启动脚本<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3></li>
+</ol>
+<ul>
+<li><span id="ref-1"></span> [1] <a href="https://wiki.alpinelinux.org/wiki/Replacing_non-Alpine_Linux_with_Alpine_remotely" target="_blank" rel="noopener">Replacing non-Alpine Linux with Alpine remotely</a></li>
+<li><span id="ref-2"></span> [2] <a href="https://wiki.alpinelinux.org/wiki/Setting_up_disks_manually" target="_blank" rel="noopener">Setting up disks manually</a></li>
+<li><span id="ref-3"></span> [3] <a href="https://www.nodeseek.com/post-129349-1" target="_blank" rel="noopener">已dd成功scaleway星尘1c1g1g 小小鸡</a></li>
+<li><span id="ref-4"></span> [4] <a href="https://github.com/cloudflare/cloudflared/issues/821" target="_blank" rel="noopener">How to install cloudflared on Alpine linux?</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vps</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+        <tag>Scaleway</tag>
       </tags>
   </entry>
   <entry>
@@ -1346,58 +1398,6 @@ table {
       </categories>
       <tags>
         <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Scaleway修改默认磁盘大小</title>
-    <url>/2024/08/18/scaleway-resize-disk-size/</url>
-    <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp; Swaleway创建STARDUST1-S型机器时，最低只能选择10G硬盘，对于部分使用场景而言，10G的硬盘空间太大，造成了不少的浪费。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>实例启动后，按照以下步骤操作</p>
-<h4 id="一、新增磁盘并从救援模式进入系统"><a href="#一、新增磁盘并从救援模式进入系统" class="headerlink" title="一、新增磁盘并从救援模式进入系统"></a>一、新增磁盘并从救援模式进入系统</h4><ol>
-<li>从控制台关机（注意，不能从ssh关机，ssh关机在后，无法在控制台移除磁盘）；</li>
-<li>关机后在<a href="https://console.scaleway.com/instance/volumes" target="_blank" rel="noopener">volumes</a>页面新增vps所在区域的磁盘，磁盘的类型选择Local storage；</li>
-<li>创建好磁盘后，添加到对应的实例上；</li>
-<li>进入相应的实例，Attached volumes部分，将默认的10G硬盘删除；</li>
-<li>进入Advanced settings，选择Boot mode为Use rescue image，保存；</li>
-<li>从控制台开机，可以在网页上的Console查看开机进度，此次开机耗时可能比较久，大概需要5分钟甚至更多；</li>
-<li>开机成功后，可以使用ssh连接上服务器，还是使用原先的账户和密钥登录即可；</li>
-</ol>
-<h4 id="二、安装Alpine操作系统"><a href="#二、安装Alpine操作系统" class="headerlink" title="二、安装Alpine操作系统"></a>二、安装Alpine操作系统</h4><ol start="8">
-<li><p>根据<a href="#ref-1">参考链接[1]</a>，注意，</p>
-<p> 1） 最新的Alpine版本可以从<a href="https://alpinelinux.org/downloads/" target="_blank" rel="noopener">官网</a>下载，选择VIRTUAL版本即可<br> 2） 安装系统的磁盘需要修改，例如在Scaleway中，磁盘的路径为/dev/vda</p>
-</li>
-<li><p>在setup-alpine过程中，默认会调用setup-disk，但是默认会创建三个分区，分别是boot分区，swap分区以及系统分区。对于小硬盘来说，如果使用默认配置，boot分区和swap分区会占用掉太多空间，最终系统分区的大小只会有700多M，为了最大限度使用磁盘空间，需要手动执行setup-disk。setup-alpine执行到选择磁盘安装位置时，先不选择磁盘，配置存放位置选择默认即可；</p>
-<p> 1） 根据<a href="#ref-2">参考链接[2]</a>，可以通过设置环境变量BOOT_SIZE来指定boot分区的大小<br> 2） 查看setup-disk –help可知，根据传入-s参数的值可以设置swap分区的大小</p>
-</li>
-<li><p>执行<code>export BOOT_SIZE=40; setup-disk -s 0</code>，进行安装系统操作</p>
-<p>1） 如果出现错误</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ERROR: unable to select packages:</span><br><span class="line">dosfstools (no such package):</span><br><span class="line">    required by: world[dosfstools]</span><br><span class="line">grub-efi (no such package):</span><br><span class="line">    required by: world[grub-efi]</span><br></pre></td></tr></table></figure>
-<p>说明对应的安装包无法成功安装，可以使用命令<code>echo &#39;nameserver 2a01:4f8:c2c:123f::1&#39; &gt;&gt; /etc/resolv.conf</code>修改dns为dns64，之后运行<code>apk update</code>，再重新执行即可。如果/dev/vda已被挂载，需要先umount对应的分区。</p>
-</li>
-<li><p>安装完成后，可以挂在系统分区，将ssh公钥写入到authorized_keys文件（注意.ssh目录的权限以及authorized_keys文件的权限，.ssh目录文件权限为700，authorized_keys的权限为600），重启后即可使用原先的私钥登录</p>
-</li>
-<li><p>从控制台关机机器，之后进入Scaleway实例控制台，选择Advanced settings页，修改Boot mode为Use Local Boot，保存，之后启动机器。如无意外的话，可以成功进入Alpine系统，也可以通过ssh连接。</p>
-</li>
-</ol>
-<h4 id="三、Alpine其他使用方式记录"><a href="#三、Alpine其他使用方式记录" class="headerlink" title="三、Alpine其他使用方式记录"></a>三、Alpine其他使用方式记录</h4><ol>
-<li>添加社区repositories，取消<code>/etc/apk/repositories</code>中community的注释即可（安装docker需要社区repositories）</li>
-<li>使用命令<code>rc-update add docker default</code>可以添加docker自启动，<code>rc-status</code>可以查看自启动状态</li>
-<li>使用命令<code>modprobe tun</code>可以启动tun功能，使用<code>echo &#39;tun&#39; &gt;&gt; /etc/modules</code>添加到开机自启动</li>
-<li>服务自启动，需要手动编写rc-service启动脚本<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3></li>
-</ol>
-<ul>
-<li><span id="ref-1"></span> [1] <a href="https://wiki.alpinelinux.org/wiki/Replacing_non-Alpine_Linux_with_Alpine_remotely" target="_blank" rel="noopener">Replacing non-Alpine Linux with Alpine remotely</a></li>
-<li><span id="ref-2"></span> [2] <a href="https://wiki.alpinelinux.org/wiki/Setting_up_disks_manually" target="_blank" rel="noopener">Setting up disks manually</a></li>
-<li><span id="ref-3"></span> [3] <a href="https://www.nodeseek.com/post-129349-1" target="_blank" rel="noopener">已dd成功scaleway星尘1c1g1g 小小鸡</a></li>
-<li><span id="ref-4"></span> [4] <a href="https://github.com/cloudflare/cloudflared/issues/821" target="_blank" rel="noopener">How to install cloudflared on Alpine linux?</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>vps</category>
-      </categories>
-      <tags>
-        <tag>vps</tag>
-        <tag>Scaleway</tag>
       </tags>
   </entry>
 </search>
