@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="音乐文件添加封面与歌词">
+<meta property="og:url" content="http://example.com/2023/10/12/music-tag/index.html">
+<meta property="og:site_name" content="Hide on Lab">
+<meta property="og:description" content="背景&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-12T22:32:00.000Z">
+<meta property="article:modified_time" content="2024-11-09T23:59:55.675Z">
+<meta property="article:author" content="Ruo">
+<meta property="article:tag" content="music">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/10/12/music-tag/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/10/12/music-tag/","path":"2023/10/12/music-tag/","title":"音乐文件添加封面与歌词"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>音乐文件添加封面与歌词 | Hide on Lab</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hide on Lab</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ruo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/12/music-tag/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ruo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hide on Lab">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="音乐文件添加封面与歌词 | Hide on Lab">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          音乐文件添加封面与歌词
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-12 22:32:00" itemprop="dateCreated datePublished" datetime="2023-10-12T22:32:00+00:00">2023-10-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-09 23:59:55" itemprop="dateModified" datetime="2024-11-09T23:59:55+00:00">2024-11-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/music/" itemprop="url" rel="index"><span itemprop="name">music</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>&emsp;&emsp;音乐文件可以携带music tag信息，其中包含曲目的标题、演唱者、专辑名和发行日期等信息，此外，还可嵌入专辑的封面以及曲目的歌词，在使用如AIMP的离线音乐播放器的时候，这种嵌入音频文件的信息能够直接被识别，提升音乐播放体验。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>&emsp;&emsp;基本思路：通过读取音频文件的metainfo，之后调用接口获取对应专辑的封面，再获取对应的lyric歌词文件，也保存在本地。获取完所需的信息之后，更新metainfo，并写入文件，结束。<br>具体流程如下：</p>
+<ol>
+<li><p>遍历音乐目录的每个文件，读取以ape, flac, wav, mp3结尾的文件，并使用<a href="#ref-1">参考链接[1]</a>获取以下信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">tracktitle          <span class="comment"># 音乐标题</span></span><br><span class="line">artist              <span class="comment"># 演唱者</span></span><br><span class="line">album               <span class="comment"># 专辑名</span></span><br><span class="line">albumartist         <span class="comment"># 专辑艺术家</span></span><br><span class="line">composer            <span class="comment"># 作曲家</span></span><br><span class="line">tracknumber         <span class="comment"># 曲目编号</span></span><br><span class="line">totaltracks         <span class="comment"># 专辑总曲目数</span></span><br><span class="line">discnumber          <span class="comment"># 碟号</span></span><br><span class="line">totaldiscs          <span class="comment"># 总碟数</span></span><br><span class="line">genre               <span class="comment"># 流派</span></span><br><span class="line">year                <span class="comment"># 年份</span></span><br><span class="line">comment             <span class="comment"># 注释</span></span><br><span class="line">lyrics              <span class="comment"># 歌词</span></span><br><span class="line">isrc                <span class="comment"># 国际编码</span></span><br><span class="line">compilation         <span class="comment"># 合辑</span></span><br><span class="line">artwork             <span class="comment"># 专辑封面</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<a href="#ref-2">参考链接[2]</a>进行简繁体转换（可选步骤），将artist, tracktitle和album统一转换成简体或繁体；</p>
+</li>
+<li><p>移除comment和genre；</p>
+</li>
+<li><p>定义专辑封面保存路径，为该音频文件所在目录+专辑名，文件后缀根据具体封面的格式而定；</p>
+</li>
+<li><p>判断专辑封面是否存在，即判断该音频所在目录中，是否存在专辑封面保存路径+webp, jpg, png, jpeg的文件，如果有则打开并读取；否则调用<a href="#ref-3">参考链接[3]</a>提供的接口获取专辑封面，获取的专辑封面有很多，通常直接取第一个匹配结果，解析获取到的专辑封面信息，如果与曲目对应的专辑不匹配，则打印告警信息，之后获取封面的url，请求该url获取封面并保存到本地；</p>
+</li>
+<li><p>获取歌词，先判断音频文件所在目录是否存在对应的lrc文件，如果有则直接打开；否则再判断是否在失败列表里，如果在则跳过；否则获取歌词文件；</p>
+</li>
+<li><p>调用<a href="#ref-4">参考链接[4]</a>提供的接口获取歌词，使用网易的接口，通过title, artist和album组合，搜索出最符合的结果，具体为：</p>
+<p> 1） 将title, artist和album全部转成简体，英文全部转小写；</p>
+<p> 2） 定义待搜索列表[“title artist album”, “title album”, “title artist”, “title”]；</p>
+<p> 3）每次搜索获取20个结果，遍历每个结果，获取其中的”音乐标题 演唱者 专辑名”，并转换成简体和小写，与待搜索列表的第0个对比；</p>
+<p> 4）对比的得分为[0, 100]，当得分为100时，则是最佳匹配，直接下载；如果搜索列表的每个条目都已搜索完毕仍然没有找到得分为100的曲目，则需要根据得分进行判断，如果最佳得分小于60，认为不存在，直接返回失败；如果最佳得分小于等于93，则需要人工确认；</p>
+</li>
+<li><p>如果没有获取到歌词，则将曲目地址保存到失败列表；否则，将获取到的歌词保存到metainfo，同时保存一份到本地；</p>
+</li>
+<li><p>歌词简繁转换（可选步骤），将歌词转换成简体或繁体，写入metainfo中；</p>
+</li>
+<li><p>随机sleep1-5秒，防止过度爬取导致歌词接口无法正确返回歌词信息</p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>TODO</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><span id="ref-1"></span> [1] <a target="_blank" rel="noopener" href="https://github.com/KristoforMaynard/music-tag">music-tag</a></li>
+<li><span id="ref-2"></span> [2] <a target="_blank" rel="noopener" href="https://github.com/BYVoid/OpenCC">Open Chinese Convert 開放中文轉換</a></li>
+<li><span id="ref-3"></span> [3] <a target="_blank" rel="noopener" href="https://covers.musichoarders.xyz/">专辑封面搜索网站</a></li>
+<li><span id="ref-4"></span> [4] <a target="_blank" rel="noopener" href="https://github.com/0x7d4/syncedlyrics">syncedlyrics</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/music/" rel="tag"># music</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/10/11/cloudflare-ip/" rel="prev" title="CloudFlare自选IP">
+                  <i class="fa fa-angle-left"></i> CloudFlare自选IP
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/10/21/hysteria-2/" rel="next" title="hysteria 2 配置">
+                  hysteria 2 配置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ruo</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
